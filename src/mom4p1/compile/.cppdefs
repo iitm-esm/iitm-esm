@@ -1,1 +1,0 @@
-  use_libMPI __aix use_netCDF ENABLE_GDS
