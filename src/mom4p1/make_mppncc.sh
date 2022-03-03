@@ -3,7 +3,8 @@
 
 set -e
 
-odtmroot=$(pwd)
+rootdir=$(pwd)
+machine="intel_pratyush"
 
 debug=""
 npes=1
@@ -18,18 +19,20 @@ shift $(($OPTIND - 1))
 
 opts=$@
 
-execdir="$odtmroot/exec"
-mkmf="$odtmroot/bin/mkmf"
+execdir="$rootdir/exec"
+mkmf="$rootdir/bin/mkmf"
 
-mkmftemplate="$odtmroot/bin/mkmf.template.intel_pratyush$debug"
+mkmftemplate="$rootdir/bin/mkmf.template.$machine$debug"
 
-FMS_UTILS=$odtmroot/src/shared
+. "$rootdir/bin/env.$machine"
+
+FMS_UTILS=$rootdir/src/shared
 
 FMS_UTILITIES="$FMS_UTILS/include \
-			   $FMS_UTILS/platform \
-               $FMS_UTILS/constants \
-			   $FMS_UTILS/fms \
-			   $FMS_UTILS/time_manager \
+			  $FMS_UTILS/platform \
+        $FMS_UTILS/constants \
+			  $FMS_UTILS/fms \
+			  $FMS_UTILS/time_manager \
 				$FMS_UTILS/mpp \
 				$FMS_UTILS/diag_manager  \
 				$FMS_UTILS/memutils \
@@ -54,7 +57,7 @@ echo '...............Done compiling lib_fms.....................'
 echo "#-------------------------MAKE RUN_NCCOMBINEP2R--------------------------------------"
 cppDef="-Dlib_mppnccp2r -Duse_libMPI"
 exe=run_mppncc
-paths="$odtmroot/src/postprocessing/run_mppncc"
+paths="$rootdir/src/postprocessing/run_mppncc"
 export LD=$FC
 mkdir -p $execdir/$exe
 cd $execdir/$exe
