@@ -1,0 +1,294 @@
+24a25,26
+> ! Modified: Xingren Wu
+> !           Xingren.Wu@noaa.gov
+35c37
+<                               mpp_pe, mpp_npes, mpp_root_pe, field_exist
+---
+>                               mpp_pe, mpp_npes, mpp_root_pe
+37,42c39
+<   use mpp_mod,          only: mpp_error, FATAL
+< 
+<   use diag_manager_mod, only: send_data
+< 
+<   use mosaic_mod,       only: get_mosaic_ntiles, calc_mosaic_grid_area, &
+<                               get_mosaic_xgrid_size, get_mosaic_xgrid
+---
+>   use diag_manager_mod, only : send_data
+44,45d40
+<   use constants_mod,    only: PI, RADIUS
+< 
+51d45
+<    logical :: pe
+56a51
+>         q_ca =>NULL(),            & ! canopy air specific humidity, kg/kg
+65,66d59
+<    real, pointer, dimension(:,:,:,:)   :: &  ! (lon, lat, tile, tracer)
+<         tr    => NULL()              ! tracers, including canopy air specific humidity, kg/kg
+67a61,69
+> ! --> for cpl
+>    real, pointer, dimension(:,:,:)   :: &  ! (lon, lat, tile)
+>         t_sst =>null(),           &
+>         cice  =>null(),           &
+>         fice  =>null(),           &
+>         hice  =>null(),           &
+>         hsno  =>null()
+> ! --> end for cpl
+> 
+70,72c72
+<         discharge_snow =>NULL(),  & ! snow analogue of discharge
+< 	discharge_heat      => NULL(),  & ! sensible heat of discharge (0 C datum)
+< 	discharge_snow_heat => NULL()     ! sensible heat of discharge_snow (0 C datum)
+---
+>         discharge_snow =>NULL()     ! snow analogue of discharge
+78,92d77
+<    logical, pointer, dimension(:,:) :: maskmap =>NULL() ! A pointer to an array indicating which
+<                                                         ! logical processors are actually used for
+<                                                         ! the ocean code. The other logical
+<                                                         ! processors would be all land points and
+<                                                         ! are not assigned to actual processors.
+<                                                         ! This need not be assigned if all logical
+<                                                         ! processors are used.
+< ! --> esm insertion
+<    real, pointer, dimension(:,:,:)   :: &  ! (lon, lat, tile)
+<         t_sst =>null(),           &
+<         cice  =>null(),           &
+<         fice  =>null(),           &
+<         hice  =>null(),           &
+<         hsno  =>null()
+< ! --> esm insertion
+98,99d82
+<    real, dimension(:,:,:,:), pointer :: tr_flux => NULL()
+<    real, dimension(:,:,:,:), pointer :: dfdtr   => NULL()
+101a85
+>         q_flux =>NULL(),  &
+110,111c94
+<         fprec =>NULL(),   &
+<         tprec =>NULL()
+---
+>         fprec =>NULL()
+136d118
+< public land_model_restart
+141d122
+< public Lnd_stock_pe
+153a135,136
+> 
+> 
+196,203c179,194
+<   real, dimension(:),   allocatable :: glonb, glatb, glon, glat
+<   real, dimension(:),   allocatable :: xgrid_area
+<   integer, dimension(:),allocatable :: i1, j1, i2, j2
+<   real, dimension(:,:), allocatable :: gfrac, garea, tmpx, tmpy, geo_lonv, geo_latv
+<   integer                           :: siz(4), layout(2), is, ie, js, je, i, j, k, n, m
+<   integer                           :: nlon, nlat, nlonb, nlatb, ntiles, nfile_axl, nxgrid 
+<   character(len=256)                :: grid_file   = "INPUT/grid_spec.nc"
+<   character(len=256)                :: land_mosaic, tile_file, axl_file
+---
+>   real, dimension(:), allocatable :: glonb, glatb, glon, glat
+>   real, dimension(:,:), allocatable ::  gfrac, garea
+>   integer :: siz(4), layout(2), is, ie, js, je, i, j, k
+>   
+>   
+>   call field_size('INPUT/grid_spec','AREA_LND',siz)
+>   allocate(gfrac(siz(1),siz(2)))
+>   allocate(garea(siz(1),siz(2)))
+>   allocate(glonb(siz(1)+1))
+>   allocate(glatb(siz(2)+1))
+>   allocate(glon(siz(1)))
+>   allocate(glat(siz(2)))  
+>   call read_data('INPUT/grid_spec','xbl',glonb)
+>   call read_data('INPUT/grid_spec','ybl',glatb)
+>   call read_data('INPUT/grid_spec','AREA_LND',gfrac)
+>   call read_data('INPUT/grid_spec','AREA_LND_CELL',garea)
+205,216c196,197
+<   if( field_exist(grid_file, 'AREA_LND') ) then
+<      call field_size( grid_file, 'AREA_LND', siz)
+<      nlon = siz(1)
+<      nlat = siz(2)
+<      nlonb = nlon + 1
+<      nlatb = nlat + 1
+<      ! allocate data for longitude and latitude bounds
+<      allocate( glonb(nlonb), glatb(nlatb), glon(nlon), glat(nlat))
+<      allocate( garea(nlon,nlat), gfrac(nlon,nlat) )
+<      ! read coordinates of grid cell vertices
+<      call read_data(grid_file, "xbl", glonb, no_domain=.true.)
+<      call read_data(grid_file, "ybl", glatb, no_domain=.true.)
+---
+>   glonb(:) = glonb(:)
+>   glatb(:) = glatb(:)
+218,222c199,200
+<      ! read coordinates of grid cell centers
+<  !    call read_data(grid_file, "xtl", glon, no_domain=.true.)
+<  !    call read_data(grid_file, "ytl", glat, no_domain=.true.)
+<      glon(1:siz(1)) = (glonb(1:siz(1))+glonb(2:siz(1)+1))/2.0
+<      glat(1:siz(2)) = (glatb(1:siz(2))+glatb(2:siz(2)+1))/2.0
+---
+>   glon(1:siz(1)) = (glonb(1:siz(1))+glonb(2:siz(1)+1))/2.0
+>   glat(1:siz(2)) = (glatb(1:siz(2))+glatb(2:siz(2)+1))/2.0
+224,306c202
+<      ! read land area, land cell area and calculate the fractional land coverage 
+<      call read_data(grid_file, "AREA_LND_CELL", garea, no_domain=.true.)
+<      call read_data(grid_file, "AREA_LND",      gfrac,     no_domain=.true.)
+<      ! calculate land fraction
+<      gfrac     = gfrac/garea
+<   else if( field_exist(grid_file, 'lnd_mosaic_file') ) then ! read from mosaic file
+<      call read_data(grid_file, "lnd_mosaic_file", land_mosaic)     
+<      land_mosaic = "INPUT/"//trim(land_mosaic)
+<      ntiles = get_mosaic_ntiles(land_mosaic)
+<      if(ntiles .NE. 1) call error_mesg('land_model_init',  &
+<          ' ntiles should be 1 for land mosaic, contact developer', FATAL)
+<      call read_data(land_mosaic, "gridfiles", tile_file )
+<      tile_file = 'INPUT/'//trim(tile_file)
+<      call field_size(tile_file, "x", siz)
+<      if( mod(siz(1)-1,2) .NE. 0) call error_mesg("land_model_init", "size(x,1) - 1 should be divided by 2", FATAL);
+<      if( mod(siz(2)-1,2) .NE. 0) call error_mesg("land_model_init", "size(x,2) - 1 should be divided by 2", FATAL);
+<      nlon = (siz(1)-1)/2
+<      nlat = (siz(2)-1)/2
+<      nlonb = nlon + 1
+<      nlatb = nlat + 1
+<      allocate( glonb(nlonb), glatb(nlatb), glon(nlon), glat(nlat) )
+<      allocate( garea(nlon,nlat), gfrac(nlon,nlat) )
+<      !--- read the grid information on supergrid.
+<      allocate( tmpx(2*nlon+1, 2*nlat+1), tmpy(2*nlon+1, 2*nlat+1) )
+<      call read_data(tile_file, "x", tmpx, no_domain=.TRUE.)
+<      call read_data(tile_file, "y", tmpy, no_domain=.TRUE.)
+<      !--- make sure the grid is regular lat-lon grid.
+<      do j = 1, 2*nlat+1
+<         do i = 2, 2*nlon+1
+<            if(tmpy(i,j) .NE. tmpy(1,j)) call mpp_error(FATAL, "land_model_init:longitude is not uniform")
+<         end do
+<      end do
+<      do i = 1, 2*nlon+1
+<         do j = 2, 2*nlat+1
+<            if(tmpx(i,j) .NE. tmpx(i,1)) call mpp_error(FATAL, "land_model_init:latitude is not uniform")
+<         end do
+<      end do
+<      !--- make sure the grid is regular lat-lon grid.
+< 
+<      do i = 1, nlonb
+<         glonb(i) = tmpx(2*i-1,1)
+<      end do     
+<      do j = 1, nlatb
+<         glatb(j) = tmpy(1, 2*j-1)
+<      end do     
+<      do i = 1, nlon
+<         glon(i) = tmpx(2*i,1)
+<      end do     
+<      do j = 1, nlat
+<         glat(j) = tmpy(1, 2*j)
+<      end do     
+<      !--- land_cell_area will be calculated using the same way to calculate the area of xgrid.
+<      allocate(geo_lonv(nlonb,nlatb), geo_latv(nlonb,nlatb))
+<      do j = 1, nlatb
+<         do i = 1, nlonb
+<            geo_lonv(i,j) = tmpx(2*i-1,2*j-1)*pi/180.0
+<            geo_latv(i,j) = tmpy(2*i-1,2*j-1)*pi/180.0
+<         end do
+<      end do
+< 
+<      call calc_mosaic_grid_area(geo_lonv, geo_latv, garea)
+<      deallocate(tmpx, tmpy, geo_lonv, geo_latv)
+< 
+<      !--- land area will be calculated based on exchange grid area.
+<      call field_size(grid_file, "aXl_file", siz)
+<      nfile_axl = siz(2)
+<      gfrac = 0
+<      do n = 1, nfile_axl
+<         call read_data(grid_file, "aXl_file", axl_file, level=n)
+<         axl_file = 'INPUT/'//trim(axl_file)
+<         nxgrid = get_mosaic_xgrid_size(axl_file)
+<         allocate(i1(nxgrid), j1(nxgrid), i2(nxgrid), j2(nxgrid), xgrid_area(nxgrid))
+<         call get_mosaic_xgrid(aXl_file, i1, j1, i2, j2, xgrid_area)
+<         do m = 1, nxgrid
+<            i = i2(m); j = j2(m)
+<            gfrac(i,j) = gfrac(i,j) + xgrid_area(m)
+<         end do
+<         deallocate(i1, j1, i2, j2, xgrid_area)
+<      end do     
+<      gfrac = gfrac*4*PI*RADIUS*RADIUS/garea
+<   else
+<      call error_mesg('land_model_init','both AREA_LND and lnd_mosaic_file do not exist in file '//trim(grid_file),FATAL)
+<   end if  
+---
+>   gfrac = gfrac/garea
+308,317c204,206
+<   if( ASSOCIATED(Land_bnd%maskmap) ) then
+<      layout(1) = size(Land_bnd%maskmap,1)
+<      layout(2) = size(Land_bnd%maskmap,2)
+<      call mpp_define_domains((/1,nlon,1,nlat/), layout, Land_bnd%domain, &
+<         xflags = CYCLIC_GLOBAL_DOMAIN, maskmap = Land_bnd%maskmap, name='land model' )
+<   else
+<      call mpp_define_layout((/1,nlon,1,nlat/), mpp_npes(), layout)
+<      call mpp_define_domains((/1,nlon,1,nlat/), layout, Land_bnd%domain, &
+<         xflags = CYCLIC_GLOBAL_DOMAIN, name='land model')
+<   end if
+---
+>   call mpp_define_layout((/1,siz(1),1,siz(2)/), mpp_npes(), layout)
+>   call mpp_define_domains((/1,siz(1),1,siz(2)/), layout, Land_bnd%domain, &
+>      xflags = CYCLIC_GLOBAL_DOMAIN)
+325c214
+<        Land_bnd % tr             (is:ie,js:je,n_tiles,1), &     ! one tracer for q?
+---
+>        Land_bnd % q_ca           (is:ie,js:je,n_tiles), &
+336,337d224
+<        Land_bnd % discharge_heat (is:ie,js:je),   &
+<        Land_bnd % discharge_snow_heat (is:ie,js:je),   &
+339,340c226
+< 
+< !--> esm insertion
+---
+> !--> cpl insertion
+346,347c232
+< !<-- esm insertion
+< 
+---
+> !<-- cpl insertion
+362a248,255
+> !-->cpl insertion
+>   Land_bnd%t_sst = 273.0
+>   Land_bnd%cice  = 0.0
+>   Land_bnd%fice  = 0.0
+>   Land_bnd%hice  = 0.0
+>   Land_bnd%hsno  = 0.0
+> !<-- cpl insertion
+> 
+365c258
+<   Land_bnd%tr = 0.0
+---
+>   Land_bnd%q_ca = 0.0
+376,386c269,270
+<   Land_bnd%discharge_heat = 0.0
+<   Land_bnd%discharge_snow_heat = 0.0
+< 
+< !--> esm insertion
+<   Land_bnd%t_sst = 273.0
+<   Land_bnd%cice  = 0.0
+<   Land_bnd%fice  = 0.0
+<   Land_bnd%hice  = 0.0
+<   Land_bnd%hsno  = 0.0
+< !<-- esm insertion
+<  
+---
+>   Land_bnd%mask = .true.
+>   
+394,395c278
+<   allocate( atmos2land % tr_flux  (is:ie,js:je,n_tiles,1) )     ! one tracer for q?
+<   allocate( atmos2land % dfdtr    (is:ie,js:je,n_tiles,1) )     ! one tracer for q?
+---
+>   allocate( atmos2land % q_flux  (is:ie,js:je,n_tiles) )
+400d282
+<   allocate( atmos2land % tprec   (is:ie,js:je,n_tiles) )
+437,438d318
+< subroutine land_model_restart(timestamp)
+<   character(*), intent(in), optional :: timestamp ! timestamp to add to the file name
+440d319
+< end subroutine land_model_restart
+589,597d467
+< 
+< subroutine Lnd_stock_pe(bnd,index,value)
+< type(land_data_type), intent(in) :: bnd
+< integer, intent(in) :: index
+< real,    intent(out) :: value
+< 
+< value = 0.0
+< 
+< end subroutine Lnd_stock_pe

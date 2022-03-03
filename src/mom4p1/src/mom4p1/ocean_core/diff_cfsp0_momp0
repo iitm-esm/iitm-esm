@@ -1,0 +1,78 @@
+24a25,28
+> ! Modified: Dave Behringer
+> !           David.Behringer@noaa.gov
+> ! Modified: Xingren Wu
+> !           Xingren.Wu@noaa.gov
+160c164
+< use time_manager_mod,         only: time_type
+---
+> use time_manager_mod,         only: time_type, get_date
+223a228
+> public :: ocean_sfc_rstrt
+771a777,816
+> ! <SUBROUTINE NAME="ocean_sfc_rstrt">
+> !
+> ! <DESCRIPTION>
+> ! Save information from Ocean_sfc to restarts. Note that it is
+> ! important in general to distinguish the time accumulated quantity
+> ! Ocean_sfc%frazil, saved here, from the instantaneous quantity
+> ! T_diag%frazil, which is saved in the diagnostic tracer restart file.
+> ! </DESCRIPTION>
+> !
+> subroutine ocean_sfc_rstrt(Time, Ocean_sfc, ens_ocean)
+> 
+>   type(ocean_time_type) :: Time
+>   type(ocean_data_type), intent(in), target :: Ocean_sfc
+>   logical, intent(in), optional :: ens_ocean
+>   integer            :: yr, mon, day, hr, min, sec
+>   character(len=10)  :: rdte
+> 
+>     call get_date(Time%model_time,yr,mon,day,hr,min,sec)
+>     write(rdte,'(i4,3i2.2)') yr,mon,day,hr
+> 
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','t_surf',Ocean_sfc%t_surf,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','s_surf',Ocean_sfc%s_surf,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','u_surf',Ocean_sfc%u_surf,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','v_surf',Ocean_sfc%v_surf,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','sea_lev',Ocean_sfc%sea_lev,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_sbc.res','frazil',Ocean_sfc%frazil,Ocean_sfc%Domain,&
+>              append_pelist_name = ens_ocean)
+> 
+>     if(waterflux_tavg) call ocean_sbc_rstrt(Time)
+> 
+> end subroutine ocean_sfc_rstrt
+> ! </SUBROUTINE> NAME="ocean_sfc_rstrt"
+> 
+> 
+> !#######################################################################
+1278a1324,1348
+> 
+> !#######################################################################
+> ! <SUBROUTINE NAME="ocean_sbc_rstrt">
+> !
+> ! <DESCRIPTION>
+> ! Save pme_taum1 and river_taum1 to restart.
+> ! </DESCRIPTION>
+> !
+> subroutine ocean_sbc_rstrt(Time, ens_ocean)
+> 
+>     type(ocean_time_type) :: Time
+>     logical, intent(in), optional :: ens_ocean
+>     integer            :: yr, mon, day, hr, min, sec
+>     character(len=10)  :: rdte
+> 
+>     call get_date(Time%model_time,yr,mon,day,hr,min,sec)
+>     write(rdte,'(i4,3i2.2)') yr,mon,day,hr
+> 
+>     call write_data('IRESTART/'//rdte//'ocean_waterflux.res','pme_taum1',pme_taum1,Dom%domain2d,&
+>                      append_pelist_name = ens_ocean)
+>     call write_data('IRESTART/'//rdte//'ocean_waterflux.res','river_taum1',river_taum1,Dom%domain2d,&
+>                      append_pelist_name = ens_ocean)
+> 
+> end subroutine ocean_sbc_rstrt
+> ! </SUBROUTINE> NAME="ocean_sbc_rstrt"

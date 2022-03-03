@@ -1,0 +1,13 @@
+#Template for IBM xlf and xlc compilers
+#typical use with netCDF:
+CPPFLAGS = -I$(NETCDF)/include -L$(NETCDF)/lib -lnetcdf -Duse_libMPI -Duse_netCDF4
+FC = mpxlf95 -bmaxdata:875000000
+LD = mpxlf95_r
+CC = xlc_r
+LIBS = -L/usr/lib -lmass -L$(NETCDF)/lib -lnetcdf
+INCL = -I$(NETCDF)/include
+FFLAGS = -qsuffix=f=f90:cpp=F90 -qarch=auto -qmaxmem=-1 -qdpc -qrealsize=8 -qintsize=4 -qstrict -O3 -q64 -g -bnoquiet $(INCL)
+
+CFLAGS = -q64
+LDFLAGS = -q64 -brename:.flush,.flush_ -brename:.mld_id_,.mld_id $(LIBS)
+

@@ -1,0 +1,7 @@
+1. cd /nwprod/lib/src/ip
+2. svn checkout https://svnemc.ncep.noaa.gov/projects/nceplibs/ip/tags/version_2.0.0
+   note that version no may be updated or new
+3. cd src;  makefile.conf is pointing to makefile.wcoss.conf
+4. ./makelibip.sh
+5. the executables is in /nwprod/lib/sorc/ip/version_2.0.0/lib
+   copy them to /nwprod/lib

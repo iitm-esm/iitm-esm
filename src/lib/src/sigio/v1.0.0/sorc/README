@@ -1,0 +1,8 @@
+To build  the sigio library you
+need to set FCS to ifort.
+then
+make -f makefile_4
+
+THis builds ../../libsigio_big_4.a
+
+The script make.sh in this directory does this

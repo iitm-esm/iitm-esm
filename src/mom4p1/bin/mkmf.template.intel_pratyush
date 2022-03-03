@@ -1,0 +1,13 @@
+# Template for Aaditya HPC with mpiifort & mpcc
+#typical use with netCDF:
+# mkmf -t template.ibm -c"-Duse_libMPI -Duse_netCDF" path_names /usr/local/include
+FC = ftn
+LD = ftn
+CC = cc
+#FFLAGS = -r8 -i4 -free -xHOST -convert big_endian -traceback -fpconstant -save-temps -align dcommons -fast -assume byterecl $(INCL) -Wp,-P 
+#
+FFLAGS = -zero -g -traceback -O3 -r8 -i4 -free -convert big_endian -fp-model precise -fpconstant -save-temps -align dcommons -assume byterecl $(INCL) -Wp,-P 
+	
+CFLAGS = -g -O3 -save-temps $(INCL)
+LDFLAGS =  $(LIBS) -openmp
+

@@ -1,0 +1,1 @@
+  ENABLE_ODA use_libMPI USE_OCEAN_BGC use_netCDF4

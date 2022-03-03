@@ -1,0 +1,9 @@
+    &regrid_2d_nml
+       src_file = '/iitm1/cccr/sandeep/REGRID/ocean_barotropic.res_new.nc'
+       numfields = 1
+       src_field_name = 'ETA_T'
+       dest_grid = '/iitm1/cccr/swapna/PREINDUSTRIAL-AERO/INPUT/grid_spec.nc'
+       dest_file = 'regrid_2d.nc'
+       dest_grid_type = 'C'
+       vector_field = .FALSE.
+       /

@@ -1,0 +1,1 @@
+ ENABLE_ODA fms_interp use_netCDF use_libMPI 

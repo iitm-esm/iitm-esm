@@ -1,0 +1,5 @@
+# 1 "/iitm4/cccr/cmip6/Sandeep/Historical_aerosol_run/src/mom4p1/src/shared/memutils/memuse.c"
+# 1 "/iitm4/cccr/cmip6/Sandeep/Historical_aerosol_run/src/mom4p1/exec_intel_aaditya/mom4p1_coupled//"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "/iitm4/cccr/cmip6/Sandeep/Historical_aerosol_run/src/mom4p1/src/shared/memutils/memuse.c"

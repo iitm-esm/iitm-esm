@@ -1,0 +1,12 @@
+   &regrid_nml
+      src_data = '/iitm1/cccr/sandeep/REGRID/ocean_barotropic.res_new.nc'
+      src_grid = '/iitm2/cccr-res/sandeep/sandeep-bio-run/work/t62_1deg/INPUT/grid_spec.nc',
+      dst_grid = '/iitm1/cccr/swapna/PREINDUSTRIAL-AERO/INPUT/grid_spec.nc',
+      dst_data = 'regrid.nc',
+      num_flds = 22
+	    fld_name = 'eta_t','anompb', 'conv_rho_ud_t', 'eta_t_bar','anompb_bar','eta_u','pbot_u','patm_t','udrho','vdrho','eta_nonbouss','eta_nonsteric','eta_steric',	'eta_dynamic  ',   'eta_water'    ,   'eta_source   ','   eta_surf_temp', 'eta_surf_salt',' eta_surf_water', 'eta_bott_temp',' forcing_u_bt' ,   'forcing_v_bt '   
+      fld_pos  =  'C',
+      vector_fld = .false.
+      use_source_vertical_grid = .false.
+      apply_mask = .false.
+      debug      = .false. /

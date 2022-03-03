@@ -1,0 +1,12 @@
+   &regrid_nml
+      src_data = '/iitm1/cccr/sandeep/PREINDUSTRIAL-AERO_NEW2/INPUT/ocean_sbc.res.nc'
+      src_grid = '/iitm2/cccr-res/sandeep/sandeep-bio-run/work/t62_1deg/INPUT/grid_spec.nc',
+      dst_grid = '/iitm1/cccr/swapna/PREINDUSTRIAL-AERO/INPUT/grid_spec.nc',
+      dst_data = 'regrid_sbc.nc',
+      num_flds = 1
+	    fld_name = 'sea_lev',
+  	  fld_pos  =  'C',
+      vector_fld = .false.
+      use_source_vertical_grid = .false.
+      apply_mask = .false.
+      debug      = .false. /
