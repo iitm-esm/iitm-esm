@@ -6,7 +6,7 @@ ROOTDIR=$(pwd)
 MACHINE="intel_pratyush"
 
 debug=""
-npes=1
+npes=8
 while getopts 'dj:' flag; do
     case "${flag}" in
     d) debug=".debug" ;;
@@ -128,6 +128,7 @@ echo "#-------------------------------------------------------------------------
 
 
 echo "#-------------------------MAKE AOCOUPLER--------------------------------------"
+cppDef="-Duse_netCDF4 -Duse_libMPI"
 execname="aocoupler.exe"
 libsrc="aocoupler"
 paths="$SRCDIR/$libsrc"
