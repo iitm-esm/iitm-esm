@@ -30,8 +30,6 @@
 #     Generate a list of object files that corresponds to the
 #     list of Fortran ( .f ) files in the current directory
 #
-export FC=${1:-ifort}
-export CC=${2:-icc}
 export VER=emc_v2.0.5
 #
 #  Make INCMOD directory to store all module files
@@ -80,23 +78,6 @@ SHELL=/bin/sh
 	ar -ruv  \$(AFLAGS) \$@ \$*.o
 	rm -f \$*.o
 EOF
-#
-#     Update 4-byte version of libw3_v2.0.4_4.a
-#
-export LIB="${ESM_HOME}/src/lib/libw3"$VER"_4.a"
-export FFLAGS=" -O3 -g -module $MODDIR/w3"$VER"_4 -I $MODDIR/sigio_4 -I $MODDIR/w3"$VER"_4"
-export AFLAGS=" "
-export CFLAGS=" -O3 -DLINUX"
-make -f make.libw3
-#
-#     Update 8-byte version of libw3_v2.0.4_8.a
-#
-export LIB="${ESM_HOME}/src/lib/libw3"$VER"_8.a"
-export FFLAGS=" -O3 -g -r8 -i8 -module $MODDIR/w3"$VER"_8 -I $MODDIR/sigio_4 -I $MODDIR/w3"$VER"_8"
-export AFLAGS=" "
-export CFLAGS=" -O3 -DLINUX"
-make -j 16 -f make.libw3
-#
 #     Update Double Precision (Size of Real 8-byte and default Integer) version 
 #     of libw3_v2.0.4_d.a
 #

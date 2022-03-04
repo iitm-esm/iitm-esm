@@ -122,10 +122,6 @@ module interpred_mod
 
     call find_iiele()
     
-    if(debug) then
-      write(*,*) 'me=',me, 'int_data1=', ida(1,lats_node_r)
-      write(*,*) 'me=',me, 'int_data2=', ida(ida(1,lats_node_r)%nlon,lats_node_r)
-    endif
     initialized_this_module=.true.
   end subroutine init_interpred
 

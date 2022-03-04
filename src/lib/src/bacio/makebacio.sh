@@ -22,8 +22,8 @@ fi
 #
 cat > make.bacio << EOF
 SHELL=/bin/sh
-ncepxlc=icc
-ncepxlf=ifort
+ncepxlc=$CC
+ncepxlf=$FC
 
 \$(LIB):	\$(LIB)( bacio.v1.4.o baciof.o bafrio.o )
 
@@ -42,27 +42,7 @@ ncepxlf=ifort
 	ar -rv \$(AFLAGS) \$(LIB) bafrio.o 
 	rm -f baciof.o bafrio.o clib.h
 EOF
-#
-#     Update 4-byte version of libbacio_4.a
-#
-#BSM export LIB="./libbacio_4.a"
-export LIB="${ESM_HOME}/src/lib/libbacio_4.a"
-export INC="clib4.h"
-export FFLAGS=" -O3 -xAVX"
-export AFLAGS=" "
-export CFLAGS="-O3 -xAVX"
-make -f make.bacio
-#
-#     Update 8-byte version of libbacio_8.a
-#
- #BSM export LIB="./libbacio_8.a"
- export LIB="${ESM_HOME}/src/lib/libbacio_8.a"
- export INC="clib8.h"
- export FFLAGS=" -O3 -xAVX -i8 -r8"
- export AFLAGS=" "
- export CFLAGS=" -O3 -xAVX -longlong"
- make -f make.bacio
-#####################################
+
  export LIB="${ESM_HOME}/src/lib/libbacio_d.a"
  export INC="clibd.h"
  export FFLAGS=" -O3 -xAVX -i4 -r8"

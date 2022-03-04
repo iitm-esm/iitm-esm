@@ -27,8 +27,6 @@
 #     Generate a list of object files that corresponds to the
 #     list of Fortran ( .f ) files in the current directory
 #
-export FC=${1:-ifort}
-export CC=${2:-icc}
 #
 for i in `ls *.f` ; do
   obj=`basename $i .f`
@@ -68,23 +66,6 @@ SHELL=/bin/sh
 	ar -ruv  \$(AFLAGS) \$@ \$*.o
 	rm -f \$*.o
 EOF
-#
-#     Update 4-byte version of libw3nco_4.a
-#
-export LIB="${ESM_HOME}/src/lib/libw3nco_v2.0.5_4.a"
-export FFLAGS=" -O3 -g"
-export AFLAGS=" "
-export CFLAGS=" -O3 -DLINUX"
-make -f make.libw3nco
-
-#
-#     Update 8-byte version of libw3nco_8.a
-#
-export LIB="${ESM_HOME}/src/lib/libw3nco_v2.0.5_8.a"
-export FFLAGS=" -O3 -g -r8 -i8"
-export AFLAGS=" "
-export CFLAGS=" -O3 -DLINUX"
-make -f make.libw3nco
 
 #
 #     Update Double Precision (Size of Real 8-byte and default Integer) version 
