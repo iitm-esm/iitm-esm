@@ -405,7 +405,7 @@ int nccp2r(int argc, char *argv[])
 	       sprintf(infilename,"%s.%0*d",outfilename,peWidth,a);
                if (stat(infilename,&statbuf)!=0){
                 if (force==0) {
-                  printf("ERROR: missing at least %s from the input fileset.  Exiting.\n", infilename);
+                  printf("ERROR: missing at least %s from the input fileset.  Exiting 1.\n", infilename);
                   unlink(outfilename);
                   return 9;
                 }else{
@@ -484,7 +484,7 @@ int nccp2r(int argc, char *argv[])
 	       sprintf(infilename,"%s.%0*d",outfilename,peWidth,a);
                if (stat(infilename,&statbuf)!=0){
                  if (force==0) {
-                   printf("ERROR: missing at least %s from the input fileset.  Exiting.\n", infilename);
+                   printf("ERROR: missing at least %s from the input fileset.  Exiting 2.\n", infilename);
                    unlink(outfilename);
                    return 9;
                  }else{
@@ -543,7 +543,7 @@ int nccp2r(int argc, char *argv[])
              }
            if (stat(argv[a],&statbuf)!=0){
              if (force==0) {
-               printf("ERROR: missing at least %s from the input fileset.  Exiting.\n", argv[a]);
+               printf("ERROR: missing at least %s from the input fileset.  Exiting 3.\n", argv[a]);
                unlink(outfilename);
                return 9;
              }else{

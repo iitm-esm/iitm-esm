@@ -51,7 +51,9 @@ type(time_type) :: starttime, endtime
 character(len=8) :: arg_r="-r"//char(0)
 character(len=8) :: arg_v="-v"//char(0)
 character(len=8) :: arg_vv="-vv"//char(0)
+character(len=8) :: arg_64="-64"//char(0)
 character(len=8) :: arg_n="-n"//char(0)
+character(len=8) :: arg_n_val="0000"//char(0)
 character(len=8) :: arg_n4="-n4"//char(0)
 character(len=8) :: arg_u="-u"//char(0)
 character(len=8) :: arg_ov="-ov"//char(0)
@@ -86,9 +88,18 @@ if (removein/=0) then
     nargs=nargs+1
 endif
 
-!args(nargs) = c_loc(arg_v)
-!nargs=nargs+1
+if (verbose>0) then
+    args(nargs) = c_loc(arg_v)
+    nargs=nargs+1
+endif
 
+args(nargs) = c_loc(arg_64)
+nargs = nargs + 1
+
+args(nargs) = c_loc(arg_n)
+nargs=nargs+1
+args(nargs) = c_loc(arg_n_val)
+nargs=nargs+1
 
 if (all(startdate<=0).or.calendar_type==-11) then
     call mpp_error(NOTE,"startdate or calendar_type is not provided correctly "// &
@@ -168,9 +179,7 @@ do nf = 1, num_files
     !filenms(nf)%done = filenms(nf)%total+1
     do n = 1, filenms(nf)%total
         strt=0
-        if (filenms(nf)%nm(n)(1:5) == 'ocean') then
-          strt = atmpes
-        endif
+        if (is_ocean_file(filenms(nf)%nm(n))) strt = atmpes
         if (all_files_exist(trim(filenms(nf)%nm(n)),strt,1)) then
             filenms(nf)%done=n-1
             exit
@@ -200,17 +209,13 @@ if (mpp_pe()==mpp_root_pe()) then
                 fnm_curr = trim(filenms(nf)%nm(n))
 
                 strt=0
-                if (fnm_curr(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_curr)) strt = atmpes
                 if (all_files_exist(trim(fnm_curr),strt,1).and.filenms(nf)%time1==0.) then
                   call cpu_time(filenms(nf)%time1)
                 endif
 
                 strt=0
-                if (fnm_next(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_next)) strt = atmpes
                 if (all_files_exist(trim(fnm_next),strt,1).and.filenms(nf)%time2==0.) then
                   call cpu_time(filenms(nf)%time2)
                 endif
@@ -230,9 +235,7 @@ if (mpp_pe()==mpp_root_pe()) then
     
     
                 strt=0
-                if (fnm_next(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_next)) strt = atmpes
                 if (.not.all_files_exist(trim(fnm_next),strt,1)) then
                   call mpp_error(NOTE,trim(fnm_next)//' not yet there!')
                   cycle
@@ -278,9 +281,7 @@ if (mpp_pe()==mpp_root_pe()) then
     do nf = 1, num_files
         do n = filenms(nf)%done+1, filenms(nf)%total
             strt=0
-            if (filenms(nf)%nm(n)(1:5) == 'ocean') then
-              strt = atmpes
-            endif
+            if (is_ocean_file(filenms(nf)%nm(n))) strt = atmpes
             if (.not.all_files_exist(trim(filenms(nf)%nm(n)),strt,1)) then
               call mpp_error(NOTE,'Could not find file '//trim(filenms(nf)%nm(n))//', assuming done')
               exit
@@ -332,6 +333,7 @@ end subroutine read_options
 integer function submit_processing(nf,n,waitime)
     integer, intent(in) :: nf, n, waitime
     integer :: ierr
+    character(len=16) :: cnpes
 
     fnm = trim(filenms(nf)%nm(n))//char(0)
     if (ov/=0) then
@@ -340,6 +342,12 @@ integer function submit_processing(nf,n,waitime)
         endif
     endif
     call wait_seconds(real(waitime))
+    arg_n_val = "0000"//char(0)
+    if (is_ocean_file(filenms(nf)%nm(n))) then
+        write(cnpes,'(I4.4)') atmpes
+        arg_n_val = trim(adjustl(cnpes))//char(0)
+        if (verbose>2) print *, 'arg_n_val : ', trim(arg_n_val)
+    endif
     ierr = nccp2r(nargs,args)
     if (ierr/=0) then
         print *, "ERROR: nccpr failed for file "//trim(fnm)
@@ -465,7 +473,7 @@ logical function all_files_exist(fnm,strt,cnt)
     do i = strt, strt+cnt-1 
         write(suffix,'(I4.4)') i
         suffix = "."//trim(adjustl(suffix))
-        if (verbose) call mpp_error(NOTE,"checking if file exist: "//trim(fnm)//trim(suffix))
+        if (verbose>0) call mpp_error(NOTE,"checking if file exist: "//trim(fnm)//trim(suffix))
         if(.not.file_exist(trim(fnm)//trim(suffix))) then
             all_files_exist=.false.
             return
@@ -646,6 +654,17 @@ integer function rm_file(filename)
 
     return
 end function rm_file
+
+logical function is_ocean_file(fname)
+    character(len=*), intent(in) :: fname 
+    integer :: i, n 
+    i = index(fname ,'/', back=.true.)
+    i = i + 1
+    is_ocean_file = fname(i:i+4) == 'ocean'
+    if (verbose>1) then
+        print *, 'is_ocean_file:', fname, is_ocean_file
+    endif
+end function is_ocean_file
 
 end program main
 

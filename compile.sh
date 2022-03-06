@@ -76,23 +76,6 @@ echo '...............Done.....................'
 
 
 
-echo "#-------------------------MAKE RUN_NCCOMBINEP2R--------------------------------------"
-execname="nccombine.exe"
-libsrc="/mom4p1/postprocessing/run_mppncc"
-paths="$SRCDIR/$libsrc"
-builddir=$EXECDIR/$libsrc
-cppDef="-Dlib_mppnccp2r -Duse_libMPI"
-export LD=$FC
-OPTS="-I$INC_FMS_MOM"
-LIBS="$LIB_FMS_MOM"
-mkdir -p $builddir
-cd $builddir
-
-$MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
-make -j $npes
-echo "#--------------------------------------------------------------------------------"
-
-
 echo "#-------------------------MAKE MOM4P1--------------------------------------"
 cppDef="-Duse_netCDF4 -Duse_libMPI -DENABLE_ODA -DUSE_OCEAN_BGC"
 execname="ocean.exe"
@@ -124,6 +107,21 @@ paths=" $SRC/atmos_param/diag_integral \
 export LD=$FC
 $MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
+echo "#--------------------------------------------------------------------------------"
+
+echo "#-------------------------MAKE NC_COMBINE--------------------------------------"
+cppDef="-Dlib_mppnccp2r -Duse_libMPI"
+exename=nc_combine.exe
+libsrc="mom4p1/postprocessing/nc_combine"
+paths="$SRCDIR/$libsrc"
+builddir=$EXECDIR/$libsrc
+mkdir -p $builddir
+cd $builddir
+export LD=$FC
+OPTS="-I$INC_FMS_MOM"
+LIBS="$LIB_FMS_MOM"
+$MKMF -c "$cppDef" -f -p ${exename} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $numproc
 echo "#--------------------------------------------------------------------------------"
 
 
@@ -205,24 +203,62 @@ INC_GFSIO=$builddir
 echo '...............Done.....................'
 
 
+echo '...............Compiling lib_fms_gfs.....................'
+cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dfms_interp" # -Dtest_interp"
+libname='lib_fms_gfs.a'
+libsrc='gfs/shared'
+builddir=$EXECDIR/$libsrc
+SRC=$SRCDIR/$libsrc
+paths="$SRC/mpp $SRC/include \
+       $SRC/mpp/include \
+       $SRC/fms $SRC/platform \
+       $SRC/memutils $SRC/constants \
+       $SRC/horiz_interp $SRC/mosaic \
+       "
+lib=$builddir/$libname
+mkdir -p $builddir
+cd $builddir
+
+$MKMF -c "$cppDefs" -f -p $libname -t $MKMFTEMPLATE $paths
+make -j $npes
+LIB_FMS_GFS=$lib
+INC_FMS_GFS=$builddir
+echo '...............Done.....................'
+
 
 echo "#-------------------------MAKE GFS--------------------------------------"
-cppDef="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dfms_interp" # -Dtest_interp"
+cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dfms_interp" # -Dtest_interp"
 execname="atm.exe"
 libsrc="gfs"
 SRC="$SRCDIR/$libsrc"
-paths="$SRC/model $SRC/shared/mpp $SRC/shared/include \
-       $SRC/shared/mpp/include \
-       $SRC/shared/fms $SRC/shared/platform \
-       $SRC/shared/memutils $SRC/shared/constants \
-       $SRC/shared/horiz_interp $SRC/shared/mosaic $SRC/shared/diag_manager"
+paths="$SRC/model $SRC/shared/include $SRC/shared/diag_manager"
 builddir=$EXECDIR/$libsrc/gfs
 export LD=$FC
 mkdir -p $builddir
 cd $builddir
-OPTS="-I$INC_GFSIO -I$INC_BACIO -I$INC_W3NCO -I$INC_W3EMC"
-LIBS="$LIB_GFSIO $LIB_BACIO $LIB_W3EMC $LIB_W3NCO "
-$MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+OPTS="-I$INC_GFSIO -I$INC_BACIO -I$INC_W3NCO -I$INC_W3EMC -I$INC_FMS_GFS"
+LIBS="$LIB_GFSIO $LIB_BACIO $LIB_W3EMC $LIB_W3NCO $LIB_FMS_GFS"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
 echo "#--------------------------------------------------------------------------------"
+
+
+
+echo "#-------------------------MAKE NC_COMBINE_GFS--------------------------------------"
+cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dlib_mppnccp2r -DnotInterp"
+execname="nc_combine_gfs.exe"
+libsrc="gfs"
+SRC="$SRCDIR/$libsrc"
+paths="$SRC/nc_combine_gfs $SRC/shared/include \
+       $SRC/shared/diag_manager $SRC/model/time_manager.F90"
+builddir=$EXECDIR/$libsrc/nc_combine_gfs
+export LD=$FC
+mkdir -p $builddir
+cd $builddir
+OPTS="-I$INC_FMS_GFS"
+LIBS="$LIB_FMS_GFS"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $npes
+echo "#--------------------------------------------------------------------------------"
+
 
