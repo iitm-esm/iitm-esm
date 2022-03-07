@@ -103,7 +103,8 @@ paths=" $SRC/atmos_param/diag_integral \
         $SRC/rivers \
         $SRC/shared/include \
         "
-
+OPTS="-I$INC_FMS_MOM"
+LIBS="$LIB_FMS_MOM"
 export LD=$FC
 $MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
