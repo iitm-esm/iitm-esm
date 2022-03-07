@@ -1,0 +1,47 @@
+#"ATM",  "c_sst"         , "tmpsfc"      , "./INPUT/r2ts_clim.nc"        , .false.  , 1.0
+#"ATM",  "cice"          , "SIC"         , "./INPUT/sst_ice_clim.nc"     , .false.  , 0.01
+#"ATM",  "fice"          , "SIC"         , "./INPUT/sst_ice_clim.nc"     , .false.  , 0.01
+#"ATM",  "hice"          , "SIT"         , "./INPUT/sst_ice_clim.nc"     , .false.  , 1.0
+#"ATM" , "gust"          , ""            , ""                            , .false.  ,  0.0
+"ICE" , "runoff"        , "runoff"      , "./INPUT/runoff.nc"            , .false. ,  1.0
+"ICE" , "calving"       , ""            , ""                            , .true.  ,  0.0
+"ICE", "sic_obs"        , "SIC"         , "./INPUT/sst_ice_clim.nc"     , .false. ,  0.01
+"ICE", "sit_obs"        , "SIT"         , "./INPUT/sst_ice_clim.nc"     , .false. ,  1.0
+"ICE", "sst_obs"        , "SST"         , "./INPUT/sst_ice_clim.nc"     , .false. ,  1.0
+#"ICE", "ohf_sice"       , "ohf_sice"    , "./INPUT/ohf_sice.nc"         , .false. ,  1.0
+"LND" , "t_surf"        , ""            , ""                             , .true.  ,  273.0
+"LND" , "t_ca"          , ""            , ""                             , .true.  ,  273.0
+"LND" , "q_ca"          , ""            , ""                             , .true.  ,  0.0
+"LND" , "rough_mom"     , ""            , ""                             , .true.  ,  0.01
+"LND" , "rough_heat"    , ""            , ""                             , .true.  ,  0.1
+"LND" , "albedo"        , ""            , ""                             , .true.  ,  0.1
+"LND" , "t_ca"          , ""            , ""                             , .true.  ,  273.0
+"LND" , "t_surf"        , ""            , ""                             , .true.  ,  273.0
+"LND" , "q_ca"          , ""            , ""                             , .true.  ,  0.0
+"LND" , "t_flux"        , ""            , ""                             , .true.  ,  0.0
+"LND" , "q_flux"        , ""            , ""                             , .true.  ,  0.0
+"LND" , "lw_flux"       , ""            , ""                             , .true.  ,  0.0
+"LND" , "sw_flux"       , ""            , ""                             , .true.  ,  0.0
+"LND" , "lprec"         , ""            , ""                             , .true.  ,  0.0
+"LND" , "fprec"         , ""            , ""                             , .true.  ,  0.0
+"LND" , "dhdt"          , ""            , ""                             , .true.  ,  5.0
+"LND" , "dedt"          , ""            , ""                             , .true.  ,  2e-6
+"LND" , "dedq"          , ""            , ""                             , .true.  ,  0.0
+"LND" , "drdt"          , ""            , ""                             , .true.  ,  5.0
+"LND" , "drag_q"        , ""            , ""                             , .true.  ,  0.0
+"LND" , "p_surf"        , ""            , ""                             , .true.  ,  1.e5
+#
+"OCN", "runoff_no3_flux_ice_ocn", "DIN_PRSN_CM2","./INPUT/green_etal_regrid_v4.nc",.false.,1.0e-3
+"OCN", "runoff_nh4_flux_ice_ocn", "DON_PRSN_CM2","./INPUT/green_etal_regrid_v4.nc",.false.,1.0e-3
+"OCN", "runoff_fed_flux_ice_ocn", ""   , ""                             , .false. ,  0.0
+"OCN", "runoff_alk_flux_ice_ocn", ""   , ""                             , .false. ,  0.48e-3
+"OCN", "runoff_dic_flux_ice_ocn", ""   , ""                             , .false. ,  0.24e-3
+"OCN", "runoff_lith_flux_ice_ocn", ""  , ""                             , .false. , 13.0e-3
+"OCN", "dry_dep_fed_flux_ice_ocn", "FLUX","./INPUT/Soluble_Fe_Flux_PI.nc", .false. , -1.0
+"OCN", "dry_dep_lith_flux_ice_ocn", "FLUX_MINERAL","./INPUT/Mineral_Fe_Flux_PI.nc", .false. , -1.0
+"OCN", "wet_dep_no3_flux_ice_ocn", "NO3_WET_DEP","./INPUT/depflux_total.mean.1860.nc", .false. , -1.0
+"OCN", "dry_dep_no3_flux_ice_ocn", "NO3_DRY_DEP","./INPUT/depflux_total.mean.1860.nc", .false. , -1.0
+"OCN", "wet_dep_nh4_flux_ice_ocn", "NH4_WET_DEP","./INPUT/depflux_total.mean.1860.nc", .false. , -1.0
+"OCN", "dry_dep_nh4_flux_ice_ocn", "NH4_DRY_DEP","./INPUT/depflux_total.mean.1860.nc", .false. , -1.0
+"ATM", "o2_flux_pcair_atm", ""         , ""                             , .false. , 0.21
+"ATM", "co2_flux_pcair_atm", ""         , ""                             , .false. ,286.0e-6 

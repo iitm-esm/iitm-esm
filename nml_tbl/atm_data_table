@@ -1,0 +1,94 @@
+'alvsf' , 'alvsf', 'INPUT/albedo_new.nc', 1.0
+'alvwf' , 'alvwf', 'INPUT/albedo_new.nc', 1.0
+'alnsf' , 'alnsf', 'INPUT/albedo_new.nc', 1.0
+'alnwf' , 'alnwf', 'INPUT/albedo_new.nc', 1.0
+'vegfrac' , 'vegfrac', 'INPUT/vegfrac_new.nc', 1.0
+'zorl' , 'zorl', 'INPUT/zorl_new.nc', 100.0
+'sfcemis' , 'sfcemis', 'INPUT/sfcemis_new.nc', 1.0
+'o3',   'o3' ,  'INPUT/ozone_cmip6_preindustrial_filmiss_il_new1.nc',1.0
+
+
+
+# Aerosol Related
+#'aod_sw', 'aod', 'INPUT/gt_aero_time.nc', 1.0
+#'ssa_sw', 'ssa', 'INPUT/gt_aero_time.nc', 1.0
+#'asy_sw', 'asy', 'INPUT/gt_aero_time.nc', 1.0
+#
+#'extcoef_sw','ext_tfrac','INPUT/aodextfrac_time.nc',1.e-3
+#
+#'aod_strato_sw1', 'aod_band1',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw2', 'aod_band2',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw3', 'aod_band3',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw4', 'aod_band4',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw5', 'aod_band5',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw6', 'aod_band6',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw7', 'aod_band7',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw8', 'aod_band8',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw9', 'aod_band9',  'INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw10','aod_band10','INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw11','aod_band11','INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw12','aod_band12','INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw13','aod_band13','INPUT/strato_aod_1850_1.nc',1.0
+#'aod_strato_sw14','aod_band14','INPUT/strato_aod_1850_1.nc',1.0
+
+
+
+#'aod_anthrop_sw1', 'aod_band1', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw2', 'aod_band2', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw3', 'aod_band3', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw4', 'aod_band4', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw5', 'aod_band5', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw6', 'aod_band6', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw7', 'aod_band7', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw8', 'aod_band8', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw9', 'aod_band9', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw10','aod_band10','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw11','aod_band11','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw12','aod_band12','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw13','aod_band13','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'aod_anthrop_sw14','aod_band14','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+
+#'ssa_anthrop_sw1', 'ssa_band1', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw2', 'ssa_band2', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw3', 'ssa_band3', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw4', 'ssa_band4', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw5', 'ssa_band5', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw6', 'ssa_band6', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw7', 'ssa_band7', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw8', 'ssa_band8', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw9', 'ssa_band9', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw10','ssa_band10','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw11','ssa_band11','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw12','ssa_band12','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw13','ssa_band13','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'ssa_anthrop_sw14','ssa_band14','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+
+#'asy_anthrop_sw1', 'asy_band1', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw2', 'asy_band2', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw3', 'asy_band3', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw4', 'asy_band4', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw5', 'asy_band5', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw6', 'asy_band6', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw7', 'asy_band7', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw8', 'asy_band8', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw9', 'asy_band9', '/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw10','asy_band10','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw11','asy_band11','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw12','asy_band12','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw13','asy_band13','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#'asy_anthrop_sw14','asy_band14','/iitm4/cccr/cmip6/Manmeet/PREIND-20180504_aer1850anthrp_hist_volc_hist/INPUT/anthrop_iitmesm_1850_2015.nc',1.0
+#
+#'aod_strato_sw1', 'aod_band1', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw2', 'aod_band2', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw3', 'aod_band3', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw4', 'aod_band4', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw5', 'aod_band5', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw6', 'aod_band6', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw7', 'aod_band7', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw8', 'aod_band8', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw9', 'aod_band9', '/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw10','aod_band10','/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw11','aod_band11','/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+##'aod_strato_sw12','aod_band12','/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw13','aod_band13','/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0
+#'aod_strato_sw14','aod_band14','/iitm2/cccr-res/msingh/strato_cmip_data/aerosols_data/aod_sw_data/model_data/time_corrected/strato_aod_iitmesm_1850_2015.nc',1.0

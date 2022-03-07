@@ -1,0 +1,239 @@
+"GFS"
+1850 01 01 00 00 00
+
+# --> output files
+
+# --> 3hr
+#  "atm_3hr%4yr%2mo%2dy%2hr", 3,  "hours", 1, "hours", "time", 3, "hours",
+#  "atm_3hr_inst%4yr%2mo%2dy%2hr", 3,  "hours", 1, "hours", "time", 3, "hours",
+## <-- 3hr
+#
+## --> 6hr
+#  "atm_6hr%4yr%2mo%2dy%2hr", 6,  "hours", 1, "hours", "time", 6, "hours",
+#  "atm_6hr_inst%4yr%2mo%2dy%2hr", 6,  "hours", 1, "hours", "time", 6, "hours",
+# <-- 6hr
+
+## --> day
+  "atm_day%4yr%2mo%2dy%2hr", 1,  "days", 1, "hours", "time", 1, "days",
+## <-- day
+
+# --> monthly
+  "atm_mon%4yr%2mo%2dy%2hr", 1,  "months", 1, "days", "time", 1, "months",
+# <-- monthly
+
+# <-- output files
+
+
+#-------------------------------------------------------------------------------------------------------
+
+#gfs, coef_ai, coef_ai,'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_bi, coef_bi,'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_a, coef_a,'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_b, coef_b,'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps, ps, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps1, ps1, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#
+#gfs, coef_ai, coef_ai,'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_bi, coef_bi,'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_a, coef_a,'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_b, coef_b,'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, ps, ps, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, ps1, ps1, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#
+#gfs, coef_ai, coef_ai,'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_bi, coef_bi,'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_a, coef_a,'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_b, coef_b,'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps, ps, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps1, ps1, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#
+#gfs, coef_ai, coef_ai,'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_bi, coef_bi,'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_a, coef_a,'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, coef_b, coef_b,'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, ps, ps, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#gfs, ps1, ps1, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+
+#gfs, coef_ai, coef_ai,'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_bi, coef_bi,'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_a, coef_a,'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, coef_b, coef_b,'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps, ps, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#gfs, ps1, ps1, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+
+gfs, coef_ai, coef_ai,'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+gfs, coef_bi, coef_bi,'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+gfs, coef_a, coef_a,'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+gfs, coef_b, coef_b,'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+gfs, ps, ps, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+gfs, ps1, ps1, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+
+#--------------------------------------------------------------------------------------------------------
+
+## --> 3hr
+## Inst
+#  gfs, tslsi, tslsi, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#  gfs, huss, huss, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#  gfs, tas, tas, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#  gfs, mrsos, mrsos, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#  gfs, vas, vas, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#  gfs, uas, uas, 'atm_3hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#
+## Avg
+#  gfs, pr, pr, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rsds, rsds, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rsdsdiff, rsdsdiff, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rsus, rsus, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, prc, prc, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, mrro, mrro, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rlus, rlus, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rsdscs, rsdscs, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, prsn, prsn 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, hfss, hfss, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rlds, rlds, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rsuscs, rsuscs, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, clt, clt, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, rldscs, rldscs, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, hfls, hfls, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#  gfs, ts, ts, 'atm_3hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+## <-- 3hr
+#
+## --> 6hr
+## Inst
+#   gfs, vort, vortmean, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, va, va, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, hus, hus, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, ua, ua, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, uas, uas, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, vas, vas, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+#   gfs, ta, ta, 'atm_6hr_inst%4yr%2mo%2dy%2hr', 'all', .false., 'none', 2
+## Avg
+#   gfs, hus, hus, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, hurs, hurs, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, va, va, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, wap, wap, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, ua, ua, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, ta, ta, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, pr, pr, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rsds,rsds, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rsus,rsus, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rsdt,rsdt, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rsut,rsut, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rlds,rlds, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rlus,rlus, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rlut,rlut, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs,rldt,rldt, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, sfcWind, sfcWind, 'atm_6hr%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+#   gfs, sfcWind, sfcWindmax, 'atm_6hr%4yr%2mo%2dy%2hr','all', 'max', 'none', 2
+#   
+### <-- 6hr
+#
+## --> day
+  gfs, tas, tasmax, 'atm_day%4yr%2mo%2dy%2hr', 'all', 'max', 'none', 2
+  gfs, pr, pr, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, huss, huss, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsds, rsds, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsus, rsus, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, prc, prc, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hus, hus, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tas, tas, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tslsi, tslsi, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, mrro, mrro, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlus, rlus, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, va, va, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hurs, hursmin, 'atm_day%4yr%2mo%2dy%2hr','all', 'min', 'none', 2
+  gfs, prsn, prsn, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, wap, wap, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hfss, hfss, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hfls, hfls, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tas, tasmin, 'atm_day%4yr%2mo%2dy%2hr', 'all', 'min', 'none', 2
+  gfs, ta, ta, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hurs, hursmax, 'atm_day%4yr%2mo%2dy%2hr','all', 'max',  'none', 2
+  gfs, clt, clt, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hur, hur, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlds, rlds, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ua, ua, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, sfcWind, sfcWind, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlut, rlut, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, mrsos, mrsos, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, sfcWind, sfcWindmax, 'atm_day%4yr%2mo%2dy%2hr','all', 'max', 'none', 2
+  gfs, vas, vas, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, uas, uas, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hurs, hurs, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ts, ts, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, topo, topo, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsut, rsut, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsdt, rsdt, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, snc,snc, 'atm_day%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+## <-- day
+
+# --> monthly
+  gfs, pr, pr, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ts, ts, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsus, rsus, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tas, tas, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tas, tasmin, 'atm_mon%4yr%2mo%2dy%2hr', 'all', 'min', 'none', 2
+  gfs, tas, tasmax, 'atm_mon%4yr%2mo%2dy%2hr', 'all', 'max', 'none', 2
+  gfs, sfcWind, sfcWind, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, wap, wap, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tauu, tauu, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsuscs, rsuscs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, clt, clt, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsdt, rsdt, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlut, rlut, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, clwvi, clwvi, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, huss, huss, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsds, rsds, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, prc, prc, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, prsn, prsn, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hfss, hfss, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, lprecip_c, lprecip_c, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, fprecip_c, fprecip_c, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, lprecip, lprecip, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlus, rlus, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsut, rsut, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsdscs, rsdscs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, tauv, tauv, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlutcs, rlutcs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rlds, rlds, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ta, ta, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, va, va, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, evspsbl, evspsbl, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hus, hus, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, cl, cl, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ua, ua, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, clivi, clivi, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsutcs, rsutcs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rldscs, rldscs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hfls, hfls, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, vas, vas, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, uas, uas, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ccb, ccb, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, cct, cct, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ci, ci, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, mc, mc, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hurs, hurs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, lwupsfccsky,rluscs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, rsdsdiff, rsdsdiff, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, topo, topo, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, mrro, mrro, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, hur, hur, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, aod, aod, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, ssa, ssa, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, asy, asy, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, lowcld, lowcld, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, midcld, midcld, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, highcld, highcld, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, cldlyr, cldlyr, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, smsoil,smsoil, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, slsoil,slsoil, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, sncovr,sncovr, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, snc,snc, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, sheleg,sheleg, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, gflx,gflx, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, snlhflx,snlhflx, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, snwdph,snwdph, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, evbs,evbs, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+  gfs, evcw,evcw, 'atm_mon%4yr%2mo%2dy%2hr', 'all', .true., 'none', 2
+
+# <-- monthly

@@ -1,0 +1,146 @@
+&main_nml
+current_time=1880,01,01,0,0,0
+/
+ 
+&nam_mrf
+  fhout=24 
+fhmax=85416
+  igen=199 
+deltim=600
+restart_interval=0,3,0,0,0,0
+  fhzer=24, 
+  fhlwr=1, 
+  fhswr=1,
+  fhcyc=0,
+  ntrac=3,
+  nxpt=1,
+  nypt=2,
+  jintmx=2,
+  jcap=126,
+  levs=64,
+  lonf=384,
+  lonr=384,
+  latg=190,
+  latr=190,
+  ntoz=2,
+  ntcw=3,
+  ncld=1,
+  lsoil=4,
+  nmtvr=14, 
+  ngptc=48,
+  hybrid=.true.,
+  tfiltc=0.85,
+  gen_coord_hybrid=.false., 
+  num_reduce=-4,
+  iems=1,
+  isol=0,
+  iaer=1,
+  ico2=0,
+  gfsio_in=.false.,
+  gfsio_out=.false.,
+  ccnorm=.true.,
+  climate=.true.,   
+  cnvgwd=.true.,
+  crtrh=0.85,0.85,0.85,              
+  flgmin=0.200,0.300,
+  ictm=1,
+  ialb=0,                
+  iovr_lw=1,                     
+  iovr_sw=1,
+  isubc_lw=2,
+  isubc_sw=2,
+  lsm=1,           
+  liope=.true.,     
+  mstrat=.false.,
+  ncw=20,120,
+  nsout=0,                         
+  old_monin=.true.,
+  out_virttemp=.true.,  
+  ras=.false.,                  
+  run_enthalpy=.false.,
+  zflxtvd=.false.,
+  zhao_mic=.true. 
+  newsas=.true./
+
+&tracer_constant
+  
+ /
+
+&soil_veg
+  lparam = .false.
+/
+
+&do_tstep_nml
+        do_energy_corr=.true.,
+        diag_out=.false.,
+/
+
+
+&data_override_nml
+  debug_data_override=.false.,
+  num_io_buffers=20 
+/
+
+&output_manager_nml
+	instant_out=.false.
+	debug=.false.
+  outdir="output/atm"
+/
+
+& albedo_nml
+	snow_alb=0.85
+	ice_alb=0.615
+  t_range_melt=1.
+/
+
+& radiation_gases_nml
+	co2vmr_def = 388.2e-6
+	n2ovmr_def = 0.327e-6
+  ch4vmr_def = 1.831e-6
+  o2vmr_def  = 0.209
+  covmr_def  = 1.50e-8
+  f11vmr_def = 0 
+  f12vmr_def = 0 
+  f22vmr_def = 0 
+  cl4vmr_def = 0 
+  f113vmr_def= 0 
+/
+
+& radiation_aerosol_nml
+use_this_aerosol = .false.
+strato=.false.
+nlevs_of_tropo_in = 35
+nlevs_of_strato_in = 70
+z0_in_strato = 5000.0
+dz_in_strato = 500.0
+z0_in_tropo = 250.0
+dz_in_tropo = 500.0
+/
+
+
+& radiation_clouds_nml
+/
+&diag_manager_nml
+  max_axes = 100,
+  max_num_axis_sets = 100,
+  max_input_fields = 699
+  max_output_fields = 699
+  mix_snapshot_average_fields=.false.
+  issue_oor_warnings = .false.
+  do_diag_field_log = .false.
+/
+
+&fms_io_nml
+  threading_read='multi'
+  threading_write='single'
+  fileset_write='single'
+  max_files_r = 200
+  max_files_w = 200
+/
+
+&fms_nml
+  clock_grain='loop' ! 'component' ! 'routine' !
+  domains_stack_size = 8000000
+  stack_size =0
+/
+    

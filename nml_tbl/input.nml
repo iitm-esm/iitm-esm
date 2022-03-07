@@ -1,0 +1,1106 @@
+ &coupler_nml
+       months = 0,
+       days   = 0,
+current_date=1996,12,28,0,0,0
+   force_date_from_namelist=.false.
+hours=85416
+       minutes = 0
+       seconds = 0
+       calendar = 'julian',
+       dt_ocean = 3600,
+       dt_cpld = 3600,
+dt_atmos=600
+       do_atmos = .false.,
+       do_land = .false.,
+       do_ice = .true.,
+       do_ocean = .true.,
+       ocean_npes = 256,
+       atmos_npes=36,
+       concurrent = .true.
+       use_lag_fluxes=.true.    ! set to false for stock checking
+       check_stocks = 0         !  -1 (no checking), 0 (start/end only), 1 (every timestep)
+restart_interval=0,3,0,0,0,0
+/
+
+	 &diag_integral_nml
+	       file_name  = 'diag_integral.out',
+	       time_units = 'days',
+	       output_interval = -1.0
+	/
+
+	 &diag_manager_nml
+	       max_axes = 100,
+	       max_num_axis_sets = 100,
+	       max_input_fields = 699
+	       max_output_fields = 699
+	       mix_snapshot_average_fields=.false.
+		issue_oor_warnings = .FALSE.
+	/
+
+	 &flux_exchange_nml
+	       debug_stocks = .FALSE.
+	       divert_stocks_report = .TRUE.            ! default=F 
+	       do_area_weighted_flux = .FALSE.
+	/
+
+	 &fms_io_nml
+	       threading_read='multi'
+	       threading_write='single'
+	       fileset_write='single' 
+	       max_files_r = 200
+	       max_files_w = 200
+	/
+
+ &fms_nml
+       clock_grain='LOOP' ! 'COMPONENT' ! 'ROUTINE' !
+       domains_stack_size = 8000000
+       stack_size =8000000
+/
+
+ &generic_tracer_nml
+       do_generic_tracer=.false.
+       do_generic_CFC=.false.                 ! no CFCs
+       do_generic_TOPAZ=.false.
+/
+
+	 &ice_albedo_nml
+	       t_range = 10.
+	/
+
+	 &ice_model_nml
+	       nsteps_dyn=108
+	       nsteps_adv=1
+	       num_part = 6
+	       wd_turn = 0.0
+	       spec_ice=.false.
+	       ice_bulk_salin = 0.005
+	       alb_sno = 0.8
+	       alb_ice = 0.615
+	       t_range_melt = 1                ! CHECK
+	       heat_rough_ice = 5.0e-4           
+	       cm2_bugs = .false.
+	       do_icebergs = .false.             
+	       add_diurnal_sw = .false.           
+	       h_lo_lim = 1.e-10
+         layout = 36,1
+	/  
+ 	&rivers_nml
+		use_single_basin=.true.
+
+        /
+ &icebergs_nml
+       really_debug=.FALSE.
+       debug=.FALSE.
+       verbose=.FALSE.                   ! to match CM2G/ESM2G
+       verbose_hrs=2400                  ! to match CM2G
+       use_operator_splitting=.TRUE.
+       bergy_bit_erosion_fraction=0.0
+       sicn_shift=0.1
+       parallel_reprod=.TRUE.
+       traj_sample_hrs=0
+/
+
+	 &monin_obukhov_nml
+		    neutral = .true.
+	/
+
+	 &ocean_adv_vel_diag_nml
+       MAX_CFL_VALUE   =   100.000000000000     ,
+ 	LARGE_CFL_VALUE =   10.0000000000000     ,
+ 	VERBOSE_CFL     = F,
+diag_step = 120
+	/
+
+	 &ocean_advection_velocity_nml
+	   DEBUG_THIS_MODULE       = F,
+	 MAX_ADVECTION_VELOCITY  =  0.500000000000000     ,
+	 INFLOW_NBOUNDARY        = F,
+	 READ_ADVECTION_VELOCITY = F,
+	 CONSTANT_ADVECTION_VELOCITY     = F
+	/
+
+	 &ocean_albedo_nml
+	       ocean_albedo_option = 5 
+	/
+
+	 &ocean_barotropic_nml
+	   WRITE_A_RESTART = T,
+	 ZERO_TENDENCY   = F,
+	 ZERO_ETA_IC     = F,
+	 ZERO_ETA_T      = F,
+	 ZERO_ETA_U      = F,
+	 ZERO_NONLINEAR_FORCING_BT       = F,
+	 ZERO_FORCING_BT = F,
+	 ZERO_ETA_TENDENCY       = F,
+	 TIDAL_FORCING_M2        = F,
+	 TIDAL_FORCING_8 = F,
+	 TIDAL_FORCING_IDEAL     = F,
+	 GEOID_FORCING   = F,
+	 BAROTROPIC_PRED_CORR    = T,
+	 PRED_CORR_GAMMA =  0.200000000000000     ,
+	 BAROTROPIC_LEAP_FROG    = F,
+	 ROBERT_ASSELIN_BT       =  5.000000000000000E-002,
+	 SMOOTH_ETA_T_BT_LAPLACIAN       = F,
+	 SMOOTH_ETA_T_BT_BIHARMONIC      = F,
+	 SMOOTH_ETA_T_LAPLACIAN  = F,
+	 SMOOTH_ETA_T_BIHARMONIC = T,
+	 SMOOTH_ANOMPB_BT_LAPLACIAN      = F,
+	 SMOOTH_ANOMPB_BT_BIHARMONIC     = F,
+	 SMOOTH_PBOT_T_LAPLACIAN = F,
+	 SMOOTH_PBOT_T_BIHARMONIC        = T,
+	 SMOOTH_ETA_DIAG_LAPLACIAN       = T,
+	 SMOOTH_ETA_DIAG_BIHARMONIC      = F,
+	 VEL_MICOM_LAP   =  5.000000000000000E-002,
+	 VEL_MICOM_LAP_DIAG      =   1.00000000000000     ,
+	 VEL_MICOM_BIH   =  1.000000000000000E-002,
+	 VEL_MICOM_BIH_DIAG      =  0.100000000000000     ,
+	 TRUNCATE_ETA    = F,
+	 VERBOSE_TRUNCATE        = T,
+	 ETA_MAX =   8.00000000000000     ,
+	 FRAC_CRIT_CELL_HEIGHT   =  0.200000000000000     ,
+	 VERBOSE_INIT    = T,
+	 DEBUG_THIS_MODULE       = F,
+diag_step = 120
+	 ETA_OFFSET      =  1.000000000000000E-012,
+	 PBOT_OFFSET     =  1.000000000000000E-012,
+	 BAROTROPIC_TIME_STEPPING_MOM4P0 = T,
+	 BAROTROPIC_TIME_STEPPING_MOM4P1 = F,
+	 INITSUM_WITH_BAR_MOM4P0 = F,
+	 INITSUM_WITH_BAR_MOM4P1 = T,
+	 IDEAL_INITIAL_ETA       = F,
+	 IDEAL_INITIAL_ETA_AMPLITUDE     =   5.00000000000000     ,
+	 IDEAL_INITIAL_ETA_XWIDTH        =   100000.000000000     ,
+	 IDEAL_INITIAL_ETA_YWIDTH        =   100000.000000000     ,
+	 BAROTROPIC_BMF  = F,
+	 BAROTROPIC_BMF_CDBOT    =  1.000000000000000E-003,
+	 UDRHO_BT_LAP    = F,
+	 UDRHO_BT_BIH    = F,
+	 UDRHO_LAP       = F,
+	 UDRHO_BIH       = F,
+	 UDRHO_LAP_VEL_MICOM     =  5.000000000000000E-002,
+	 UDRHO_BIH_VEL_MICOM     =  1.000000000000000E-002
+
+	/
+
+	 &ocean_bbc_nml
+ BMF_IMPLICIT    = F,
+ CDBOT   =  2.000000000000000E-003,
+ URESIDUAL       =  5.000000000000000E-002,
+ CDBOT_LAW_OF_WALL       = F,
+ LAW_OF_WALL_ROUGH_LENGTH        =  1.000000000000000E-002,
+ CDBOT_ROUGHNESS_LENGTH  = F,
+ USE_GEOTHERMAL_HEATING  = F,
+ CONVERT_GEOTHERMAL      =  1.000000000000000E-003,
+ CDBOT_HI        =  5.000000000000000E-003,
+ CDBOT_LO        =  1.000000000000000E-003,
+ CDBOT_GAMMA     =   40.0000000000000     ,
+ UVMAG_MAX       =   10.0000000000000     ,
+ BMF_MAX =   1.00000000000000     ,
+ DEBUG_THIS_MODULE       = F
+
+	/
+
+	 &ocean_bih_friction_nml
+          bih_friction_scheme='general'
+
+	/
+
+	 &ocean_bih_tracer_nml
+ USE_THIS_MODULE = F,
+ ABIH    =  0.000000000000000E+000,
+ TRACER_MIX_MICOM        = F,
+ VEL_MICOM       =  0.000000000000000E+000,
+ HORZ_Z_DIFFUSE  = F,
+ HORZ_S_DIFFUSE  = T
+
+	/
+
+	 &ocean_bihcst_friction_nml
+	       use_this_module=.false.
+	/
+
+	 &ocean_bihgen_friction_nml
+        USE_THIS_MODULE = T,
+ 	DEBUG_THIS_MODULE       = F,
+ 	K_SMAG_ISO      =   2.00000000000000     ,
+ 	K_SMAG_ANISO    =  0.000000000000000E+000,
+ 	VEL_MICOM_ISO   =  4.000000000000000E-002,
+ 	VEL_MICOM_ANISO =  0.000000000000000E+000,
+ 	EQ_VEL_MICOM_ISO        =  0.000000000000000E+000,
+ 	EQ_VEL_MICOM_ANISO      =  0.000000000000000E+000,
+ 	EQ_LAT_MICOM    =  0.000000000000000E+000,
+ 	VEL_MICOM_BOTTOM        =  1.000000000000000E-002,
+ 	BOTTOM_5POINT   = T,
+ 	EQUATORIAL_ZONAL        = F,
+ 	EQUATORIAL_ZONAL_LAT    =  0.000000000000000E+000,
+ 	VISC_CRIT_SCALE =  0.250000000000000     ,
+ 	NCAR_BOUNDARY_SCALING   = T,
+ 	NCAR_RESCALE_POWER      =           2,
+ 	NCAR_VCONST_4   =  2.000000000000000E-008,
+ 	NCAR_VCONST_5   =           5
+
+	/
+
+	 &ocean_convect_nml
+  USE_THIS_MODULE = F,
+ CONVECT_NCON    = F,
+ NCON    =           7,
+ CONVECT_FULL_SCALAR     = T,
+ CONVECT_FULL_VECTOR     = F
+
+	/
+
+	 &ocean_coriolis_nml
+	       use_this_module=.true.
+	       acor=0.50
+	/
+
+	 &ocean_density_nml
+	 S_TEST  =   20.0000000000000     ,
+	 T_TEST  =   20.0000000000000     ,
+	 P_TEST  =   1000.00000000000     ,
+	 PRESS_STANDARD  =  0.000000000000000E+000,
+	 SN_TEST =   35.0000000000000     ,
+	 TN_TEST =   20.0000000000000     ,
+	 LINEAR_EOS      = F,
+	 ALPHA_LINEAR_EOS        =  0.255000000000000     ,
+	 BETA_LINEAR_EOS =  0.000000000000000E+000,
+	 POTRHO_PRESS    =   2000.00000000000     ,
+	 POTRHO_MIN      =   1028.00000000000     ,
+	 POTRHO_MAX      =   1038.00000000000     ,
+	 NEUTRALRHO_MIN  =   1020.00000000000     ,
+	 NEUTRALRHO_MAX  =   1030.00000000000     ,
+	 LAYER_NK        =          80,
+	 THETA_MIN       =  -2.00000000000000     ,
+	 THETA_MAX       =   30.0000000000000     ,
+	 DEBUG_THIS_MODULE       = F,
+	 RHO0_DENSITY    = F,
+	 WRITE_A_RESTART = T,
+	 BUOYFREQ_SMOOTH_VERT    = T,
+	 NUM_121_PASSES  =           1,
+	 EPSLN_DRHODZ    =  1.000000000000000E-010,
+	 MASK_DOMAIN_RESTART     = F,
+	 DO_BITWISE_EXACT_SUM    = F
+
+	/
+
+	 &ocean_domains_nml
+
+
+	/
+
+	 &ocean_drifters_nml
+	       use_this_module=.false.
+	/
+
+	 &ocean_form_drag_nml
+  VERBOSE_INIT    = T,
+ USE_THIS_MODULE = F,
+ DEBUG_THIS_MODULE       = F,
+ USE_FORM_DRAG_AIKI      = T,
+ CPRIME_AIKI     =  0.600000000000000     ,
+ FORM_DRAG_AIKI_BOTTOM_LAYER     = F,
+ FORM_DRAG_AIKI_BOTTOM_KLEVELS   =           3,
+ FORM_DRAG_AIKI_SCALE_BY_GRADH   = T,
+ FORM_DRAG_AIKI_GRADH_MAX        =  2.500000000000000E-002,
+ FORM_DRAG_AIKI_GRADH_POWER      =   2.00000000000000     ,
+ FORM_DRAG_AIKI_SCALE_BY_GM      = F,
+ USE_FORM_DRAG_GBATCH    = T,
+ VISC_CBU_FORM_DRAG_MAX  =   1.00000000000000     ,
+ VEL_FORM_DRAG_MAX       =   1.00000000000000     ,
+ N_SQUARED_MIN   =  1.000000000000000E-010,
+ AGM_FORM_DRAG   =   600.000000000000     ,
+ FORM_DRAG_GBATCH_SURF_LAYER     = F,
+ KSURF_BLAYER_MIN        =           3,
+ FORM_DRAG_GBATCH_ALPHA_F2       = F,
+ FORM_DRAG_GBATCH_ALPHA  =   300000000.000000     ,
+ FORM_DRAG_GBATCH_F2OVERN2       = T,
+ FORM_DRAG_GBATCH_F2OVERNB2      = F,
+ FORM_DRAG_GBATCH_SMOOTH_N2      = F,
+ NUM_121_PASSES  =           1,
+ FORM_DRAG_GBATCH_F2OVERNO2      = F,
+ FORM_DRAG_GBATCH_NO     =  5.000000000000000E-003
+
+	/
+
+	 &ocean_frazil_nml
+	 USE_THIS_MODULE = T,
+	 DEBUG_THIS_MODULE       = F,
+	 FREEZING_TEMP_SIMPLE    = T,
+	 FREEZING_TEMP_ACCURATE  = F,
+	 FRAZIL_FACTOR   =   1.00000000000000     ,
+	 AIR_SATURATED_WATER     = T,
+	 FRAZIL_ONLY_IN_SURFACE  = T
+
+	/
+
+	 &ocean_grids_nml
+	 DEBUG_THIS_MODULE       = T,
+	 VERBOSE_INIT    = T,
+	 READ_RHO0_PROFILE       = F,
+	 WRITE_GRID      = F
+	/
+
+	 &ocean_increment_eta_nml
+ 	USE_THIS_MODULE = F,
+ 	FRACTION_INCREMENT      =   1.00000000000000     ,
+ 	DAYS_TO_INCREMENT       =           1,
+ 	SECS_TO_INCREMENT       =           0
+
+	/
+
+	 &ocean_increment_tracer_nml
+   USE_THIS_MODULE = F,
+ FRACTION_INCREMENT      =   1.00000000000000     ,
+ DAYS_TO_INCREMENT       =           1,
+ SECS_TO_INCREMENT       =           0
+	/
+
+	 &ocean_increment_velocity_nml
+  USE_THIS_MODULE = F,
+ FRACTION_INCREMENT      =   1.00000000000000     ,
+ DAYS_TO_INCREMENT       =           1,
+ SECS_TO_INCREMENT       =           0
+
+	/
+    
+    &ocean_lap_friction_nml
+       lap_friction_scheme='general'
+
+
+	/
+
+	 &ocean_lap_tracer_nml
+  USE_THIS_MODULE = F,
+ ALAP    =  0.000000000000000E+000,
+ TRACER_MIX_MICOM        = F,
+ VEL_MICOM       =  0.000000000000000E+000,
+ VERBOSE_INIT    = T,
+ HORZ_Z_DIFFUSE  = F,
+ HORZ_S_DIFFUSE  = T
+
+	/
+
+	 &ocean_lapcst_friction_nml
+	       use_this_module=.false.
+	/
+
+	 &ocean_lapgen_friction_nml
+     USE_THIS_MODULE = F,
+ DEBUG_THIS_MODULE       = F,
+ BOTTOM_5POINT   = T,
+ K_SMAG_ISO      =   2.00000000000000     ,
+ K_SMAG_ANISO    =  0.000000000000000E+000,
+ VEL_MICOM_ISO   =  0.100000000000000     ,
+ VEL_MICOM_ANISO =  0.000000000000000E+000,
+ EQ_VEL_MICOM_ISO        =  0.000000000000000E+000,
+ EQ_VEL_MICOM_ANISO      =  0.000000000000000E+000,
+ EQ_LAT_MICOM    =  0.000000000000000E+000,
+ EQUATORIAL_ZONAL        = T,
+ EQUATORIAL_ZONAL_LAT    =   20.0000000000000     ,
+ EQUATORIAL_NO_SMAG      = T,
+ VISCOSITY_NCAR  = T,
+ VISCOSITY_NCAR_2000     = T,
+ VISCOSITY_NCAR_2007     = F,
+ NCAR_ISOTROPIC_OFF_EQUATOR      = F,
+ NCAR_ONLY_EQUATORIAL    = T,
+ VCONST_1        =   8000000.00000000     ,
+ VCONST_2        =  0.000000000000000E+000,
+ VCONST_3        =  0.800000000000000     ,
+ VCONST_4        =  5.000000000000000E-009,
+ VCONST_5        =           3,
+ VCONST_6        =   300000000.000000     ,
+ VCONST_7        =   100.000000000000     ,
+ VCONST_8        =   45.0000000000000     ,
+ DEBUG_NCAR_A    = F,
+ DEBUG_NCAR_B    = F,
+ VISC_VEL_SCALE_LENGTH   =   150000.000000000     ,
+ NEPTUNE = F,
+ NEPTUNE_LENGTH_EQ       =   1200.00000000000     ,
+ NEPTUNE_LENGTH_POLE     =   3000.00000000000     ,
+ RESTRICT_POLAR_VISC     = T,
+ RESTRICT_POLAR_VISC_LAT =   60.0000000000000     ,
+ RESTRICT_POLAR_VISC_RATIO       =  0.350000000000000     ,
+ NCAR_ISOTROPIC_AT_DEPTH = F,
+ NCAR_ISOTROPIC_DEPTH    =   4000.00000000000     ,
+ NCAR_ISOTROPIC_AT_DEPTH_VISC    =   10000.0000000000     ,
+ DIVERGENCE_DAMP = F,
+ DIVERGENCE_DAMP_VEL_MICOM       =  0.000000000000000E+000,
+ VISCOSITY_SCALE_BY_ROSSBY       = F,
+ VISCOSITY_SCALE_BY_ROSSBY_POWER =   2.00000000000000   
+	/
+
+	 &ocean_mixdownslope_nml
+	    USE_THIS_MODULE = T,
+ 		DEBUG_THIS_MODULE       = F,
+ 		MIXDOWNSLOPE_NPTS       =           4,
+ 		MIXDOWNSLOPE_WIDTH      =           1,
+		 MIXDOWNSLOPE_WEIGHT_FAR = F,
+		 MIXDOWNSLOPE_FRAC_CENTRAL       =  0.250000000000000     ,
+ 		DO_BITWISE_EXACT_SUM    = F,
+		 READ_MIXDOWNSLOPE_MASK  = F,
+ 		MIXDOWNSLOPE_MASK_GFDL  = T
+
+	/
+
+	 &ocean_model_nml
+	 TIME_TENDENCY   =  'twolevel',
+	 REINITIALIZE_THICKNESS  = F,
+	 BAROCLINIC_SPLIT        =           1,
+	 BAROTROPIC_SPLIT        =          80,
+	 SURFACE_HEIGHT_SPLIT    =           1,
+	 layout  = 16,16 
+	 VERTICAL_COORDINATE     = 'zstar',
+	 CMIP_UNITS      = F
+	/
+
+ &ocean_momentum_source_nml
+       VERBOSE_INIT    = T,
+ USE_THIS_MODULE = F,
+ DEBUG_THIS_MODULE       = F,
+ USE_RAYLEIGH_DAMP_TABLE = F,
+ RAYLEIGH_DAMP_EXP_FROM_BOTTOM   = F,
+ RAYLEIGH_DAMP_EXP_SCALE =   100.000000000000     ,
+ RAYLEIGH_DAMP_EXP_TIME  =   864000.000000000     
+
+/
+
+ &ocean_nphysicsA_nml
+       use_this_module=.false.
+       debug_this_module=.false.
+       neutral_physics_limit=.true.
+       neutral_physics_simple=.false.
+       neutral_linear_gm_taper=.true.
+       neutral_sine_taper=.true.
+       tmask_neutral_on=.true.
+/
+
+ &ocean_nphysicsB_nml
+       use_this_module=.false.
+       debug_this_module=.false.
+       neutral_physics_limit=.true.
+       nblayer_smooth=.true.
+       surf_turb_thick_min_k=5
+       surf_turb_thick_min=50.0
+/
+
+ &ocean_nphysicsC_nml
+ use_this_module = T,
+ debug_this_module       = F,
+ do_neutral_diffusion    = T,
+ do_gm_skewsion  = T,
+ neutral_physics_limit   = T,
+ neutral_eddy_depth      = T,
+ dm_taper        = T,
+ gkw_taper       = F,
+ tmask_neutral_on        = T,
+ diffusion_all_explicit  = F,
+ turb_blayer_min =   50.0000000000000     ,
+ gm_skewsion_modes       = F,
+ number_bc_modes =           2,
+/
+
+ &ocean_nphysics_nml
+  USE_THIS_MODULE = T,
+ DEBUG_THIS_MODULE       = F,
+ WRITE_A_RESTART = T,
+ USE_NPHYSICSA   = F,
+ USE_NPHYSICSB   = F,
+ USE_NPHYSICSC   = T 
+
+/
+
+ &ocean_nphysics_util_nml
+ DEBUG_THIS_MODULE       = F,
+ NPHYSICS_UTIL_ZERO_INIT = T,
+ HORZ_Z_DERIVATIVE       = F,
+ HORZ_S_DERIVATIVE       = T,
+ SMAX    =  1.000000000000000E-002,
+ SWIDTH  =  5.000000000000000E-004,
+ EPSLN_DRHODZ    =  1.000000000000000E-030,
+ DRHODZ_MOM4P1   = T,
+ DRHODZ_SMOOTH_HORZ      = F,
+ DRHODZ_SMOOTH_VERT      = F,
+ NUM_121_PASSES  =           1,
+ AREDI   =   600.000000000000     ,
+ AGM     =   600.000000000000     ,
+ AREDI_EQUAL_AGM = F,
+ TRACER_MIX_MICOM        = F,
+ VEL_MICOM       =  0.000000000000000E+000,
+ BRYAN_LEWIS_AREDI       = F,
+ AHS     =  0.000000000000000E+000,
+ AHB     =  0.000000000000000E+000,
+ NEUTRAL_HORZ_MIX_BDY    = F,
+ VEL_MICOM_BDY   =  0.000000000000000E+000,
+ AH_BDY  =  0.000000000000000E+000,
+ AGM_LAT_BANDS   = F,
+ AGM_LAT_BANDS_BOUNDARY  =  -999.000000000000     ,
+ AGM_LAT_BANDS_RATIO     =   1.00000000000000     ,
+ ROSSBY_RADIUS_MAX       =   100000.000000000     ,
+ ROSSBY_RADIUS_MIN       =   15000.0000000000     ,
+ AGM_READ_RESTART        = F,
+ AGM_CLOSURE     = T,
+ AGM_CLOSURE_SCALING     =  7.000000000000001E-002,
+ AGM_CLOSURE_MAX =   600.000000000000     ,
+ AGM_CLOSURE_MIN =   50.0000000000000     ,
+ AGM_CLOSURE_GROWTH_SCALE        =  0.500000000000000     ,
+ AGM_CLOSURE_LENGTH_FIXED        = F,
+ AGM_CLOSURE_LENGTH      =   50000.0000000000     ,
+ AGM_CLOSURE_LENGTH_ROSSBY       = F,
+ AGM_CLOSURE_LENGTH_BCZONE       = F,
+ BCZONE_MAX_PTS  =          10,
+ AGM_CLOSURE_BCZONE_CRIT_RATE    =  1.400000000000000E-006,
+ AGM_CLOSURE_EDEN_GREATBATCH     = F,
+ AGM_CLOSURE_EDEN_GAMMA  =  0.000000000000000E+000,
+ AGM_CLOSURE_EDEN_LENGTH_CONST   = F,
+ AGM_CLOSURE_EDEN_LENGTH =   10000.0000000000     ,
+ AGM_CLOSURE_EADY_SMOOTH_VERT    = T,
+ AGM_CLOSURE_EADY_SMOOTH_HORZ    = T,
+ AGM_CLOSURE_EADY_AVE_MIXED      = T,
+ AGM_CLOSURE_EADY_CAP    = T,
+ AGM_CLOSURE_BAROCLINIC  = T,
+ AGM_CLOSURE_BUOY_FREQ   =  4.000000000000000E-003,
+ AGM_CLOSURE_UPPER_DEPTH =   100.000000000000     ,
+ AGM_CLOSURE_LOWER_DEPTH =   2000.00000000000     ,
+ AGM_CLOSURE_LENGTH_CAP  = F,
+ AGM_CLOSURE_LENGTH_MAX  =   50000.0000000000     ,
+ AGM_SMOOTH_SPACE        = F,
+ VEL_MICOM_SMOOTH        =  0.200000000000000     ,
+ AGM_SMOOTH_TIME = F,
+ AGM_DAMPING_TIME        =   45.0000000000000     ,
+ AGM_CLOSURE_GRID_SCALING        = T,
+ AGM_CLOSURE_GRID_SCALING_POWER  =   2.00000000000000     ,
+ AREDI_DIFFUSIVITY_GRID_SCALING  = F,
+ AGM_CLOSURE_N2_SCALE    = F,
+ AGM_CLOSURE_N2_SCALE_COEFF      =   1000.00000000000     ,
+ AGM_CLOSURE_N2_SCALE_NREF_CST   = F
+/
+
+ &ocean_obc_nml
+  
+/
+
+ &ocean_obs_nml
+
+/
+
+ &ocean_overexchange_nml
+  USE_THIS_MODULE = F,
+ DEBUG_THIS_MODULE       = F,
+ OVEREXCH_NPTS   =           4,
+ OVEREXCH_WIDTH  =           1,
+ OVEREXCH_WEIGHT_FAR     = F,
+ OVERFLOW_MU     =  1.000000000000000E-004,
+ OVERFLOW_DELTA  =  0.333300000000000     ,
+ OVERFLOW_UMAX   =   5.00000000000000     ,
+ DO_BITWISE_EXACT_SUM    = F,
+ OVEREXCH_STABILITY      =  0.250000000000000     ,
+ OVEREXCH_MIN_THICKNESS  =   4.00000000000000     ,
+ OVEREXCH_CHECK_EXTREMA  = F
+/
+
+ &ocean_overflow_nml
+  USE_THIS_MODULE = F,
+ DEBUG_THIS_MODULE       = F,
+ OVERFLOW_MU     =  1.000000000000000E-004,
+ OVERFLOW_DELTA  =  0.333300000000000     ,
+ OVERFLOW_UMAX   =  1.000000000000000E-002,
+ DO_BITWISE_EXACT_SUM    = F,
+ NO_RETURN_FLOW  = F
+/
+
+ &ocean_passive_nml
+
+/
+
+ &ocean_polar_filter_nml
+   USE_THIS_MODULE = F,
+ POLAR_FILTER_TENDENCY   = F,
+ POLAR_FILTER_FIELD      = T,
+ RJFRST  =  -81.0000000000000     ,
+ FILTER_REFLAT_S =  -70.0000000000000     ,
+ FILTER_REFLAT_N =   70.0000000000000     
+/
+
+ &ocean_pressure_nml
+ DEBUG_THIS_MODULE       = F,
+ ZERO_PRESSURE_FORCE     = F,
+ ZERO_CORRECTION_TERM_GRAD       = F,
+ ZERO_DIAGONAL_PRESS_GRAD        = F,
+ ZERO_ETA_OVER_H_ZSTAR_PRESSURE  = F
+
+
+/
+
+ &ocean_rivermix_nml
+ use_this_module = T,
+ debug_this_module       = F,
+ debug_all_in_top_cell   = F,
+ debug_this_module_heat  = F,
+ river_diffuse_temp      = F,
+ river_diffuse_salt      = F,
+ river_diffusion_thickness       =  0.000000000000000E+000,
+ river_diffusivity       =  0.000000000000000E+000,
+ discharge_combine_runoff_calve  = T,
+ river_insertion_thickness       =   40.0000000000000     ,
+ runoff_insertion_thickness      =  0.000000000000000E+000,
+ calving_insertion_thickness     =  0.000000000000000E+000
+/
+
+ &ocean_riverspread_nml
+       use_this_module=.false.
+/
+
+ &ocean_rough_nml
+       rough_scheme = 'beljaars'
+/
+
+ &ocean_sbc_nml
+  TEMP_RESTORE_TSCALE     =  -10.0000000000000     ,
+ SALT_RESTORE_TSCALE     =   -60.0000000000000     ,
+ SALT_RESTORE_UNDER_ICE  = T,
+ SALT_RESTORE_AS_SALT_FLUX       = T,
+ ROTATE_WINDS    = F,
+ USE_WATERFLUX   = T,
+ WATERFLUX_TAVG  = F,
+ MAX_ICE_THICKNESS       =   8.00000000000000     ,
+ RUNOFFSPREAD    = F,
+ CALVINGSPREAD   = F,
+ SALINITY_REF    =   35.0000000000000     ,
+ ZERO_NET_SALT_RESTORE   = T,
+ ZERO_NET_WATER_RESTORE  = T,
+ ZERO_NET_WATER_COUPLER  = F,
+ ZERO_NET_WATER_COUPLE_RESTORE   = T,
+ ZERO_NET_SALT_CORRECTION        = F,
+ ZERO_NET_WATER_CORRECTION       = F,
+ DEBUG_WATER_FLUXES      = F,
+ ZERO_WATER_FLUXES       = F,
+ ZERO_CALVING_FLUXES     = F,
+ ZERO_PME_FLUXES = F,
+ ZERO_RUNOFF_FLUXES      = F,
+ ZERO_RIVER_FLUXES       = F,
+ CONVERT_RIVER_TO_PME    = F,
+ ZERO_HEAT_FLUXES        = F,
+ ZERO_SURFACE_STRESS     = F,
+ AVG_SFC_VELOCITY        = T,
+ AVG_SFC_TEMP_SALT_ETA   = T,
+ ICE_SALT_CONCENTRATION  =  5.000000000000000E-003,
+ RUNOFF_SALINITY =  0.000000000000000E+000,
+ RUNOFF_TEMP_MIN =  0.000000000000000E+000,
+ READ_RESTORE_MASK       = F,
+ RESTORE_MASK_GFDL       = T,
+ LAND_MODEL_HEAT_FLUXES  = F,
+ USE_FULL_PATM_FOR_SEA_LEVEL     = F,
+ MAX_DELTA_SALINITY_RESTORE      = -0.500000000000000     ,
+ DO_FLUX_CORRECTION      = F,
+ TEMP_CORRECTION_SCALE   =  0.000000000000000E+000,
+ SALT_CORRECTION_SCALE   =  0.000000000000000E+000,
+ TAU_X_CORRECTION_SCALE  =  0.000000000000000E+000,
+ TAU_Y_CORRECTION_SCALE  =  0.000000000000000E+000,
+ DO_BITWISE_EXACT_SUM    = T
+
+/
+
+ &ocean_shortwave_csiro_nml
+       use_this_module=.false.
+/
+
+ &ocean_shortwave_gfdl_nml
+  USE_THIS_MODULE = T,
+ READ_CHL        = T,
+ CHL_DEFAULT     =  8.000000000000000E-002,
+ ZMAX_PEN        =   100.000000000000     ,
+ SW_FRAC_TOP     =  0.000000000000000E+000,
+ DEBUG_THIS_MODULE       = F,
+ ENFORCE_SW_FRAC = T,
+ OVERRIDE_F_VIS  = T,
+ SW_MOREL_FIXED_DEPTHS   = F,
+ OPTICS_FOR_UNIFORM_CHL  = F,
+ OPTICS_MOREL_ANTOINE    = F,
+ OPTICS_MANIZZA  = T
+/
+
+ &ocean_shortwave_jerlov_nml
+       use_this_module=.false.
+/
+
+ &ocean_shortwave_nml
+  USE_THIS_MODULE = T,
+ USE_SHORTWAVE_GFDL      = T,
+ USE_SHORTWAVE_CSIRO     = F,
+ USE_SHORTWAVE_JERLOV    = F,
+ USE_SHORTWAVE_EXT       = F
+/
+
+ &ocean_sigma_transport_nml
+ USE_THIS_MODULE = T,
+ DEBUG_THIS_MODULE       = F,
+ TMASK_SIGMA_ON  = F,
+ SIGMA_DIFFUSION_ON      = T,
+ SIGMA_ADVECTION_ON      = F,
+ SIGMA_ADVECTION_SGS_ONLY        = F,
+ SIGMA_ADVECTION_CHECK   = T,
+ THICKNESS_SIGMA_LAYER   =   100.000000000000     ,
+ THICKNESS_SIGMA_MAX     =   100.000000000000     ,
+ THICKNESS_SIGMA_MIN     =   100.000000000000     ,
+ SIGMA_DIFFUSIVITY       =   1000.00000000000     ,
+ SIGMA_DIFFUSIVITY_RATIO =  1.000000000000000E-006,
+ TRACER_MIX_MICOM        = T,
+ VEL_MICOM       =  0.500000000000000     ,
+ VERBOSE_INIT    = T,
+ SIGMA_JUST_IN_BOTTOM_CELL       = T,
+ CAMPINGOOSE_MU  =  1.000000000000000E-004,
+ CAMPINGOOSE_DELTA       =  0.333300000000000     ,
+ SIGMA_UMAX      =  1.000000000000000E-002,
+ WRITE_A_RESTART = T,
+ SMOOTH_SIGMA_THICKNESS  = T,
+ SMOOTH_SIGMA_VELOCITY   = T,
+ SMOOTH_VELMICOM =  0.200000000000000     
+
+/
+
+ &ocean_sponges_eta_nml
+      use_this_module=.false.
+/
+
+ &ocean_sponges_tracer_nml
+ USE_THIS_MODULE = F,
+ DAMP_COEFF_3D   = F
+/
+
+ &ocean_sponges_velocity_nml
+ USE_THIS_MODULE = F,
+ DAMP_COEFF_3D   = F
+/
+
+ &ocean_submesoscale_nml
+ use_this_module=.true.
+       debug_this_module=.false.
+       use_hblt_equal_mld=.true.
+       min_kblt=4
+       smooth_hblt=.false.
+       front_length_deform_radius=.true.
+       front_length_const=5e3
+       limit_psi=.true.
+       limit_psi_velocity_scale=0.10
+       submeso_limit_flux=.true.
+diag_step = 120
+ use_hblt_constant       = F,
+ vel_micom_smooth        =  0.200000000000000     ,
+ constant_hblt   =   100.000000000000     ,
+ coefficient_ce  =  7.000000000000001E-002,
+ time_constant   =   86400.0000000000     ,
+ front_length_const      =   5000.00000000000     ,
+ minimum_hblt    =  0.000000000000000E+000,
+ smooth_psi      = T,
+ front_length_deform_radius      = T,
+ submeso_skew_flux       = T,
+ submeso_advective_flux  = F,
+ submeso_diag_advect_transport   = F,
+/
+
+ &ocean_tempsalt_nml
+  debug_this_module=.false.
+       temperature_variable='potential_temp'
+       pottemp_2nd_iteration=.true.
+       t_min=-5.0
+       t_max = 55.0
+       s_min = -1.0
+       s_max = 55.0
+       t_min_limit =-2.0
+       t_max_limit =32.0
+       s_min_limit =0.0
+       s_max_limit =42.0
+
+
+/
+
+ &ocean_thickness_nml
+       debug_this_module_detail=.false.
+       thickness_dzt_min_init=2.0
+       thickness_dzt_min=2.0
+       thickness_method='energetic'
+       initialize_zero_eta=.false.
+       read_rescale_rho0_mask=.true.
+       rescale_rho0_mask_gfdl=.true.
+       rescale_rho0_basin_label=7.0
+       rescale_rho0_value=.75
+
+
+/
+
+ &ocean_time_filter_nml
+ USE_THIS_MODULE = F,
+ ROBERT_ASSELIN_PARAM    =  5.000000000000000E-002,
+ VELOCITY_CHANGE_MAX     =   10.0000000000000     ,
+ VELOCITY_CHANGE_MAX_NUM =          10,
+ VELOCITY_CHANGE_CHECK   = F,
+ velocity_change_diag_step = 120
+/
+
+ &ocean_topog_nml
+   FLAT_BOTTOM     = F,
+ FLAT_BOTTOM_KMT =          50,
+ FLAT_BOTTOM_HT  =   5500.00000000000     ,
+ WRITE_TOPOG     = F,
+ MIN_THICKNESS   =   5.00000000000000     ,
+ KMT_RECOMPUTE   = F,
+ KMT_RECOMPUTE_OFFSET    =           0,
+ DEBUG_THIS_MODULE       = T
+
+/
+
+ &ocean_tracer_advect_nml
+  DEBUG_THIS_MODULE       = F,
+ LIMIT_WITH_UPWIND       = F,
+ ADVECT_SWEBY_ALL        = F,
+ ZERO_TRACER_ADVECT_HORZ = F,
+ ZERO_TRACER_ADVECT_VERT = F,
+ WRITE_A_RESTART = T,
+ PSOM_LIMIT_PRATHER      = F,
+ READ_BASIN_MASK = F,
+ COMPUTE_GYRE_OVERTURN_DIAGNOSE  = F
+
+/
+
+ &ocean_tracer_diag_nml
+   TRACER_CONSERVE_DAYS    =   100.00000000000000     ,
+diag_step = 120
+ PSU2PPT =   1.00486700000000     ,
+ DEBUG_DIAGNOSE_MIXINGA  = F,
+ DEBUG_DIAGNOSE_MIXINGB  = F,
+ DEBUG_DIAGNOSE_MIXINGC  = F,
+ DEBUG_DIAGNOSE_MIXINGD  = F,
+ SMOOTH_KAPPA_SORT       =           0,
+ RHO_GRAD_MIN    =  1.000000000000000E-005,
+ RHO_GRAD_MAX    =  1.000000000000000E+028,
+ BUOYANCY_CRIT   =  3.000000000000000E-004,
+ DO_BITWISE_EXACT_SUM    = F,
+ FRAZIL_FACTOR   =   1.00000000000000     ,
+ SMOOTH_MLD      = F
+/
+
+ &ocean_tracer_nml
+  DEBUG_THIS_MODULE       = F,
+ ZERO_TENDENCY   = F,
+ ZERO_TRACER_SOURCE      = F,
+ WRITE_A_RESTART = T,
+ OCEAN_TPM_DEBUG = F,
+ TMASK_LIMIT_TS_SAME     = T,
+ REMAP_DEPTH_TO_S_INIT   = F,
+ INFLOW_NBOUNDARY        = F,
+ INTERPOLATE_TPROG_TO_PBOTT      = T,
+ INTERPOLATE_TDIAG_TO_PBOTT      = F,
+ LIMIT_AGE_TRACER        = T,
+ AGE_TRACER_MAX_INIT     =  0.000000000000000E+000,
+ FRAZIL_HEATING_BEFORE_VPHYSICS  = F,
+ FRAZIL_HEATING_AFTER_VPHYSICS   = T,
+ COMPUTE_TMASK_LIMIT_ON  = T
+
+/
+
+ &ocean_velocity_advect_nml
+  DEBUG_THIS_MODULE       = F,
+ ZERO_VELOCITY_ADVECT_HORZ       = F,
+ ZERO_VELOCITY_ADVECT_VERT       = F,
+ VELOCITY_ADVECT_CENTERED        = T,
+ VELOCITY_ADVECT_UPWIND  = F
+
+
+/
+
+ &ocean_velocity_diag_nml
+diag_step = 120
+ ENERGY_DIAG_STEP        =         240 
+ DO_BITWISE_EXACT_SUM    = F,
+ DEBUG_THIS_MODULE       = F,
+ MAX_CFL_VALUE   =   100.000000000000     ,
+ LARGE_CFL_VALUE =   10.0000000000000     ,
+ VERBOSE_CFL     = F,
+/
+
+ &ocean_velocity_nml
+  DEBUG_THIS_MODULE       = F,
+ WRITE_A_RESTART = T,
+ MAX_CGINT       =   2.00000000000000     ,
+ ZERO_TENDENCY   = F,
+ ZERO_TENDENCY_EXPLICIT_A        = F,
+ ZERO_TENDENCY_EXPLICIT_B        = F,
+ ZERO_TENDENCY_IMPLICIT  = F,
+ TRUNCATE_VELOCITY       = F,
+ TRUNCATE_VERBOSE        = T,
+ TRUNCATE_VELOCITY_LAT   =  0.000000000000000E+000,
+ TRUNCATE_VELOCITY_VALUE =   2.00000000000000     ,
+ ADAMS_BASHFORTH_THIRD   = T,
+ ADAMS_BASHFORTH_EPSILON =  0.600000000000000     ,
+ USE_CONSTANT_VELOCITY   = F,
+ CONSTANT_U      =  0.000000000000000E+000,
+ CONSTANT_V      =  0.000000000000000E+000,
+ UPDATE_VELOCITY_VIA_UPRIME      = T
+
+/
+
+ &ocean_vert_chen_nml
+
+/
+
+ &ocean_vert_const_nml
+
+/
+
+ &ocean_vert_gotm_nml
+
+/
+
+ &ocean_vert_kpp_iow_nml
+       use_this_module=.false.
+/
+
+ &ocean_vert_kpp_mom4p0_nml
+       use_this_module=.false.
+/
+
+ &ocean_vert_kpp_nml
+ USE_THIS_MODULE = T,
+ SHEAR_INSTABILITY       = T,
+ DOUBLE_DIFFUSION        = T,
+ DIFF_CBT_IW     =  0.000000000000000E+000,
+ VISC_CBU_IW     =  0.000000000000000E+000,
+ VISC_CBU_LIMIT  =  5.000000000000000E-003,
+ DIFF_CBT_LIMIT  =  5.000000000000000E-003,
+ VISC_CON_LIMIT  =  0.100000000000000     ,
+ DIFF_CON_LIMIT  =  0.100000000000000     ,
+ CONCV   =   1.80000000000000     ,
+ RICR    =  0.300000000000000     ,
+ NON_LOCAL_KPP   = T,
+ SMOOTH_BLMC     = T,
+ KL_MIN  =           2,
+ KBL_STANDARD_METHOD     = T,
+ DEBUG_THIS_MODULE       = F,
+ LIMIT_WITH_HEKMAN       = T,
+ LIMIT_GHATS     = F,
+ HBL_WITH_RIT    = F,
+ RADIATION_LARGE = F,
+ RADIATION_ZERO  = F,
+ RADIATION_IOW   = F,
+ USE_SBL_BOTTOM_FLUX     = F,
+ WSFC_COMBINE_RUNOFF_CALVE       = T,
+ BVF_FROM_BELOW  = F,
+ VARIABLE_VTC    = F,
+ USE_MAX_SHEAR   = F,
+ LINEAR_HBL      = T,
+ CALC_VISC_ON_CGRID      = F,
+ SMOOTH_RI_KMAX_EQ_KMU   = F
+
+       
+/
+
+ &ocean_vert_mix_nml
+       aidif=1.0
+       vert_mix_scheme='kpp'
+       vert_diff_back_via_max=.true.
+       use_diff_cbt_table=.false.
+       linear_taper_diff_cbt_table=.false.
+       bryan_lewis_diffusivity=.true.
+       bryan_lewis_lat_depend=.true.
+       bryan_lewis_lat_transition=35.0
+ afkph_90        =  0.725000000000000     ,
+ dfkph_90        =   1.15000000000000     ,
+ sfkph_90        =  4.500000000000000E-005,
+ zfkph_90        =   250000000.000000     ,
+ afkph_00        =  0.675000000000000     ,
+ dfkph_00        =   1.15000000000000     ,
+ sfkph_00        =  4.500000000000000E-005,
+ zfkph_00        =   250000000.000000     ,
+ vert_visc_back  = F,
+ visc_cbu_back_max       =  1.000000000000000E-002,
+ visc_cbu_back_min       =  1.000000000000000E-003,
+ visc_cbu_back_zmid      =   50.0000000000000     ,
+ visc_CBU_BACK_ZWID      =   30.0000000000000     ,
+ hwf_diffusivity = F,
+ hwf_depth_transition    =   25000000.0000000     ,
+ hwf_min_diffusivity     =  1.000000000000000E-006,
+ hwf_max_diffusivity     =  1.000000000000000E-005,
+ hwf_n0_2omega   =   20.0000000000000     ,
+ diff_cbt_tanh   = F,
+ diff_cbt_tanh_max       =  1.000000000000000E-003,
+ diff_cbt_tanh_min       =  2.000000000000000E-005,
+ diff_cbt_tanh_zmid      =   150.000000000000     ,
+ diff_cbt_tanh_zwid      =   30.0000000000000     
+ /
+
+
+ &ocean_vert_pp_nml
+
+/
+
+ &ocean_vert_tidal_nml
+  USE_THIS_MODULE = F,                ! edited by prajeeshag on 10/12/13 
+ DEBUG_THIS_MODULE       = F,
+ USE_WAVE_DISSIPATION    = T,
+ USE_DRAG_DISSIPATION    = T,
+ READ_ROUGHNESS  = T,
+ READ_TIDE_SPEED = T,
+ DEFAULT_ROUGHNESS_LENGTH        =   25.0000000000000     ,
+ DEFAULT_TIDE_SPEED      =  1.000000000000000E-002,
+ SHELF_DEPTH_CUTOFF      =   160.000000000000     ,
+ DECAY_SCALE     =   300.000000000000     ,
+ ROUGHNESS_SCALE =   20000.0000000000     ,
+ TIDAL_DISS_EFFICIENCY   =  0.333330000000000     ,
+ MIXING_EFFICIENCY       =  0.200000000000000     ,
+ MIXING_EFFICIENCY_N2DEPEND      = T,
+ MUNK_ANDERSON_P =  0.250000000000000     ,
+ MUNK_ANDERSON_SIGMA     =   3.00000000000000     ,
+ BOTTOM_DRAG_CD  =  2.400000000000000E-003,
+ DRHODZ_MIN      =  1.000000000000000E-012,
+ SPEED_MIN       =  5.000000000000000E-003,
+ BACKGROUND_DIFFUSIVITY  =  0.000000000000000,
+ BACKGROUND_VISCOSITY    =  1.000000000000000E-004,
+ MAX_WAVE_DIFFUSIVITY    =  1.000000000000000E-002,
+ MAX_DRAG_DIFFUSIVITY    =  5.000000000000000E-003,
+ SMOOTH_BVFREQ_BOTTOM    = T,
+ VEL_MICOM_SMOOTH        =  0.200000000000000     ,
+ SMOOTH_RHO_N2   = T,
+ NUM_121_PASSES  =           1,
+ WAVE_DIFFUSIVITY_MONOTONIC      = T,
+ TIDE_SPEED_DATA_ON_T_GRID       = T,
+ READING_ROUGHNESS_AMP   = T,
+ READING_ROUGHNESS_LENGTH        = F,
+ READ_WAVE_DISSIPATION   = F,
+ FIXED_WAVE_DISSIPATION  = F,
+ WAVE_ENERGY_FLUX_MAX    =  0.100000000000000     
+/
+
+ &ocean_xlandinsert_nml
+       use_this_module=.true.
+       verbose_init=.true.
+/
+
+ &ocean_xlandmix_nml
+       use_this_module=.true.
+       verbose_init=.true.
+       xlandmix_kmt=.true.
+/
+
+ &oda_core_nml
+
+/
+
+ &oda_nml
+
+/
+
+ &sat_vapor_pres_nml
+       construct_table_wrt_liq = .true.
+       construct_table_wrt_liq_and_ice = .true.
+/
+
+ &topography_nml
+       topog_file = 'INPUT/topog.nc'
+/
+
+ &xgrid_nml
+        make_exchange_reproduce = .true.
+        interp_method = 'first_order'
+/
+
