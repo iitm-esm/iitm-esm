@@ -1,3 +1,3 @@
-FFLAGS = -zero -g -traceback -O3 -i4 -r8 -convert big_endian -fp-model precise -fpconstant -save-temps -align dcommons -assume byterecl -Wp,-P 
-CFLAGS = -g -O3 -save-temps -longlong
+FFLAGS = -zero -g -traceback -O2 -i4 -r8 -convert big_endian -fp-model precise -fpconstant -save-temps -align dcommons -assume byterecl -Wp,-P 
+CFLAGS = -g -O2 -save-temps -longlong
 LDFLAGS = -mkl -lrt -lstdc++ 
