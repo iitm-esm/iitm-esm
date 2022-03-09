@@ -106,7 +106,8 @@ c
 c
 c         Sending the data
 c         ----------------
-        msgtag=1000+(process_rank_TILES+1)*nproct*maxfld+ifldu
+c        msgtag=1000+(process_rank_TILES+1)*nproct*maxfld+ifldu
+        msgtag=1000+(process_rank_TILES+1)
         CALL MPI_SEND(xl,lats_node_r*lonr,MPI_kind_REAL,
      >                  master_rank_TILES,
      &                  msgtag,COMM_TILES,ierr)
@@ -121,7 +122,8 @@ c         ----------------
         enddo
         do proc=0,nproct-1
           if (proc.eq.master_rank_TILES) CYCLE
-          msgtag=1000+(proc+1)*nproct*maxfld+ifldu
+c          msgtag=1000+(proc+1)*nproct*maxfld+ifldu
+          msgtag=1000+(proc+1)
           illen=lats_node_rs(proc)
           CALL MPI_RECV(tmp,illen*lonr,MPI_kind_REAL,proc,
      &                msgtag,COMM_TILES,stat,ierr)
@@ -176,7 +178,8 @@ c
 c
 c         Receiving the data
 c         ----------------
-        msgtag=1111+(process_rank_TILES+1)*nproct*maxfld+ifldu
+c        msgtag=1111+(process_rank_TILES+1)*nproct*maxfld+ifldu
+        msgtag=1111+(process_rank_TILES+1)
         CALL MPI_RECV(xl,lats_node_r*lonr,MPI_kind_REAL,
      >                  master_rank_TILES,
      &                  msgtag,COMM_TILES,stat,ierr)
@@ -199,7 +202,8 @@ c         ----------------
               tmp(i,j)=x(i,lat)
             enddo
           enddo
-          msgtag=1111+(proc+1)*nproct*maxfld+ifldu
+c          msgtag=1111+(proc+1)*nproct*maxfld+ifldu
+          msgtag=1111+(proc+1)
           CALL MPI_SEND(tmp,illen*lonr,MPI_kind_REAL,proc,
      &                msgtag,COMM_TILES,ierr)
         enddo
