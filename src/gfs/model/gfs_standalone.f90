@@ -11,7 +11,7 @@ program gfs_standalone
   use gfs_internalstate_mod, only: gfs_internalstate
   use gfs_initialize_mod, only: gfs_initialize
   use gfs_run_mod, only: gfs_run
-  use time_manager_mod, only: set_calendar_type, julian, time_type
+  use time_manager_mod, only: set_calendar_type, julian, time_type, gregorian
   use time_manager_mod, only: operator(+), assignment(=), set_date
   use time_manager_mod, only: increment_date, get_date, julian
   use cmp_comm, only: process_rank_local, component_nprocs
@@ -75,7 +75,7 @@ program gfs_standalone
   ! from calling starttimeget.
   !------------------------------------------
 
-  call set_calendar_type(julian)
+  call set_calendar_type(gregorian)
   yy=current_time(1); mm=current_time(2); dd=current_time(3)
   hh=current_time(4); mns=current_time(5); sec=current_time(6)
 
