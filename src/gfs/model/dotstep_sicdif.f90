@@ -281,21 +281,35 @@ module do_tstep_mod
 
       call data_override('o3',o3,time,o3_id)
       call update_opdata(id_o3,o3)
-      call data_override('vegfrac',lnd%vegfrac,time,vegfrac_id)
+      call data_override('vegfrac',lnd%vegfrac,time,vegfrac_id,override=override)
+      if(.not. override) call handle_error(fatal, 'vegfrac not overriden')
       call update_opdata(id_vegfrac,lnd%vegfrac)
-      call data_override('rvegtype',lnd%rvegtype,time,vegtype_id,discrete_type=.true.)
-      lnd%vegtype = int(lnd%rvegtype)
+
+      call data_override('rvegtype',lnd%rvegtype,time,vegtype_id,discrete_type=.true.,override=override)
+      if(.not. override) call handle_error(fatal, 'vegtype not overriden')
       call update_opdata(id_vegtype,lnd%rvegtype)
-      call data_override('alvsf',lnd%alvsf,time,alvsf_id)
+
+      call data_override('alvsf',lnd%alvsf,time,alvsf_id,override=override)
+      if(.not. override) call handle_error(fatal, 'alvsf not overriden')
       call update_opdata(id_alvsf,lnd%alvsf)
-      call data_override('alvwf',lnd%alvwf,time,alvwf_id)
+
+      call data_override('alvwf',lnd%alvwf,time,alvwf_id,override=override)
+      if(.not. override) call handle_error(fatal, 'alvwf not overriden')
       call update_opdata(id_alvwf,lnd%alvwf)
-      call data_override('alnsf',lnd%alnsf,time,alnsf_id)
-      call data_override('alnwf',lnd%alnwf,time,alnwf_id)
-      call data_override('zorl',lnd%zorl,time,zorl_id)
+
+      call data_override('alnsf',lnd%alnsf,time,alnsf_id,override=override)
+      if(.not. override) call handle_error(fatal, 'alnsf not overriden')
+
+      call data_override('alnwf',lnd%alnwf,time,alnwf_id,override=override)
+      if(.not. override) call handle_error(fatal, 'alnwf not overriden')
+
+      call data_override('zorl',lnd%zorl,time,zorl_id,override=override)
+      if(.not. override) call handle_error(fatal, 'zorl not overriden')
       where(lnd%zorl<zorl_min) lnd%zorl=zorl_min
       call update_opdata(id_zorl,lnd%zorl)
-      call data_override('sfcemis',flx_fld%sfcemis,time,sfcemis_id)
+
+      call data_override('sfcemis',flx_fld%sfcemis,time,sfcemis_id,override=override)
+      if(.not. override) call handle_error(fatal, 'sfcemis not overriden')
       flx_fld%sfcemis(:,:)=flx_fld%sfcemis*lnd%frac*(1-lnd%sncovr) + &
                            0.99*lnd%frac*lnd%sncovr + &
                            0.97*lnd%ofrac*ocn%fwater + &
