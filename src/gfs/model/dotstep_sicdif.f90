@@ -288,6 +288,7 @@ module do_tstep_mod
       call data_override('rvegtype',lnd%rvegtype,time,vegtype_id,discrete_type=.true.,override=override)
       if(.not. override) call handle_error(fatal, 'vegtype not overriden')
       call update_opdata(id_vegtype,lnd%rvegtype)
+      lnd%vegtype = int(lnd%rvegtype)
 
       call data_override('alvsf',lnd%alvsf,time,alvsf_id,override=override)
       if(.not. override) call handle_error(fatal, 'alvsf not overriden')
