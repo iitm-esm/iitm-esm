@@ -26,6 +26,7 @@ MKMFTEMPLATE="$ROOTDIR/bin/mkmf.template.$MACHINE$debug"
 
 . "$ROOTDIR/bin/env.$MACHINE"
 
+rm -f $ROOTDIR/.exec_path
 
 echo '...............Compiling lib_fms for MoM4p1.....................'
 libname='lib_fms.a'
@@ -108,11 +109,12 @@ LIBS="$LIB_FMS_MOM"
 export LD=$FC
 $MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
+echo "OCEAN_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
 echo "#-------------------------MAKE NC_COMBINE--------------------------------------"
 cppDef="-Dlib_mppnccp2r -Duse_libMPI"
-exename=nc_combine.exe
+execname=nc_combine.exe
 libsrc="mom4p1/postprocessing/nc_combine"
 paths="$SRCDIR/$libsrc"
 builddir=$EXECDIR/$libsrc
@@ -121,8 +123,9 @@ cd $builddir
 export LD=$FC
 OPTS="-I$INC_FMS_MOM"
 LIBS="$LIB_FMS_MOM"
-$MKMF -c "$cppDef" -f -p ${exename} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+$MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $numproc
+echo "NC_COMBINE_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
 
@@ -137,6 +140,7 @@ mkdir -p $builddir
 cd $builddir
 $MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
+echo "COUPLER_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
 echo '...............Compiling lib_bacio.....................'
@@ -241,6 +245,7 @@ OPTS="-I$INC_GFSIO -I$INC_BACIO -I$INC_W3NCO -I$INC_W3EMC -I$INC_FMS_GFS"
 LIBS="$LIB_GFSIO $LIB_BACIO $LIB_W3EMC $LIB_W3NCO $LIB_FMS_GFS"
 $MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
+echo "ATM_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
 
@@ -260,6 +265,7 @@ OPTS="-I$INC_FMS_GFS"
 LIBS="$LIB_FMS_GFS"
 $MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
 make -j $npes
+echo "NC_COMBINE_ATM_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
 

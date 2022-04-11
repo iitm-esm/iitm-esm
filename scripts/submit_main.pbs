@@ -1,0 +1,21 @@
+#!/bin/bash
+
+cat <<EOF
+
+#!/bin/bash
+#PBS -N $EXP_NAME
+#PBS -l walltime=120:00:00
+#PBS -j oe
+#PBS -l select=12:ncpus=36:vntype=cray_compute -l place=scatter 
+#PBS -q cccr
+
+cd \$PBS_O_WORKDIR
+export OMP_NUM_THREADS=1
+ulimit -c unlimited
+ulimit -s unlimited
+
+. $ROOTDIR/bin/env.intel_pratyush
+
+time aprun -n 1 $COUPLER_EXE : -n 292 $OCEAN_EXE : -n 63 $ATM_EXE 1>std.out 2>std.err
+
+EOF

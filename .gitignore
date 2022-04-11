@@ -6,3 +6,6 @@
 exec
 work
 WORK
+data
+.exec_path
+.env
