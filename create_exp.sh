@@ -64,4 +64,11 @@ fi
 
 . $ROOTDIR/.exec_path
 
-. $ROOTDIR/scripts/submit_main.pbs > $EXPDIR/submit_main.pbs
+. $ROOTDIR/scripts/submit_main.pbs > $EXPDIR/submit_main.pbs && error "Error while creating submit_main.pbs"
+mkdir -p $EXPDIR/INPUT && error "Could not make dir $EXPDIR/INPUT "
+mkdir -p $EXPDIR/RESTART && error "Could not make dir $EXPDIR/RESTART "
+
+
+
+
+

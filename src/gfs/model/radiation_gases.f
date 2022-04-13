@@ -226,12 +226,12 @@
       real (kind=kind_phys):: n2og1,ch4g1,f11g1,f12g1,f22g1,cl4g1,f113g1
       integer    :: i, iyr, imo, iyr1, iyr2, jyr, idyr
       logical    :: file_exist, lextpl
-      character  :: cline*100, cform*8, cfile0*26, cfile1*26,           &
+      character  :: cline*100, cform*8, cfile0*128, cfile1*26,           &
      &              cfuser*26, cfmcyc*26
 
       data  cfuser / 'co2userdata.txt           ' /
       data  cfmcyc / 'co2monthlycyc.txt         ' /
-      data  cfile0 / 'co2historicaldata_glob.txt' /
+      data  cfile0 / 'INPUT/co2historicaldata_glob.txt' /
       data  cfile1 / 'co2historicaldata_2004.txt' /
       data  cform  / '(24f7.2)' /       !! data format in IMXCO2*f7.2
 

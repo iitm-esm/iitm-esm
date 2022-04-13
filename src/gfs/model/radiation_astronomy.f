@@ -114,9 +114,9 @@
       real (kind=kind_phys):: smean, solc1
       integer       :: i, iyr, iyr1, iyr2, jyr
       logical       :: file_exist
-      character     :: cline*60, cfile0*26
+      character     :: cline*60, cfile0*128
 
-      data  cfile0 / 'solarconstantdata.txt' /
+      data  cfile0 / 'INPUT/solarconstantdata.txt' /
 
 !===>  ...  begin here
 
