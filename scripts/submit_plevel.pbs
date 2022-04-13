@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cat <<EOF
+
+#!/bin/bash
+#PBS -N ${EXP_NAME}_plevel
+#PBS -l walltime=120:00:00
+#PBS -j oe
+#PBS -l select=1:ncpus=36:vntype=cray_compute -l place=scatter 
+#PBS -q cccr
+
+cd \$PBS_O_WORKDIR
+export OMP_NUM_THREADS=1
+ulimit -c unlimited
+ulimit -s unlimited
+
+. $ROOTDIR/bin/env.intel_pratyush
+
+for i in atm_*; do
+    echo \$i
+    time aprun -n 1 $PLEVEL_EXE -i \$i > \$i.plevel.out 2> \$i.plevel.err || exit 1
+done
+
+EOF
