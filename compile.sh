@@ -103,6 +103,7 @@ paths=" $SRC/atmos_param/diag_integral \
         $SRC/ice_param  \
         $SRC/rivers \
         $SRC/shared/include \
+        $SRCDIR/utils/nc_combine_nml.F90 \
         "
 OPTS="-I$INC_FMS_MOM"
 LIBS="$LIB_FMS_MOM"
@@ -116,7 +117,7 @@ echo "#-------------------------MAKE NC_COMBINE---------------------------------
 cppDef="-Dlib_mppnccp2r -Duse_libMPI"
 execname=nc_combine.exe
 libsrc="mom4p1/postprocessing/nc_combine"
-paths="$SRCDIR/$libsrc"
+paths="$SRCDIR/$libsrc $SRCDIR/utils"
 builddir=$EXECDIR/$libsrc
 mkdir -p $builddir
 cd $builddir
@@ -236,7 +237,7 @@ cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dfms_interp" # -Dtest_interp"
 execname="atm.exe"
 libsrc="gfs"
 SRC="$SRCDIR/$libsrc"
-paths="$SRC/model $SRC/shared/include $SRC/shared/diag_manager"
+paths="$SRC/model $SRC/shared/include $SRC/shared/diag_manager $SRCDIR/utils/nc_combine_nml.F90"
 builddir=$EXECDIR/$libsrc/gfs
 export LD=$FC
 mkdir -p $builddir
@@ -256,7 +257,8 @@ execname="nc_combine_gfs.exe"
 libsrc="gfs"
 SRC="$SRCDIR/$libsrc"
 paths="$SRC/postprocessing/nc_combine_gfs $SRC/shared/include \
-       $SRC/shared/diag_manager $SRC/model/time_manager.F90"
+       $SRC/shared/diag_manager $SRC/model/time_manager.F90 \
+       $SRCDIR/utils"
 builddir=$EXECDIR/$libsrc/nc_combine_gfs
 export LD=$FC
 mkdir -p $builddir

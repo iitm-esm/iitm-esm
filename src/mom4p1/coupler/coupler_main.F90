@@ -162,7 +162,7 @@ use time_manager_mod,        only: operator (*), THIRTY_DAY_MONTHS, JULIAN
 use time_manager_mod,        only: NOLEAP, NO_CALENDAR, INVALID_CALENDAR
 use time_manager_mod,        only: date_to_string, increment_date
 use time_manager_mod,        only: operator(>=), operator(<=), operator(==)
-use time_manager_mod,        only: print_date
+use time_manager_mod,        only: print_date, get_calendar_type
 use fms_mod,                 only: open_namelist_file, field_exist, file_exist, check_nml_error
 use fms_mod,                 only: uppercase, error_mesg, write_version_number
 use fms_mod,                 only: fms_init, fms_end, stdout
@@ -614,24 +614,6 @@ character(len=256), parameter   :: note_header =                                
       !if(do_chksum) call coupler_chksum('MAIN_LOOP+', nc) !Roxy commented chksum
       write( text,'(a,i4)' )'Main loop at coupling timestep=', nc
       call print_memuse_stats(text)
-      if(mpp_pe().eq.mpp_root_pe()) then
-        if(.not.opened_nc_combine) then
-          open(12,file='nc_combine_time')
-          opened_nc_combine=.true.
-          time_nc_combine=Time-Time_step_cpld-set_time(0,2)
-          call get_date(time_nc_combine,yy,mm,dd,hh,mns,secs)
-          write(12,'(I4.4,"_",I2.2,"_",I2.2)') yy,mm,dd
-          yym=yy; mmm=mm; ddm=dd
-        else 
-          time_nc_combine=Time-Time_step_cpld-set_time(0,2)
-          call get_date(time_nc_combine,yy,mm,dd,hh,mns,secs)
-          if(yym/=yy.or.mmm/=mm.or.ddm/=dd) then
-            rewind(12)
-            write(12,'(I4.4,"_",I2.2,"_",I2.2)') yy,mm,dd
-            yym=yy; mmm=mm; ddm=dd
-          endif
-        endif
-      endif
   enddo slow
 
   if(check_stocks >= 0) then
@@ -658,17 +640,6 @@ character(len=256), parameter   :: note_header =                                
   call mpp_clock_end(termClock)
 
   call print_memuse_stats( 'Memory HiWaterMark', always=.TRUE. )
-  if(mpp_pe().eq.mpp_root_pe()) then
-    time_nc_combine=Time-Time_step_cpld-set_time(0,1)
-    call get_date(time_nc_combine,yy,mm,dd,hh,mns,secs)
-    rewind(12)
-    write(12,'(I4.4,"_",I2.2,"_",I2.2)') yy,mm,dd
-
-    time_nc_combine=Time-Time_step_cpld
-    call get_date(time_nc_combine,yy,mm,dd,hh,mns,secs)
-    write(12,'(I4.4,"_",I2.2,"_",I2.2)') yy,mm,dd
-    close(12)
-  endif
   call fms_end
 
 !-----------------------------------------------------------------------
@@ -681,6 +652,7 @@ contains
 
     use ensemble_manager_mod, only : ensemble_manager_init, get_ensemble_id,ensemble_pelist_setup
     use ensemble_manager_mod, only : get_ensemble_size, get_ensemble_pelist
+    use nc_combine_nml_mod, only : write_nc_combine_nml
 
 !-----------------------------------------------------------------------
 !   initialize all defined exchange grids and all boundary maps
@@ -721,6 +693,7 @@ contains
     !--> esm insertion
     integer,dimension(2) :: ibuf
     !<-- esm insertion
+     integer, dimension(6) :: start_date, end_date
     !-----------------------------------------------------------------------
 
     !----- write version to logfile -------
@@ -1030,14 +1003,18 @@ contains
 
     call mpp_open( unit, 'time_stamp.out', nohdrs=.TRUE. )
     month = month_name(date(2))
+    start_date = date
     if ( mpp_pe().EQ.mpp_root_pe() ) write (unit,20) date, month(1:3)
 
     call get_date (Time_end, date(1), date(2), date(3),  &
          date(4), date(5), date(6))
+    end_date = date
     month = month_name(date(2))
     if ( mpp_pe().EQ.mpp_root_pe() ) write (unit,20) date, month(1:3)
 
     call mpp_close(unit)
+
+    call write_nc_combine_nml(start_date, end_date, dt_atmos, get_calendar_type(), atmos_npes) 
 
 20  format (6i4,2x,a3)
 

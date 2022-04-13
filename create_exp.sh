@@ -64,8 +64,13 @@ fi
 
 . $ROOTDIR/.exec_path
 
-. $ROOTDIR/scripts/submit_main.pbs > $EXPDIR/submit_main.pbs || error "Error while creating submit_main.pbs"
-. $ROOTDIR/scripts/submit_plevel.pbs > $EXPDIR/submit_plevel.pbs || error "Error while creating submit_plevel.pbs"
+
+for script in $ROOTDIR/scripts/templates/submit_*
+do
+    bscript=$(basename $script)
+    . $script > $EXPDIR/$bscript || error "Error while creating $bscript"
+done
+
 mkdir -p $EXPDIR/INPUT || error "Could not make dir $EXPDIR/INPUT "
 mkdir -p $EXPDIR/RESTART || error "Could not make dir $EXPDIR/RESTART "
 

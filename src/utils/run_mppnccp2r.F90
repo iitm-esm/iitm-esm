@@ -8,7 +8,9 @@ use diag_data_mod, only : files, num_files, mix_snapshot_average_fields, &
 use diag_util_mod, only : sync_file_times, diag_time_inc, get_time_string
 use time_manager_mod
 use mpp_mod, only : mpp_init, mpp_exit, mpp_error, FATAL, WARNING, NOTE, &
-        mpp_pe, mpp_root_pe, mpp_npes
+        mpp_pe, mpp_root_pe, mpp_npes, lowercase
+use fms_mod, only : open_file, close_file
+use nc_combine_nml_mod, only: read_nc_combine_nml, wait_seconds
 
 implicit none
 
@@ -42,7 +44,8 @@ integer :: maxrunlength=100 !years
 type(C_PTR) :: args(maxarg)
 
 integer :: nargs=1, i, ierr, unit=15, n, position, nf, stat
-integer :: calendar_type=-11, startdate(6)=0, enddate(6)=0
+integer :: startdate(6)=0, enddate(6)=0
+integer :: calendar
 logical :: fexist
 character(len=1024) :: msg, fnm, fnm_next, fnm_curr
 type(filenm_type), allocatable :: filenms(:)
@@ -51,77 +54,59 @@ type(time_type) :: starttime, endtime
 character(len=8) :: arg_r="-r"//char(0)
 character(len=8) :: arg_v="-v"//char(0)
 character(len=8) :: arg_vv="-vv"//char(0)
+character(len=8) :: arg_64="-64"//char(0)
 character(len=8) :: arg_n="-n"//char(0)
+character(len=8) :: arg_n_val="0000"//char(0)
 character(len=8) :: arg_n4="-n4"//char(0)
 character(len=8) :: arg_u="-u"//char(0)
 character(len=8) :: arg_ov="-ov"//char(0)
 
-integer :: removein=0
-integer :: startpe=0, nc4=0, atmpes=1, ocnpes=1, tfile=0
+logical :: removein=.true.
+integer :: nc4=0, atmpes=0, tfile=0
 character(len=32) :: prgrm="nccp2r"//char(0)
-character(len=1024) :: xgrid="INPUT/p_xgrd.nc", run_time_stamp='INPUT/atm.res'
 character(len=64) :: cnc4, cstartpe
 type(time_type) :: lowestfreq
 integer :: lownf=0
-real :: time1, time2, endwaittime=0., minendwaittime=30., maxwait=12*3600.
+real :: time1, time2, endwaittime=0., minendwaittime=300., maxwait=12*3600.
 real :: mtime1, mtime2
 logical :: next_file_found=.false., end_check=.false.
-integer :: child_run=0, ov=1, verbose=0, deltim=600, strt
+integer :: verbose=0, deltim=1, strt
 logical :: no_files_found=.true.
+logical :: child_run=.false., overwrite=.true.
 
 call cpu_time(time1)
 call mpp_init()
 call read_options()
-
-xgrid = trim(xgrid)//char(0)
 
 nargs=1
 
 args(nargs) = c_loc(prgrm)
 nargs=nargs+1
 
-if (removein/=0) then
+if (removein) then
     call mpp_error(NOTE,"Removein opiton ON")
     args(nargs) = c_loc(arg_r)
     nargs=nargs+1
 endif
 
-!args(nargs) = c_loc(arg_v)
-!nargs=nargs+1
-
-
-if (all(startdate<=0).or.calendar_type==-11) then
-    call mpp_error(NOTE,"startdate or calendar_type is not provided correctly "// &
-                    "via STDIN, trying to read from run_time_stamp")
-    fexist=file_exist(run_time_stamp)
-    if (.not.fexist) call mpp_error(FATAL,"run_mppnccp2r: run_time_stamp file ("// &
-                trim(run_time_stamp)//") do not exist")
-
-    open(unit,file=trim(run_time_stamp),status='old')
-    read(unit,*) calendar_type
-    read(unit,*)
-    read(unit,*) startdate
-    close(unit)
+if (verbose>0) then
+    args(nargs) = c_loc(arg_v)
+    nargs=nargs+1
 endif
 
-if (all(enddate<=0)) then
-do i = 1, 5
-  if (.not.file_exist('time_stamp.out')) then
-    call wait_seconds(60.)
-    cycle
-  else
-    open(unit,file='time_stamp.out',status='old')
-    read(unit,*)
-    read(unit,*)enddate
-    close(unit)
-    exit
-  endif
-end do
-endif
+args(nargs) = c_loc(arg_64)
+nargs = nargs + 1
 
-if (all(enddate==0)) call mpp_error(FATAL,"Could not read enddate from time_stamp.out")
+args(nargs) = c_loc(arg_n)
+nargs=nargs+1
+args(nargs) = c_loc(arg_n_val)
+nargs=nargs+1
 
-call set_calendar_type(calendar_type)
+call read_nc_combine_nml(startdate, enddate, deltim, calendar, atmpes)
+
+if (all(enddate==0).or.all(startdate==0)) call mpp_error(FATAL,"wrong enddate or startdate" )
+
+call set_calendar_type(calendar)
 
 starttime=set_date(startdate(1),startdate(2),startdate(3), &
                   startdate(4),startdate(5),startdate(6))
@@ -129,13 +114,11 @@ starttime=set_date(startdate(1),startdate(2),startdate(3), &
 endtime=set_date(enddate(1),enddate(2),enddate(3), &
                   enddate(4),enddate(5),enddate(6))
 
-!endtime=increment_date(starttime, years = maxrunlength)
-
 lowestfreq = set_time(0,days=VERY_LARGE_FILE_FREQ) !lowest frequency of output
 
-if (mpp_pe()==mpp_root_pe()) then
-  call print_date(starttime,'run_mppnccp2r: STARTTIME')
-  call print_date(endtime,'run_mppnccp2r: ENDTIME')
+if (mpp_pe() == mpp_root_pe()) then
+    call print_date(starttime,'run_mppnccp2r: STARTTIME')
+    call print_date(endtime,'run_mppnccp2r: ENDTIME')
 endif 
 
 call diag_manager_init(DIAG_ALL)
@@ -148,7 +131,7 @@ end if
 
 allocate(filenms(num_files))
 
-if (mpp_pe()==mpp_root_pe()) print*,'num_files=', num_files
+if (mpp_pe()==mpp_root_pe()) print *,'num_files=', num_files
 
 do n = 1, num_files
     if (mpp_pe()==mpp_root_pe()) print *, trim(files(n)%name)
@@ -168,10 +151,8 @@ do nf = 1, num_files
     !filenms(nf)%done = filenms(nf)%total+1
     do n = 1, filenms(nf)%total
         strt=0
-        if (filenms(nf)%nm(n)(1:5) == 'ocean') then
-          strt = atmpes
-        endif
-        if (all_files_exist(trim(filenms(nf)%nm(n)),atmpes,1)) then
+        if (is_ocean_file(filenms(nf)%nm(n))) strt = atmpes
+        if (all_files_exist(trim(filenms(nf)%nm(n)),strt,1)) then
             filenms(nf)%done=n-1
             exit
         endif
@@ -180,7 +161,7 @@ do nf = 1, num_files
 end do
 
 if (mpp_pe()==mpp_root_pe()) then
-    if (child_run/=0) then !Launched along with the of model run
+    if (child_run) then !Launched along with the of model run
         call mpp_error(NOTE,"stage 2")
         no_files_found=.true. 
         tfile=0
@@ -200,17 +181,13 @@ if (mpp_pe()==mpp_root_pe()) then
                 fnm_curr = trim(filenms(nf)%nm(n))
 
                 strt=0
-                if (fnm_curr(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_curr)) strt = atmpes
                 if (all_files_exist(trim(fnm_curr),strt,1).and.filenms(nf)%time1==0.) then
                   call cpu_time(filenms(nf)%time1)
                 endif
 
                 strt=0
-                if (fnm_next(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_next)) strt = atmpes
                 if (all_files_exist(trim(fnm_next),strt,1).and.filenms(nf)%time2==0.) then
                   call cpu_time(filenms(nf)%time2)
                 endif
@@ -229,11 +206,8 @@ if (mpp_pe()==mpp_root_pe()) then
                 endif
     
     
-                !if (.not.all_files_exist(trim(fnm_next),0,atmpes)) then
                 strt=0
-                if (fnm_next(1:5) == 'ocean') then
-                  strt = atmpes
-                endif
+                if (is_ocean_file(fnm_next)) strt = atmpes
                 if (.not.all_files_exist(trim(fnm_next),strt,1)) then
                   call mpp_error(NOTE,trim(fnm_next)//' not yet there!')
                   cycle
@@ -252,7 +226,7 @@ if (mpp_pe()==mpp_root_pe()) then
         
             if (end_check) then
                 if (.not.next_file_found) then
-                    call mpp_error(NOTE,"No next file found after waiting time, exiting...")
+                    call mpp_error(WARNING,"No next file found after waiting time, exiting...")
                     exit
                 else
                     end_check=.false.
@@ -260,7 +234,7 @@ if (mpp_pe()==mpp_root_pe()) then
             endif
                      
             if (endwaittime>0.and..not.next_file_found) then
-                call mpp_error(NOTE,"Found no next file for all files, waiting for sometime")
+                call mpp_error(WARNING,"Found no next file for all files, waiting for sometime")
                 call wait_seconds(endwaittime)
                 end_check=.true.
             endif
@@ -279,9 +253,7 @@ if (mpp_pe()==mpp_root_pe()) then
     do nf = 1, num_files
         do n = filenms(nf)%done+1, filenms(nf)%total
             strt=0
-            if (filenms(nf)%nm(n)(1:5) == 'ocean') then
-              strt = atmpes
-            endif
+            if (is_ocean_file(filenms(nf)%nm(n))) strt = atmpes
             if (.not.all_files_exist(trim(filenms(nf)%nm(n)),strt,1)) then
               call mpp_error(NOTE,'Could not find file '//trim(filenms(nf)%nm(n))//', assuming done')
               exit
@@ -304,43 +276,39 @@ call mpp_exit()
 contains
 
 subroutine read_options()
-    integer :: ierr, stat
+    integer :: ierr, stat, iunit
 
-    namelist/opts_nml/removein, atmpes, ocnpes, nc4, startpe, &
-                      minendwaittime, startdate, calendar_type, child_run, &
-                      ov, verbose, deltim, enddate
-				open(10,file='._nccombine_gfs.nml',status='old')
-        read(10,nml=opts_nml,iostat=stat)
-        if (mpp_pe() == mpp_root_pe()) write(*,nml=opts_nml) 
-        if (stat/=0) call mpp_error(FATAL,"run_mppnccp2r: error while reading of options")
-				close(10)
-    
-    !call mpi_bcast(removein, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(atmpes, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(nc4, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(ov, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(verbose, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(child_run, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(deltim, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(calendar_type, 1, MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(startdate, size(startdate), MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
-    !call mpi_bcast(enddate, size(enddate), MPI_INTEGER, 0, MPI_COMM_WORLD, ierr)
+    namelist/opts_nml/removein, minendwaittime, child_run, overwrite, verbose
+    if (.not.file_exist('mppncc.nml')) return
 
-return
+    iunit = open_file('mppncc.nml', action='read')
+    rewind(iunit) 
+    read(iunit,nml=opts_nml,iostat=stat)
+    if (stat/=0) call mpp_error(FATAL,"run_mppnccp2r: error while reading of options")
+    call close_file(iunit)
+
+    return
 end subroutine read_options
 
 
 integer function submit_processing(nf,n,waitime)
     integer, intent(in) :: nf, n, waitime
     integer :: ierr
+    character(len=16) :: cnpes
 
     fnm = trim(filenms(nf)%nm(n))//char(0)
-    if (ov/=0) then
+    if (overwrite) then
         if (rm_file(fnm)==0) then
-            print *, "Deleted old file "//trim(filenms(nf)%nm(n))
+            if (verbose>0) print *, "Deleted old file "//trim(filenms(nf)%nm(n))
         endif
     endif
     call wait_seconds(real(waitime))
+    arg_n_val = "0000"//char(0)
+    if (is_ocean_file(filenms(nf)%nm(n))) then
+        write(cnpes,'(I4.4)') atmpes
+        arg_n_val = trim(adjustl(cnpes))//char(0)
+        if (verbose>2) print *, 'arg_n_val : ', trim(arg_n_val)
+    endif
     ierr = nccp2r(nargs,args)
     if (ierr/=0) then
         print *, "ERROR: nccpr failed for file "//trim(fnm)
@@ -391,9 +359,9 @@ integer function send_jobs(nf,n,waitime)
 
     if (nf>0) then
         fnm = trim(filenms(nf)%nm(n))//char(0)
-        if (ov/=0) then
+        if (overwrite) then
             if (rm_file(fnm)==0) then
-                print *, "Deleted old file "//trim(filenms(nf)%nm(n))
+                if(verbose>0) print *, "Deleted old file "//trim(filenms(nf)%nm(n))
             endif
         endif
     endif
@@ -466,7 +434,7 @@ logical function all_files_exist(fnm,strt,cnt)
     do i = strt, strt+cnt-1 
         write(suffix,'(I4.4)') i
         suffix = "."//trim(adjustl(suffix))
-        if (verbose) call mpp_error(NOTE,"checking if file exist: "//trim(fnm)//trim(suffix))
+        if (verbose>0) call mpp_error(NOTE,"checking if file exist: "//trim(fnm)//trim(suffix))
         if(.not.file_exist(trim(fnm)//trim(suffix))) then
             all_files_exist=.false.
             return
@@ -503,7 +471,7 @@ subroutine set_filenames(n)
 
     filenms(n)%lowfreq=.false.
 
-    if (child_run/=0) then
+    if (child_run) then
         if (nfiles<3) then
             call mpp_error(NOTE,trim(base_name)//" does not satisfy minimum 3 file criteria, "// &
                                                    "won't process this file")
@@ -602,24 +570,6 @@ subroutine set_filenames(n)
 end subroutine set_filenames
 
 
-subroutine wait_seconds(seconds)
-    real, intent(in) :: seconds
-    real :: rWait, rDT
-    integer :: iStart, iNew, count_rate
-    integer :: percent1, percent2
-    character(len=10) :: dtime
-
-    ! rWait: seconds that you want to wait for; 
-    rWait = seconds; rDT = 0.d0
-    percent1=0; percent2=0
-    call system_clock(iStart)
-    do while (rDT <= rWait)
-        call system_clock(iNew,count_rate)
-        rDT = float(iNew - iStart)/count_rate
-        percent2 = (rDT/rWait)*100
-    enddo
-end subroutine wait_seconds
-
 logical function file_exist(flnm)
     character(len=*) :: flnm
     
@@ -647,6 +597,17 @@ integer function rm_file(filename)
 
     return
 end function rm_file
+
+logical function is_ocean_file(fname)
+    character(len=*), intent(in) :: fname 
+    integer :: i, n 
+    i = index(fname ,'/', back=.true.)
+    i = i + 1
+    is_ocean_file = fname(i:i+4) == 'ocean'
+    if (verbose>1) then
+        print *, 'is_ocean_file:', fname, is_ocean_file
+    endif
+end function is_ocean_file
 
 end program main
 

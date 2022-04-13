@@ -16,9 +16,13 @@
  use do_tstep_mod, only : init_do_tstep
  use output_manager_fms, only: init_output_manager_fms => init_output_manager
  use module_radiation_driver, only: init_grrad
+ use nc_combine_nml_mod, only: write_nc_combine_nml
+ use time_manager_mod, only: get_calendar_type, get_date, time_type, increment_date
+
  ! coupling insertion->
       use atm_cc, only: mpi_comm_atmos
  !<-coupling insertion
+ use cmp_comm, only: coupler_id
 
  use gfs_internalstate_mod
 
@@ -32,7 +36,6 @@
   ! allocate internal state arrays for initializing the gfs system.
   !----------------------------------------------------------------
 
-  use time_manager_mod, only: time_type, increment_date
 
   type(gfs_internalstate), pointer, intent(inout) :: gis
   integer,                          intent(out)   :: rc
@@ -45,6 +48,8 @@
   integer :: l, ilat, locl, ikey, nrank_all, nfluxes
   real (kind=kind_io4) blatc4
   real (kind=kind_io4), allocatable :: pl_lat4(:), pl_pres4(:), pl_time4(:)
+
+  integer :: start_date(6), end_date(6), calendar_type
 
 ! set up parameters of mpi communications.
 !-------------------------------------------------------------------
@@ -363,13 +368,13 @@
       print 100, jcap,levs
 100   format (' smf ',i3,i3,' created august 2000 ev od ri ')
 !$omp parallel 
-      print*,'number of threads is ',omp_get_num_threads()
+      print*,'number of threads isï¿½',omp_get_num_threads()
 !$omp end parallel
         if (liope) then
-          print*,'number of mpi procs is ',nodes
-          print*,'number of mpi io procs is 1 (nodes)'
+          print*,'number of mpi procs isï¿½',nodes
+          print*,'number of mpi io procs isï¿½1 (nodes)'
         else
-          print*,'number of mpi procs is ',nodes
+          print*,'number of mpi procs isï¿½',nodes
         endif
       endif
 
@@ -616,6 +621,12 @@
       call init_radiation_gases()
       if (icolor/=2) then
          call init_output_manager_fms(gis%xlat(1,:), gis%xlonf(:,1), gis%global_lats_r, gis%lonsperlar, currtime_fms)
+         if (coupler_id<0) then
+            print *, 'Writing nc_combine_nml from gfs'
+            call get_date(currtime_fms,start_date(1),start_date(2),start_date(3),start_date(4),start_date(5),start_date(6))
+            call get_date(stoptime_fms,end_date(1),end_date(2),end_date(3),end_date(4),end_date(5),end_date(6))
+            call write_nc_combine_nml(start_date, end_date, int(gis%deltim), get_calendar_type())
+         endif
          call init_grrad(currtime_fms,levs)
       endif
 

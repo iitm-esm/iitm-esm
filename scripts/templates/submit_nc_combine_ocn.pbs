@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cat <<EOF 
+
+#!/bin/bash
+
+#PBS -l nodes=1:ppn=36
+#PBS -l walltime=120:00:00
+#PBS -N ${EXP_NAME}_ncc_ocn
+#PBS -j oe
+#PBS -q cccr
+
+
+cd \$PBS_O_WORKDIR
+export OMP_NUM_THREADS=1
+ulimit -c unlimited
+ulimit -s unlimited
+
+. $ROOTDIR/bin/env.intel_pratyush
+
+aprun -n 36 $NC_COMBINE_EXE 1> nc_combine_ocn.std.out 2> nc_combine_ocn.std.err
+
+EOF
