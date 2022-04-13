@@ -1,0 +1,28 @@
+
+&names
+! temp_name="ta", 
+! sphum_name="hus", 
+! hght_name="hgt", 
+! slp_name="slp",
+! ps_name="ps", 
+! zsurf_name="topo", 
+! bk_name="bk", 
+! pk_name="ak"
+/
+
+&input
+!in_file_name="atmop_2010.nc", 
+!out_file_name="out.nc"
+!field_names="ta","hus","hgt","slp"  
+!pout=100000,92500,85000,80000,70000,60000,50000,40000,30000,20000,10000,5000,1000 
+!do_all_fields=.true.,  
+!do_all_3d_fields=.true.,
+!mask_extrap,                         
+!time_beg, 
+!time_end, 
+!time_inc,                   
+!allow_zero_topog, 
+!allow_zero_sphum,          
+!use_default_missing_value, 
+!verbose=0
+/

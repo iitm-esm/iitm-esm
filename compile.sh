@@ -255,7 +255,7 @@ cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dlib_mppnccp2r -DnotInterp"
 execname="nc_combine_gfs.exe"
 libsrc="gfs"
 SRC="$SRCDIR/$libsrc"
-paths="$SRC/nc_combine_gfs $SRC/shared/include \
+paths="$SRC/postprocessing/nc_combine_gfs $SRC/shared/include \
        $SRC/shared/diag_manager $SRC/model/time_manager.F90"
 builddir=$EXECDIR/$libsrc/nc_combine_gfs
 export LD=$FC
@@ -268,4 +268,21 @@ make -j $npes
 echo "NC_COMBINE_ATM_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
+
+echo "#------------------------- PLEVEL --------------------------------------"
+cppDefs="-Duse_netCDF "
+execname="plevel.exe"
+libsrc="gfs"
+SRC="$SRCDIR/$libsrc"
+paths="$SRC/postprocessing/plevel"
+builddir=$EXECDIR/$libsrc/plevel
+export LD=$FC
+mkdir -p $builddir
+cd $builddir
+OPTS="-I$INC_FMS_GFS"
+LIBS="$LIB_FMS_GFS"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $npes
+echo "PLEVEL_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
 
