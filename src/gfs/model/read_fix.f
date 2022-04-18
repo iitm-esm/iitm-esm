@@ -130,9 +130,9 @@
 
       kmsk=0
 
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tsea
-      call split2d(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%TSEA,global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tsea
+!      call split2d(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%TSEA,global_lats_r,lonsperlar)
 
       DO K=1, LSOIL
         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%smc(:,:,k)
