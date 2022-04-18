@@ -1526,7 +1526,7 @@
       if (vegtyp == bare) shdfac = 0.0
 
       if (nroot > nsoil) then
-        write(*,*) 'warning: too many root layers'
+        write(*,*) 'warning: too many root layers', nroot, nsoil
         stop 333
       endif
 
