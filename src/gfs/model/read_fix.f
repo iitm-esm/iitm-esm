@@ -198,19 +198,19 @@
 !      CALL interpred(1,kmsk,buffo,sfc_fld%CANOPY,
 !     &               global_lats_r,lonsperlar)
 
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%f10m
-      call split2d(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%F10M,global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%vtype
-      call split2d(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%VTYPE,
-     &               global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%stype
-      call split2d(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%STYPE,
-     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%f10m
+!      call split2d(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%F10M,global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%vtype
+!      call split2d(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%VTYPE,
+!     &               global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%stype
+!      call split2d(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%STYPE,
+!     &               global_lats_r,lonsperlar)
 
       if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%facsf
       call split2d(buff1, buffo,global_lats_r)
