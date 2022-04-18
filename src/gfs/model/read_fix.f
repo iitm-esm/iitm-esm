@@ -134,12 +134,12 @@
 !      call split2d(buff1, buffo,global_lats_r)
 !      CALL interpred(1,kmsk,buffo,sfc_fld%TSEA,global_lats_r,lonsperlar)
 
-      DO K=1, LSOIL
-        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%smc(:,:,k)
-        call split2d(buff1, buffo,global_lats_r)
-        CALL interpred(1,kmsk,buffo,buff3,global_lats_r,lonsperlar)
-        sfc_fld%SMC(k,:,:)=buff3(:,:)
-      ENDDO
+!      DO K=1, LSOIL
+!        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%smc(:,:,k)
+!        call split2d(buff1, buffo,global_lats_r)
+!        CALL interpred(1,kmsk,buffo,buff3,global_lats_r,lonsperlar)
+!        sfc_fld%SMC(k,:,:)=buff3(:,:)
+!      ENDDO
 
       if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%sheleg
       call split2d(buff1, buffo,global_lats_r)
