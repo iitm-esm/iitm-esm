@@ -898,17 +898,17 @@ c$$$      common /comfixio/slmskful
 !        sfc_fld%STC(k,:,:) = buff3(:,:)
 !      ENDDO
 
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tg3
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%TG3,global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%zorl
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%ZORL,global_lats_r,lonsperlar)
-
-      sfc_fld%cv  = 0
-      sfc_fld%cvb = 0
-      sfc_fld%cvt = 0
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tg3
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%TG3,global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%zorl
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%ZORL,global_lats_r,lonsperlar)
+!
+!      sfc_fld%cv  = 0
+!      sfc_fld%cvb = 0
+!      sfc_fld%cvt = 0
 
       if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alvsf
       call split2d_r(buff1, buffo,global_lats_r)
