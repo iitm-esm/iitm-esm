@@ -276,16 +276,16 @@
 !*     surface files for GFS/Noah contain 8 additional records:
 !*     tprcp, srflag, snwdph, slc, shdmin, shdmax, slope, snoalb
 
-         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tprcp
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%TPRCP,
-     &                  global_lats_r,lonsperlar)
+!         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tprcp
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%TPRCP,
+!     &                  global_lats_r,lonsperlar)
 
 !* srflag
-         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%srflag
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%SRFLAG,
-     &                  global_lats_r,lonsperlar)
+!         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%srflag
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%SRFLAG,
+!     &                  global_lats_r,lonsperlar)
 
 !* snwdph
          if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%snwdph
