@@ -910,22 +910,22 @@ c$$$      common /comfixio/slmskful
 !      sfc_fld%cvb = 0
 !      sfc_fld%cvt = 0
 
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alvsf
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%ALVSF,
-     &               global_lats_r,lonsperlar)
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alvwf
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%ALVWF,
-     &               global_lats_r,lonsperlar)
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alnsf
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%ALNSF,
-     &               global_lats_r,lonsperlar)
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alnwf
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%ALNWF,
-     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alvsf
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%ALVSF,
+!     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alvwf
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%ALVWF,
+!     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alnsf
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%ALNSF,
+!     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%alnwf
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%ALNWF,
+!     &               global_lats_r,lonsperlar)
 
 !     The mask cannot be interpolated
       if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%slmsk
