@@ -222,53 +222,53 @@
 !     &               global_lats_r,lonsperlar)
 
 !szunyogh 06/16/99
-        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%uustar
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%UUSTAR,
-     &               global_lats_r,lonsperlar)
-
-        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffmm
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%FFMM,
-     &                  global_lats_r,lonsperlar)
-
-        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffhh
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%FFHH,
-     &                  global_lats_r,lonsperlar)
+!        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%uustar
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%UUSTAR,
+!     &               global_lats_r,lonsperlar)
+!
+!        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffmm
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%FFMM,
+!     &                  global_lats_r,lonsperlar)
+!
+!        if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffhh
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%FFHH,
+!     &                  global_lats_r,lonsperlar)
 
 !c-- XW: FOR SEA-ICE Nov04
 !    Sea-ice (hice/fice) was added to the surface files.
 
-         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%hice
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%HICE,
-     &                  global_lats_r,lonsperlar)
-
-         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%fice
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%FICE,
-     &                  global_lats_r,lonsperlar)
-
-         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tisfc
-         call split2d(buff1, buffo,global_lats_r)
-         CALL interpred(1,kmsk,buffo,sfc_fld%TISFC,
-     &                  global_lats_r,lonsperlar)
-         if (lats_node_r > 0 )  then
-           if (sfc_fld%tisfc(1,1) < 0.0)  then
-             DO j=1,lats_node_r
-               DO i=1,LONR
-                 sfc_fld%TISFC(i,j) = sfc_fld%TSEA(i,j)
-                 IF(sfc_fld%SLMSK(i,j) >=  2. .AND.
-     &             sfc_fld%FICE(i,j)  >= 0.5) THEN
-                   sfc_fld%TISFC(i,j) = (sfc_fld%TSEA(i,j)
-     &            -tgice*(1.-sfc_fld%FICE(i,j))) / sfc_fld%FICE(i,j)
-                   sfc_fld%TISFC(i,j)=MIN(sfc_fld%TISFC(i,j),tgice)
-                 ENDIF
-               ENDDO
-             ENDDO
-           endif
-         endif
+!         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%hice
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%HICE,
+!     &                  global_lats_r,lonsperlar)
+!
+!         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%fice
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%FICE,
+!     &                  global_lats_r,lonsperlar)
+!
+!         if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%tisfc
+!         call split2d(buff1, buffo,global_lats_r)
+!         CALL interpred(1,kmsk,buffo,sfc_fld%TISFC,
+!     &                  global_lats_r,lonsperlar)
+!         if (lats_node_r > 0 )  then
+!           if (sfc_fld%tisfc(1,1) < 0.0)  then
+!             DO j=1,lats_node_r
+!               DO i=1,LONR
+!                 sfc_fld%TISFC(i,j) = sfc_fld%TSEA(i,j)
+!                 IF(sfc_fld%SLMSK(i,j) >=  2. .AND.
+!     &             sfc_fld%FICE(i,j)  >= 0.5) THEN
+!                   sfc_fld%TISFC(i,j) = (sfc_fld%TSEA(i,j)
+!     &            -tgice*(1.-sfc_fld%FICE(i,j))) / sfc_fld%FICE(i,j)
+!                   sfc_fld%TISFC(i,j)=MIN(sfc_fld%TISFC(i,j),tgice)
+!                 ENDIF
+!               ENDDO
+!             ENDDO
+!           endif
+!         endif
 
 !c-- XW: END SEA-ICE
 
