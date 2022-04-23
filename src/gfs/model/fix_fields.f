@@ -43,8 +43,8 @@
       if(.not.adiab)then
         if (is_first_time) then
           if (me .eq. 0) print *,' call read_sfc CREAD=',cread
-          CALL read_sfc(sfc_fld,NEEDORO,NREAD,
-     &                  CREAD,GLOBAL_LATS_R,LONSPERLAR)
+    !      CALL read_sfc(sfc_fld,NEEDORO,NREAD,
+    ! &                  CREAD,GLOBAL_LATS_R,LONSPERLAR)
         else
           if (me .eq. 0) print *,' call read_sfc_r CREAD=',cread
           CALL read_sfc_r(sfc_fld,NEEDORO,NREAD,
