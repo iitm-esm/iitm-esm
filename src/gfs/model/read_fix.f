@@ -928,20 +928,20 @@ c$$$      common /comfixio/slmskful
 !     &               global_lats_r,lonsperlar)
 
 !     The mask cannot be interpolated
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%slmsk
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%SLMSK,
-     &               global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%vfrac
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%VFRAC,
-     &               global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%canopy
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%CANOPY,
-     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%slmsk
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%SLMSK,
+!     &               global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%vfrac
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%VFRAC,
+!     &               global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%canopy
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%CANOPY,
+!     &               global_lats_r,lonsperlar)
 
       if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%f10m
       call split2d_r(buff1, buffo,global_lats_r)
