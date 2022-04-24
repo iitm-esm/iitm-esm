@@ -41,6 +41,8 @@ module land_model_mod
     real, allocatable :: canopy(:,:) ! canopy moisture content (m), restart
     real, allocatable :: trans(:,:)  ! total plant transpiration (m/s), restart
     real, allocatable :: sncovr(:,:) ! Snow cover fraction, restart
+    real, allocatable :: tprcp(:,:) ! restart
+    real, allocatable :: srflag(:,:) ! restart
     real, allocatable :: alvsf(:,:)  ! Climatology
     real, allocatable :: alvwf(:,:)  ! Climatology
     real, allocatable :: alnsf(:,:)  ! Climatology
@@ -101,6 +103,8 @@ module land_model_mod
     allocate(lnd%canopy(nx,ny)) 
     allocate(lnd%trans(nx,ny))  
     allocate(lnd%sncovr(nx,ny))
+    allocate(lnd%tprcp(nx,ny))
+    allocate(lnd%srflag(nx,ny))
     allocate(lnd%alvsf(nx,ny))
     allocate(lnd%alvwf(nx,ny))
     allocate(lnd%alnsf(nx,ny))
@@ -124,6 +128,8 @@ module land_model_mod
     lnd%canopy=0.0 
     lnd%trans=0.0  
     lnd%sncovr=0.0  
+    lnd%tprcp=0.0  
+    lnd%srflag=0.0  
     lnd%alvsf=0.0
     lnd%alvwf=0.0
     lnd%alnsf=0.0
@@ -348,6 +354,20 @@ module land_model_mod
     lnd%sncovr(:,:)=tmp(:,:)
     if(regular) call interp2reduced(tmp,lnd%sncovr)
 
+    call nc_get_info(unit,'tprcp',varid=varid,nx=nx1,ny=ny1,n2s=n2s) 
+    if(nx1/=nx) call handle_error(FATAL, 'nx for tprcp .ne. lonr') 
+    if(ny1/=latr) call handle_error(FATAL, 'ny for tprcp .ne. latr') 
+    call nc_io_read(unit, varid, nx, ilat(:), 1, tmp(:,:), flip_y=.false., nlat=latr)
+    lnd%tprcp(:,:)=tmp(:,:)
+    if(regular) call interp2reduced(tmp,lnd%tprcp)
+
+    call nc_get_info(unit,'srflag',varid=varid,nx=nx1,ny=ny1,n2s=n2s) 
+    if(nx1/=nx) call handle_error(FATAL, 'nx for srflag .ne. lonr') 
+    if(ny1/=latr) call handle_error(FATAL, 'ny for srflag .ne. latr') 
+    call nc_io_read(unit, varid, nx, ilat(:), 1, tmp(:,:), flip_y=.false., nlat=latr)
+    lnd%srflag(:,:)=tmp(:,:)
+    if(regular) call interp2reduced(tmp,lnd%srflag)
+
     call nc_get_info(unit,'zorl_o',varid=varid,nx=nx1,ny=ny1,n2s=n2s) 
     if(nx1/=nx) call handle_error(FATAL, 'nx for zorl_o .ne. lonr') 
     if(ny1/=latr) call handle_error(FATAL, 'ny for zorl_o .ne. latr') 
@@ -421,7 +441,7 @@ module land_model_mod
     integer :: sheleg_id, tskin_id, smc_id, stc_id, slc_id, canopy_id, &
                trans_id, sncovr_id, snwdph_id, zorl_o_id, hice_id, hsnow_id, &
                fwater_id, fice_id, tice_r_id, tice_id, twater_r_id, twater_id, &
-               tskinr_id
+               tskinr_id, tprcp_id, srflag_id
     integer :: stat, yy, mm, dd, hh, mns, secs
     character(len=50) :: fname
     character(len=16) :: datestamp
@@ -488,6 +508,14 @@ module land_model_mod
       stat = nf90_def_var(file_id, "sncovr", nf90_double, (/lon_id,lat_id/),sncovr_id)
       call handle_err(stat)
 
+    ! tprcp
+      stat = nf90_def_var(file_id, "tprcp", nf90_double, (/lon_id,lat_id/),tprcp_id)
+      call handle_err(stat)
+      
+    ! srflag
+      stat = nf90_def_var(file_id, "srflag", nf90_double, (/lon_id,lat_id/),srflag_id)
+      call handle_err(stat)
+
     !---> OCEAN Data
     ! Roughness Length
       stat = nf90_def_var(file_id, "zorl_o", nf90_double, (/lon_id,lat_id/),zorl_o_id)
@@ -541,6 +569,8 @@ module land_model_mod
     call write_restart_var(file_id, canopy_id, lnd%canopy)
     call write_restart_var(file_id, trans_id, lnd%trans)
     call write_restart_var(file_id, sncovr_id, lnd%sncovr)
+    call write_restart_var(file_id, tprcp_id, lnd%tprcp)
+    call write_restart_var(file_id, srflag_id, lnd%srflag)
     call write_restart_var(file_id, zorl_o_id, ocn%zorl)
     call write_restart_var(file_id, hice_id, ocn%hice)
     call write_restart_var(file_id, hsnow_id, ocn%hsnow)
@@ -610,6 +640,8 @@ module land_model_mod
     deallocate(lnd%canopy) 
     deallocate(lnd%trans)  
     deallocate(lnd%sncovr)  
+    deallocate(lnd%tprcp)  
+    deallocate(lnd%srflag)  
     deallocate(lnd%alvsf)
     deallocate(lnd%alvwf)
     deallocate(lnd%alnsf)
@@ -619,6 +651,8 @@ module land_model_mod
     deallocate(lnd%zorl)
     deallocate(lnd%nsw)
     deallocate(lnd%nlw)
+    deallocate(lnd%tprcp)
+    deallocate(lnd%srflag)
   end subroutine end_land_model
 
   subroutine handle_err(stat)

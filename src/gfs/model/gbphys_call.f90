@@ -291,12 +291,12 @@ module gbphys_call_mod
       old_monin, cnvgwd, sashal, newsas, mstrat, &
   !   input/outputs:
       ocn%hice(isc:iec,lan), ocn%fice(isc:iec,lan), ocn%fwater(isc:iec,lan), &
-      ocn%tice(isc:iec,lan), ocn%twater(isc:iec,lan), sfc_fld%tprcp(isc:iec,lan), &
+      ocn%tice(isc:iec,lan), ocn%twater(isc:iec,lan), lnd%tprcp(isc:iec,lan), &
       sfc_fld%cv(isc:iec,lan), sfc_fld%cvb(isc:iec,lan), sfc_fld%cvt(isc:iec,lan), &
       acv(isc:iec,lan), acvb(isc:iec,lan), acvt(isc:iec,lan),  &
       flx_fld%cldwrk(isc:iec,lan), phy_f3dv, phy_f2dv, flx_fld%ep(isc:iec,lan), &
       slc_v, smc_v, stc_v, lnd%tskin(isc:iec,lan), &
-      sfc_fld%srflag(isc:iec,lan), lnd%snwdph(isc:iec,lan), &
+      lnd%srflag(isc:iec,lan), lnd%snwdph(isc:iec,lan), &
       lnd%sheleg(isc:iec,lan), lnd%sncovr(isc:iec,lan), &
       lnd%zorl(isc:iec,lan), ocn%zorl(isc:iec,lan), lnd%canopy(isc:iec,lan), &
       sfc_fld%ffmm  (isc:iec,lan),    sfc_fld%ffhh  (isc:iec,lan), &
