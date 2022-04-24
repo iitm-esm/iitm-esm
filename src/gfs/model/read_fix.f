@@ -967,20 +967,20 @@ c$$$      common /comfixio/slmskful
 !     &               global_lats_r,lonsperlar)
 
 !szunyogh 06/16/99
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%uustar
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%UUSTAR,
-     &               global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffmm
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%FFMM,
-     &               global_lats_r,lonsperlar)
-
-      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffhh
-      call split2d_r(buff1, buffo,global_lats_r)
-      CALL interpred(1,kmsk,buffo,sfc_fld%FFHH,
-     &               global_lats_r,lonsperlar)
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%uustar
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%UUSTAR,
+!     &               global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffmm
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%FFMM,
+!     &               global_lats_r,lonsperlar)
+!
+!      if(icolor.eq.2.and.me.eq.nodes-1) buff1=data%ffhh
+!      call split2d_r(buff1, buffo,global_lats_r)
+!      CALL interpred(1,kmsk,buffo,sfc_fld%FFHH,
+!     &               global_lats_r,lonsperlar)
 
 !c-- XW: FOR SEA-ICE Nov04
 !    Sea-ice (hice/fice) was added to the surface files.
