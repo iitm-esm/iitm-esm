@@ -1,0 +1,24 @@
+For Using/creating/running Orography/Mountain Blocking fix fields files or code:
+The following will set up a set of input and output files for a ocean lsm test 
+run as well as for any other resolution, one at a time.
+
+To execute your own Orog fix field maker to create files to input to GFS 
+(mtnvar{$jcap}) or chgres, etc (orogb{$jcap}) or (slmgb{$jcap}) and other files.
+
+1) Create a Directory to run and keep files,  I will choose for this example:
+ptmpp2 and ptmp=ptmpp2
+2) copy files and tars to a directory say on ptmp where you can write changing
+    /ptmpp2/Jordan.Alpert/ to your /ptmpp2/$LOGNAME
+cp -R /global/noscrub/Jordan.Alpert/terr/nggp /ptmpp2/Jordan.Alpert/.
+3) Untar and delete old test file print output - these will reappear after run.
+tar -xvf terr_lsm_oc.tar
+/bin/rm out_190.out  terr.errout  terr.stdout
+4)  There are two examples included to kick off the execute:
+qbsub_mtnlsm1534.3072x1536_878-1536.sh # For T1534 3072x1536 and filter 878-1536
+and
+qbsub_mtnlsm190.384x190_128-192.sh     # For 384x190 Gaussian grid w/ocean lsm
+
+for example:
+cd /ptmpp2/$LOGNAME/nggp
+./qbsub_mtnlsm1534.3072x1536_878-1536.sh
+
