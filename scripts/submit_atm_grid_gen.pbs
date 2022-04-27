@@ -1,0 +1,26 @@
+
+#!/bin/bash
+#PBS -N TCO62
+#PBS -l walltime=120:00:00
+#PBS -j oe
+#PBS -l select=1:ncpus=36:vntype=cray_compute -l place=scatter 
+#PBS -q cccr
+
+cd $PBS_O_WORKDIR
+export OMP_NUM_THREADS=1
+ulimit -c unlimited
+ulimit -s unlimited
+
+. /scratch/cccr/prajeesh/iitm-esm/bin/env.intel_pratyush
+
+
+cat >input.nml <<EOF
+     &atmos_grid_generator_nml
+       output_file = 'atmos_grid.nc'  /    
+    &atmos_grid_nml
+       grid_type = 'spectral'
+       num_lon=204, num_lat=94,num_spherical=62, num_fourier=62,   /
+EOF
+
+
+aprun -n 1 /scratch/cccr/prajeesh/iitm-esm/exec/mom4p1/preprocessing/generate_grids/atmos/atmos_grid_generator.exe &> atmos_grid_generator.stdout
