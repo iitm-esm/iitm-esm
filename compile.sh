@@ -68,7 +68,7 @@ paths=" \
 lib=$builddir/$libname
 mkdir -p $builddir
 cd $builddir
-cppDefs="-Duse_netCDF4 -Duse_libMPI -DENABLE_ODA -DUSE_OCEAN_BGC"
+cppDefs="-Duse_netCDF4 -Duse_libMPI -DENABLE_ODA -DUSE_OCEAN_BGC -DOVERLOAD_C8"
 $MKMF -c "$cppDefs" -f -p $libname -t $MKMFTEMPLATE $paths
 make -j $npes
 LIB_FMS_MOM=$lib
@@ -129,6 +129,38 @@ make -j $numproc
 echo "NC_COMBINE_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
+echo "#-------------------------atmos grid generator--------------------------------------"
+cppDef=""
+execname=atmos_grid_generator.exe
+libsrc="mom4p1/preprocessing/generate_grids/atmos"
+paths="$SRCDIR/$libsrc $SRCDIR/mom4p1/atmos_spectral/tools"
+builddir=$EXECDIR/$libsrc
+mkdir -p $builddir
+cd $builddir
+export LD=$FC
+OPTS="-I$INC_FMS_MOM"
+LIBS="$LIB_FMS_MOM"
+$MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $numproc
+echo "ATMOS_GRID_GEN_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
+
+
+echo "#------------------------- make_xgrid --------------------------------------"
+cppDef=""
+execname=make_xgrid.exe
+libsrc="mom4p1/preprocessing/generate_grids/make_xgrids"
+paths="$SRCDIR/$libsrc"
+builddir=$EXECDIR/$libsrc
+mkdir -p $builddir
+cd $builddir
+export LD=$CC
+OPTS="-I$INC_FMS_MOM"
+LIBS="$LIB_FMS_MOM"
+$MKMF -c "$cppDef" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $numproc
+echo "MAKE_XGRID_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
 
 echo "#-------------------------MAKE AOCOUPLER--------------------------------------"
 cppDef="-Duse_netCDF4 -Duse_libMPI"
@@ -174,6 +206,22 @@ $MKMF -c "$cppDefs" -f -p $libname -t $MKMFTEMPLATE $paths
 make -j $npes
 LIB_W3NCO=$lib
 INC_W3NCO=$builddir
+echo '...............Done.....................'
+
+echo '...............Compiling lib_sp.....................'
+cppDefs="-DLINUX"
+libname='lib_sp.a'
+libsrc='gfs/lib/sp_v2.0.1'
+builddir=$EXECDIR/$libsrc
+paths=$SRCDIR/$libsrc
+lib=$builddir/$libname
+mkdir -p $builddir
+cd $builddir
+
+$MKMF -c "$cppDefs" -f -p $libname -t $MKMFTEMPLATE $paths
+make -j $npes
+LIB_SP=$lib
+INC_SP=$builddir
 echo '...............Done.....................'
 
 echo '...............Compiling lib_w3emc.....................'
@@ -249,6 +297,40 @@ make -j $npes
 echo "ATM_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
+
+echo "#------------------------- SURFACE_RESTART_REGRID --------------------------------------"
+cppDefs="-Dlib_xgrid"
+execname="sfc_res_regrid.exe"
+libsrc="gfs/preprocessing/sfc_res_regrid"
+SRC="$SRCDIR/$libsrc"
+paths="$SRC"
+builddir=$EXECDIR/$libsrc
+export LD=$FC
+mkdir -p $builddir
+cd $builddir
+OPTS="-I$INC_GFSIO -I$INC_BACIO -I$INC_W3NCO -I$INC_W3EMC -I$INC_FMS_GFS"
+LIBS="$LIB_GFSIO $LIB_BACIO $LIB_W3EMC $LIB_W3NCO $LIB_FMS_GFS"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $npes
+echo "SFC_RES_REGRID_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
+
+echo "#-------------------------MTN_ORO--------------------------------------"
+cppDefs="-Duse_netCDF -Duse_libMPI -DENABLE_ODA -Dfms_interp" # -Dtest_interp"
+execname="mtn_oro.exe"
+libsrc="gfs/preprocessing/mtn_oro"
+SRC="$SRCDIR/$libsrc"
+paths="$SRC"
+builddir=$EXECDIR/$libsrc
+export LD=$FC
+mkdir -p $builddir
+cd $builddir
+LIBS="$LIB_SP $LIB_FMS_GFS"
+OPTS="-I$INC_FMS_GFS"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $npes
+echo "MTN_ORO_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
 
 
 echo "#-------------------------MAKE NC_COMBINE_GFS--------------------------------------"

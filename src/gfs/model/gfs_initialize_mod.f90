@@ -13,6 +13,8 @@
  use albedo_mod, only: init_albedo_mod
  use module_radiation_gases, only: init_radiation_gases
  use mpp_mod, only : mpp_init
+ use fms_mod, only : fms_init
+ use fms_io_mod, only : fms_io_init
  use do_tstep_mod, only : init_do_tstep
  use output_manager_fms, only: init_output_manager_fms => init_output_manager
  use module_radiation_driver, only: init_grrad
@@ -27,6 +29,10 @@
  use gfs_internalstate_mod
 
  implicit none
+
+    logical :: octahedral=.false.
+
+    namelist/gfs_initialize_nml/octahedral
 
  contains
 
@@ -50,12 +56,18 @@
   real (kind=kind_io4), allocatable :: pl_lat4(:), pl_pres4(:), pl_time4(:)
 
   integer :: start_date(6), end_date(6), calendar_type
+  integer :: iostat
 
 ! set up parameters of mpi communications.
 !-------------------------------------------------------------------
  me     = gis%me
  nodes  = gis%nodes
  nlunit = gis%nam_gfs%nlunit
+
+ open(10, file='gfs_namelist', status='old')
+ rewind(10)
+ read(10,nml=gfs_initialize_nml,iostat=iostat)
+ close(10)
 
  call compns(gis%deltim,gis%iret,                                            &
              gis%ntrac,   gis%nxpt, gis%nypt, gis%jintmx, gis%jcap,          &
@@ -66,6 +78,8 @@
  if(gis%iret.ne.0) then
    call handle_error(FATAL, 'incompatible namelist - aborted in main')
  endif
+
+
 
  call set_soilveg(me,gis%nam_gfs%nlunit)
  call set_tracer_const(gis%ntrac,me,gis%nam_gfs%nlunit)     ! hmhj
@@ -212,7 +226,11 @@
         gis%lonsperlat = lonf
         gis%lonsperlar = lonr
       else
-        call set_lonsgg(gis%lonsperlat,gis%lonsperlar,num_reduce,me)
+        if (octahedral) then
+            call set_lonsperlat_octa(gis%lonsperlat, gis%lonsperlar)
+        else
+            call set_lonsgg(gis%lonsperlat,gis%lonsperlar,num_reduce,me)
+        endif
       endif
 
       if (ras) then
@@ -539,6 +557,15 @@
       else
         ilat=lats_node_a
       endif
+      
+      if (icolor/=2) then 
+        call mpp_init(localcomm=mc_comp)
+      else
+        call mpp_init(localcomm=mc_io)
+      endif
+      call fms_init()
+      call fms_io_init()
+      
 
 !c......................................................................
 
@@ -602,8 +629,6 @@
 
       call flx_init(gis%flx_fld,ierr)
       
-      if (icolor/=2) call mpp_init(localcomm=mc_comp)
-      
       call init_interpred(gis%xlon, gis%xlonf, gis%global_lats_r, gis%lonsperlar)
 
       call init_diag_tools(gis%global_lats_r,gis%lonsperlar)
@@ -637,6 +662,20 @@
       call system('mkdir -p OUTPUT/ATM')
 
  end subroutine gfs_initialize
+
+ subroutine set_lonsperlat_octa(lonsperlat,lonsperlar)
+    integer, intent(out) :: lonsperlar(:), lonsperlat(:)
+
+    integer :: i
+    lonsperlar(:) = 0
+    lonsperlat(:) = 0
+    lonsperlat(1) = 20
+    do i = 2, size(lonsperlat,1)/2
+        lonsperlat(i) = lonsperlat(i-1) + 4
+    enddo
+    lonsperlar = lonsperlat
+
+ end subroutine set_lonsperlat_octa
 
  subroutine set_lonsgg(lonsperlat,lonsperlar,num_reduce,me)
       use resol_def
@@ -1089,6 +1128,7 @@
         print*,'min,max of lonsperlar = ',minval(lonsperlar),            &
                 maxval(lonsperlar)
       endif
+
  end subroutine set_lonsgg
 
  end module gfs_initialize_mod

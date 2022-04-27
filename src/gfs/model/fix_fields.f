@@ -46,7 +46,7 @@
     !      CALL read_sfc(sfc_fld,NEEDORO,NREAD,
     ! &                  CREAD,GLOBAL_LATS_R,LONSPERLAR)
         else
-          if (me .eq. 0) print *,' call read_sfc_r CREAD=',cread
+!          if (me .eq. 0) print *,' call read_sfc_r CREAD=',cread
 !          CALL read_sfc_r(sfc_fld,NEEDORO,NREAD,
 !     &                    CREAD,GLOBAL_LATS_R,LONSPERLAR)
         endif
@@ -54,7 +54,9 @@
       NEEDORO=1
       CALL read_mtn_hprim_oz(sfc_fld%SLMSK,HPRIME,NEEDORO,sfc_fld%ORO,
      &     IOZONDP,OZPLIN, GLOBAL_LATS_R,LONSPERLAR)
-!      
+!     
+       if (me==0) print *, 'after read_mtn_hprim_oz'
+
       CALL SETINDXOZ(LATS_NODE_R,LATS_NODE_R,GLOBAL_LATS_R,
      &               JINDX1,JINDX2,DDY)
 !      

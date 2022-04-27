@@ -102,7 +102,7 @@ module interpred_mod
       ida(:,j)%nlon=lonsperlar(lat)
       ida(:,j)%reg_dx=2*con_pi/lonr
       ida(:,j)%red_dx=2*con_pi/lonsperlar(lat)
-      ida(:,j)%max_ele=ceiling(ida(1,j)%red_dx/ida(1,j)%reg_dx)+1
+      ida(:,j)%max_ele=ceiling(ida(1,j)%red_dx/ida(1,j)%reg_dx)+2
       ida(:,j)%nele=0
       do i=1,ida(1,j)%nlon
         allocate(ida(i,j)%iele(ida(i,j)%max_ele))
@@ -168,14 +168,17 @@ module interpred_mod
           nele=nele+1
           if(sum(wgt)>(1.0-tolerance).and.sum(wgt)<(1.0+tolerance)) return
           if(sum(wgt)>(1.0+tolerance)) then
+            print *, 'iele, wgt = ', iele, wgt, lon, size(xlonf,1), red_dx, reg_dx
             call handle_error(FATAL,'interpred_mod: Sum of wgts .gt. 1 + tolerance')
           endif
           exit
         endif
       enddo
     enddo
-    if(sum(wgt)<(1.0-tolerance)) &
+    if(sum(wgt)<(1.0-tolerance)) then 
+        print *, 'sum(wgt) =', sum(wgt)
       call handle_error(FATAL, "interpred_mod: Sum of wgts .lt. 1 - tolerance")
+    endif
   end subroutine find_ele_wgt
 
   subroutine interp2reduced(in_field,out_field)

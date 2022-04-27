@@ -7,6 +7,9 @@
       use layout1
       use mpi_def
       use ozne_def
+      use mpp_mod, only: FATAL, WARNING, mpp_error
+      use fms_io_mod, only: field_exist, read_data, field_size
+      use fms_io_mod, only: file_exist
       implicit none
 
 !
@@ -21,20 +24,37 @@
       real(kind=kind_io4) buff1(lonr,latr),buffm(lonr,latr,nmtvr)
       real(kind=kind_io8) buffo(lonr,lats_node_r)
       real(kind=kind_io8) buff2(lonr,lats_node_r)
+      real :: buff1r(lonr,latr)
       integer kmsk0(lonr,latr)
       integer i,j,k,nmtn
-      integer needoro
+      integer needoro, siz(4)
+      character(len=512) :: mtn_ncfile='INPUT/global_mtnvar.nc'
+      real :: buffmr(lonr,latr,nmtvr)
 !
       kmsk0=0
 !
 !     Read HPRIME from file MTNVAR
 !     ****************************
       nmtn=24
+       
       IF (icolor.eq.2.and.me.eq.nodes-1) THEN
+        if (file_exist(trim(mtn_ncfile))) then
+            print *, 'read mtn var from nc file' 
+            if (.not.field_exist(mtn_ncfile,'mtn')) then
+                print *, 'field mtn not in '//trim(mtn_ncfile)
+                call mpp_error(FATAL,'field mtn not in '//mtn_ncfile)
+            endif
+           call field_size(mtn_ncfile,'mtn',siz)
+           if (siz(1)/=lonr.or.siz(2)/=latr.or.siz(3)/=nmtvr)
+     &       call mpp_error(FATAL,'dim size mismatch for mtnvar')
+           call read_data(mtn_ncfile,'mtn',buffmr)
+           buffm=buffmr
+        else
         open(nmtn,file='INPUT/global_mtnvar.f77',status='old',
      &            form='unformatted')
         READ(nmtn) buffm
         close(nmtn)
+        endif
       ENDIF
       DO k=1,nmtvr
        call split2d(buffm(1,1,k),buffo,global_lats_r)
@@ -61,9 +81,21 @@
 !
       if(needoro.eq.1) then
 
-      IF (icolor.eq.2.and.me.eq.nodes-1) print *,'read grb orography'
       IF (icolor.eq.2.and.me.eq.nodes-1) THEN
-        CALL ORORD(101,lonr,latr,buff1)
+        if (file_exist('INPUT/orography.nc')) then
+            print *,'read nc orography'
+            if (.not.field_exist('INPUT/orography.nc','var8'))
+     &           call mpp_error(FATAL,'var8 not in INPUT/orography.nc')
+            call field_size('INPUT/orography.nc','var8',siz)
+            if (siz(1)/=lonr.or.siz(2)/=latr)
+     &          call mpp_error(FATAL,
+     &              'INPUT/orography.nc dimension mismatch')
+            call read_data('INPUT/orography.nc','var8',buff1r)
+            buff1 = buff1r
+        else
+            print *,'read grb orography'
+            CALL ORORD(101,lonr,latr,buff1)
+        endif
       endif
       call split2d(buff1,buffo,global_lats_r)
       CALL interpred(1,kmsk0,buffo,oro,global_lats_r,lonsperlar)

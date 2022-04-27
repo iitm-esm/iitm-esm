@@ -86,7 +86,9 @@ module atmos_grid_mod
   use mpp_io_mod,     only : mpp_write_meta, mpp_write, axistype, fieldtype
   use fms_mod,        only : write_version_number, file_exist, stdout, field_size, string
   use fms_mod,        only : open_namelist_file, close_file, check_nml_error, read_data
-  use transforms_mod, only : transforms_init, get_grid_boundaries, get_deg_lon, get_deg_lat 
+  !use transforms_mod, only : transforms_init, get_grid_boundaries, get_deg_lat 
+  use spherical_fourier_mod, only: spherical_fourier_init, get_deg_lat, get_wts_lat
+  use spec_mpp_mod, only: spec_mpp_init
   use constants_mod,  only : PI, RADIUS
 
   implicit none
@@ -280,13 +282,15 @@ contains
     pe       = mpp_pe()
     root_pe  = mpp_root_pe()
 
-    call transforms_init(RADIUS, num_lat, num_lon, num_fourier, fourier_inc, num_spherical)
+    call spec_mpp_init( num_fourier, num_spherical, num_lon, num_lat )
+    !call transforms_init(RADIUS, num_lat, num_lon, num_fourier, fourier_inc, num_spherical)
+    call spherical_fourier_init(RADIUS, num_lat, num_fourier, fourier_inc, num_spherical, south_to_north=.true.)   
 
     allocate(lonb(num_lon+1), latb(num_lat+1))
     allocate(deg_lon(num_lon), deg_lat(num_lat))
     call get_deg_lon(deg_lon)
     call get_deg_lat(deg_lat)
-    call get_grid_boundaries(lonb, latb, global=.true.)
+    call get_grid_boundaries(lonb, latb)
     allocate(hgrid%x_C(num_lon,num_lat), hgrid%y_C(num_lon,num_lat), &
          hgrid%x_T(num_lon,num_lat), hgrid%y_T(num_lon,num_lat), &
          hgrid%x_vert_T(num_lon,num_lat,4), hgrid%y_vert_T(num_lon,num_lat,4))
@@ -540,5 +544,48 @@ contains
   end subroutine atmos_grid_end
 
   !#######################################################################
+
+
+    subroutine get_deg_lon(deg_lon)
+        real, intent(out) :: deg_lon(:)
+
+        integer :: nlon, i
+        real :: total_degrees, dlon
+        nlon = size(deg_lon,1); total_degrees=360.0
+
+        dlon = total_degrees/nlon
+
+        deg_lon(1) = 0.0
+
+        do i = 2, nlon
+            deg_lon(i) = deg_lon(i-1) + dlon
+        enddo
+    end subroutine get_deg_lon
+
+    subroutine get_grid_boundaries(lonb, latb)
+        real, intent(out), dimension(:) :: lonb, latb
+
+        integer :: nlonb, nlatb, nlon, nlat, j, i
+        real, dimension(size(latb,1)-1) :: wts_lat
+        real :: del_lon, sum_wts
+
+        nlonb = size(lonb,1); nlatb=size(latb,1)
+        nlon = nlonb-1; nlat = nlatb-1
+
+        call get_wts_lat(wts_lat)
+        latb(1) = -.5*pi
+        sum_wts = 0.
+        do j=1,nlat-1
+          sum_wts = sum_wts + wts_lat(j)
+          latb(j+1) = asin(sum_wts-1.)
+        end do
+        latb(nlat+1) = .5*pi
+
+        del_lon = 2*pi/nlon
+        do i=1,nlon+1
+          lonb(i) = (i-1.5)*del_lon
+        end do
+    
+    end subroutine get_grid_boundaries
 
 end module atmos_grid_mod
