@@ -148,18 +148,18 @@ program sfc_ini
   lfrac = area_lnd/area_lnd_cell
 
 
-    'sheleg'
-    'snwdph'
-    'tskin'
-    'smc'
-    'stc'
-    'slc'
-    'canopy'
-    'trans'
-    'sncovr'
-    'tprcp'
-    'srflag'
-    'zorl_o'
+  !  'sheleg'
+  !  'snwdph'
+  !  'tskin'
+  !  'smc'
+  !  'stc'
+  !  'slc'
+  !  'canopy'
+  !  'trans'
+  !  'sncovr'
+  !  'tprcp'
+  !  'srflag'
+  !  'zorl_o'
 
 !!!!!!!!!!!!! READ GRIDDED DATA IN GAUSSIAN GRID FROM SFC_INI !!!!!
 
