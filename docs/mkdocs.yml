@@ -11,7 +11,8 @@ docs_dir: src
 # Navigation
 nav:
   - Welcome:
-    - Overview: README.md   
+    - Overview: README.md  
+    - Guides: developer_guide.md 
   
 ## DO NOT CHANGE BELOW THIS LINE
 
