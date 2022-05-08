@@ -1,4 +1,4 @@
-# Guide
+## Guide
 
 The Central Repository of IITM-ESM on github is https://github.com/iitm-esm/iitm-esm.git. main branch represents the official project history. Instead of committing directly on their local main branch, developers create a new branch every time they start work on a new feature.
 Feature branches can (and should) be pushed to the central repository. This makes it possible to share a feature with other developers without touching any official code. The following is a walk-through of the life-cycle of a feature branch.
