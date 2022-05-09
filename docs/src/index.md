@@ -1,5 +1,4 @@
-# IITM-ESM Documentation
 
 {%
-   include-markdown "partial/installation.md"
+   include-markdown "partial/getting_started.md"
 %}
