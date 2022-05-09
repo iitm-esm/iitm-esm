@@ -5,14 +5,15 @@ site_author: ESM group
 # Repository
 repo_name: iitm-esm
 repo_url: https://github.com/iitm-esm/iitm-esm
-edit_uri: edit/master/docs
+edit_uri: edit/aditi/docs/docs/src
 docs_dir: src
 
 # Navigation
 nav:
-  - Welcome:
-    - Overview: README.md  
-    - Guides: developer_guide.md 
+  - Overview: README.md  
+  - User Guide: user_guide.md
+  - Developers Guide: developer_guide.md 
+  - FAQ: FAQs.md
   
 ## DO NOT CHANGE BELOW THIS LINE
 
@@ -20,21 +21,11 @@ nav:
 # TBD
 
 # Theme
-theme:
+theme: 
   name: material
-  font:
-    text: IBM Plex Sans
-    code: IBM Plex Mono
-  icon:
-    logo: material/library
-  features:
-    # - navigation.tabs
-    - navigation.instant
-    - navigation.expand
-  palette:
-    scheme: default
-    primary: blue
-    accent: blue
+  features: 
+    # - navigation.instant
+    - navigation.tabs
 
 # Plugins
 plugins:
