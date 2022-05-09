@@ -27,7 +27,8 @@ theme:
   name: material
   features: 
     # - navigation.instant
-    - navigation.tabs
+    # - navigation.tabs
+    - navigation.indexes
 
 # Plugins
 plugins:
