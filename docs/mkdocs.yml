@@ -1,5 +1,5 @@
 # Project information
-site_name: iitm-esm documentation
+site_name: IITM-ESM Documentation
 site_url: https://iitm-esm.github.io/iitm-esm
 site_author: ESM group
 # Repository
@@ -8,11 +8,13 @@ repo_url: https://github.com/iitm-esm/iitm-esm
 edit_uri: edit/master/docs
 docs_dir: src
 
-# Navigation
 nav:
-  - Welcome:
-    - Overview: README.md  
-    - Guides: developer_guide.md 
+  - User Guide: 
+    - user_guide/index.md
+  - Technical documentation: 
+    - tech_docs/index.md
+  - Developers Guide: 
+    - dev_guide/index.md
   
 ## DO NOT CHANGE BELOW THIS LINE
 
@@ -28,9 +30,9 @@ theme:
   icon:
     logo: material/library
   features:
-    # - navigation.tabs
+    - navigation.tabs
     - navigation.instant
-    - navigation.expand
+    # - navigation.expand
   palette:
     scheme: default
     primary: blue
@@ -39,6 +41,9 @@ theme:
 # Plugins
 plugins:
   - search
+  - include-markdown
+  - macros
+
 
 # Customization
 # TBD
