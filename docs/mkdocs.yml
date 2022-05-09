@@ -33,7 +33,6 @@ theme:
 plugins:
   - search
   - include-markdown
-  - macros
 
 
 # Customization
