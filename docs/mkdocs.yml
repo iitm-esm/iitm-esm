@@ -13,9 +13,15 @@ nav:
     - user_guide/index.md
   - Technical documentation: 
     - tech_docs/index.md
+    - tech_docs/Atm.md
+    - tech_docs/ocn.md
+    - tech_docs/land.md
+    - tech_docs/seaIce.md
   - Developers Guide: 
     - dev_guide/index.md
+    - dev_guide/doc_guide.md
   - FAQ: FAQs.md
+  - About: About_us.md
   
 # Theme
 theme: 
@@ -24,9 +30,10 @@ theme:
     # - navigation.instant
     # - navigation.tabs
     - navigation.indexes
+    - navigation.tabs
   icon:
     repo: fontawesome/brands/github
-
+  logo: img/favicon.png
 # Plugins
 plugins:
   - search
