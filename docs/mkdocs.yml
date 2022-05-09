@@ -5,7 +5,7 @@ site_author: ESM group
 # Repository
 repo_name: iitm-esm
 repo_url: https://github.com/iitm-esm/iitm-esm
-edit_uri: edit/aditi/docs/docs/src
+edit_uri: '' 
 docs_dir: src
 
 nav:
