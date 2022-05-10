@@ -165,6 +165,17 @@ The IITM-ESM[^1] will be the first climate model from India that will be partici
 MkDocs has a beautiful functionality "MathJax" to display mathematical content in the browser.
 For inline formulas, enclose the formula in $…$. For displayed formulas, use $$…$$.
 
+A sample equation:
+
+    $$
+    \operatorname{ker} f=\{g\in G:f(g)=e_{H}\}{\mbox{.}}
+    $$
+
+Output:
+
+$$
+\operatorname{ker} f=\{g\in G:f(g)=e_{H}\}{\mbox{.}}
+$$
 
 ### Adding Diagrams
 
