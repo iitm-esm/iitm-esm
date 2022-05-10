@@ -1,7 +1,7 @@
 
 ## Git-Development workflow for IITM-ESM
 
-- The Central Repository of IITM-ESM on github is **https://github.com/iitm-esm/iitm-esm.git** and **main** branch represents the official project history. Instead of committing directly on their local main branch, developers create a new branch every time they start work on a new feature. 
+- The Central Repository of IITM-ESM on github is <https://github.com/iitm-esm/iitm-esm.git> and **main** branch represents the official project history. Instead of committing directly on their local main branch, developers create a new branch every time they start work on a new feature. 
 - Feature branches can (and should) be pushed to the central repository. This makes it possible to share a feature with other developers without touching any official code. The following is a walk-through of the life-cycle of a feature branch.
 
 1. All feature branches are created off the latest code state of a project. If already cloned once and want to start working on a new feature in the same directory:
