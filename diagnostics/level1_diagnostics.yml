@@ -17,7 +17,7 @@ documentation:
 
 
 datasets:
-  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test1, exp_dir: ./, start_year: 2020, end_year: 2070 }
+  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test1, exp_dir: /home/CMIP/prajeesh/work/TO62_test1, start_year: 2020, end_year: 2070 }
   - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test2, exp_dir: /home/CMIP/prajeesh/work/TO62_test2, start_year: 2020, end_year: 2070 }
 
 preprocessors:
