@@ -1,29 +1,24 @@
-# ESMValTool
-# recipe_ocean_example.yml
+
 ---
 documentation:
-  title: Ocean physics analysis suite
+  title: IITM-ESM validation level-1
 
   description: |
-    Recipe to demonstrate several simple plots based on the monthly ocean
-    temperature. Please use this file as a template for adding additional
-    fields into the ocean. This work based on the BGC-val toolkit GMD-2018-103.
+    Level-1 validation for IITM-ESM model experiment outputs
 
   authors:
-    - demora_lee
+    - pag
 
   maintainer:
-    - demora_lee
-
-  references:
-    - demora2018gmd
+    - pag
 
   projects:
-    - ukesm
+    - iitmesm
 
 
 datasets:
-  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test1, exp_dir: /home/CMIP/prajeesh/work/TO62_test1,start_year: 2020, end_year: 2070 }
+  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test1, exp_dir: ./, start_year: 2020, end_year: 2070 }
+  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test2, exp_dir: /home/CMIP/prajeesh/work/TO62_test2, start_year: 2020, end_year: 2070 }
 
 preprocessors:
   global_mean_annual_mean:
@@ -54,13 +49,13 @@ diagnostics:
       timeseries:
         script: iitmesm/diag_timeseries.py
 
-  # diag_annual_cycle:
-  #   description: Global mean surface air temperature
-  #   variables:
-  #     tas: 
-  #       preprocessor: annual_cycle
-  #     pr: 
-  #       preprocessor: annual_cycle
-  #   scripts:
-  #     timeseries:
-  #       script: iitmesm/diag_annualcycle.py
+  diag_annual_cycle:
+    description: Global mean surface air temperature
+    variables:
+      tas: 
+        preprocessor: annual_cycle
+      pr: 
+        preprocessor: annual_cycle
+    scripts:
+      timeseries:
+        script: iitmesm/diag_timeseries.py
