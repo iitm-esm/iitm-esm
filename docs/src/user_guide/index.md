@@ -4,7 +4,7 @@ The user guide provides an overview of IITM-ESM and the details of model setup, 
 
 ## Introduction
 
-Model Summary
+
 
 ## Model Directory Tree
 
