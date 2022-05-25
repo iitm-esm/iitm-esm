@@ -1,0 +1,9 @@
+[submodule "tools/splitvar"]
+	path = tools/splitvar
+	url = https://github.com/iitm-esm/splitvar.git
+[submodule "tools/ESMValCore"]
+	path = tools/ESMValCore
+	url = https://github.com/iitm-esm/ESMValCore.git
+[submodule "tools/ESMValTool"]
+	path = tools/ESMValTool
+	url = https://github.com/iitm-esm/ESMValTool.git

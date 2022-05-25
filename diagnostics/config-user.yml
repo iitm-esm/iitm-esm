@@ -63,7 +63,7 @@ output_file_type: png
 # By default this option is set to ``true``, so all preprocessor output files
 # will be removed after a successful run. Set to ``false`` if you need those
 # files.
-remove_preproc_dir: true
+remove_preproc_dir: false
 
 # Use netCDF compression --- true/[false]
 compress_netcdf: false
@@ -90,6 +90,7 @@ profile_diagnostic: false
 # site-specific path.
 rootpath:
   default: ~/climate_data
+  RAWOBS: ~/RAWOBS
 
 # Directory structure for input data --- [default]/ESGF/BADC/DKRZ/ETHZ/etc.
 # This default setting will work if files have been downloaded by the
@@ -100,7 +101,7 @@ drs:
   CMIP5: ESGF
   CMIP6: ESGF
   CORDEX: ESGF
-  obs4MIPs: ESGF
+  #obs4MIPs: ESGF
 
 # Example rootpaths and directory structure that showcases the different
 # projects and also the use of lists
