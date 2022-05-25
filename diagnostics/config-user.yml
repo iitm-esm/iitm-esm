@@ -90,6 +90,7 @@ profile_diagnostic: false
 # site-specific path.
 rootpath:
   default: ~/climate_data
+  RAWOBS: ~/RAWOBS
 
 # Directory structure for input data --- [default]/ESGF/BADC/DKRZ/ETHZ/etc.
 # This default setting will work if files have been downloaded by the
@@ -100,7 +101,7 @@ drs:
   CMIP5: ESGF
   CMIP6: ESGF
   CORDEX: ESGF
-  obs4MIPs: ESGF
+  #obs4MIPs: ESGF
 
 # Example rootpaths and directory structure that showcases the different
 # projects and also the use of lists
