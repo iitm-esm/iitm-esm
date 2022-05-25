@@ -1,0 +1,87 @@
+# Project information
+site_name: IITM-ESM Documentation
+site_url: https://iitm-esm.github.io/iitm-esm
+site_author: ESM group
+# Repository
+repo_name: iitm-esm
+repo_url: https://github.com/iitm-esm/iitm-esm
+edit_uri: edit/aditi/docs/docs/src
+docs_dir: src
+
+nav:
+  - User Guide: 
+    - user_guide/index.md
+  - Technical documentation: 
+    - tech_docs/index.md
+    - tech_docs/Atm.md
+    - tech_docs/ocn.md
+    - tech_docs/land.md
+    - tech_docs/seaIce.md
+  - Developers Guide: 
+    - dev_guide/index.md
+    - dev_guide/doc_guide.md
+  - FAQ: FAQs.md
+  - About: About_us.md
+  
+## DO NOT CHANGE BELOW THIS LINE
+
+# Copyright
+# TBD
+
+# Theme
+theme: 
+  name: material
+  features: 
+    # - navigation.instant
+    - navigation.tabs
+  logo: img/favicon.png
+# Plugins
+plugins:
+  - search
+  - include-markdown
+
+
+# Customization
+# TBD
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
