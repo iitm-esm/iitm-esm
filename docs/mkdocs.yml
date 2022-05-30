@@ -11,6 +11,8 @@ docs_dir: src
 nav:
   - User Guide: 
     - user_guide/index.md
+    - user_guide/exp_setup.md
+    - user_guide/create_exp_from_scratch.md
   - Technical documentation: 
     - tech_docs/index.md
     - tech_docs/Atm.md
