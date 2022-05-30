@@ -9,3 +9,4 @@ WORK
 data
 .exec_path
 .env
+.vscode
