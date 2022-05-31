@@ -1,29 +1,34 @@
-# ESMValTool
-# recipe_ocean_example.yml
+
 ---
 documentation:
-  title: Ocean physics analysis suite
+  title: IITM-ESM validation level-1
 
   description: |
-    Recipe to demonstrate several simple plots based on the monthly ocean
-    temperature. Please use this file as a template for adding additional
-    fields into the ocean. This work based on the BGC-val toolkit GMD-2018-103.
+    Level-1 validation for IITM-ESM model experiment outputs
 
   authors:
-    - demora_lee
+    - prajeesh_ag
 
   maintainer:
-    - demora_lee
-
-  references:
-    - demora2018gmd
+    - prajeesh_ag
 
   projects:
-    - ukesm
+    - iitmesm
 
+# https://docs.esmvaltool.org/projects/ESMValCore/en/latest/recipe/preprocessor.html
 
 datasets:
-  - {dataset: IITMESM, project: IITMESM, mip: Amon, exp: T062_test1, exp_dir: /home/CMIP/prajeesh/work/TO62_test1,start_year: 2020, end_year: 2070 }
+  - {project: IITM, dataset: IITMESM, mip: Amon, exp: T062_test1, exp_dir: /home/CMIP/prajeesh/work/TO62_test1, start_year: 2020, end_year: 2040 }
+  - {project: IITM, dataset: IITMESM, mip: Amon, exp: T062_test2, exp_dir: /home/CMIP/prajeesh/work/TO62_test2, start_year: 2040, end_year: 2070 }
+
+
+GPCP-SG: &GPCP-SG
+  additional_datasets:
+    - {dataset: GPCP-SG,  project: obs4MIPs, mip: Amon, level: L3,  version: v2.3,  timerange: '1980/*', tier: 1}
+
+HadCRUT5: &HadCRUT5
+  additional_datasets:
+      - {dataset: HadCRUT5, project: OBS, mip: Amon, tier: 2, type: ground, version: 5.0.1.0-analysis, timerange: '1980/*'}
 
 preprocessors:
   global_mean_annual_mean:
@@ -40,27 +45,67 @@ preprocessors:
     climate_statistics:
       operator: mean
       period: month
-    
+  
+  time_mean_map:
+    climate_statistics:
+      operator: mean
+    regrid:
+      target_grid: 1.0x1.0
+      scheme: linear
+
+  jjas_mean_map:
+    custom_order: true
+    extract_season:
+      season: JJAS
+    climate_statistics:
+      operator: mean
+    regrid:
+      target_grid: 1.0x1.0
+      scheme: linear
 
 diagnostics:
-  diag_timeseries:
-    description: Global mean surface air temperature
-    variables:
-      tas: 
-        preprocessor: global_mean_annual_mean
-      pr: 
-        preprocessor: global_mean_annual_mean
+  diag_map: 
+    title: Mean Spatial Map
     scripts:
-      timeseries:
-        script: iitmesm/diag_timeseries.py
+      maps:
+        script: iitmesm/diag_maps.py
 
-  # diag_annual_cycle:
-  #   description: Global mean surface air temperature
-  #   variables:
-  #     tas: 
-  #       preprocessor: annual_cycle
-  #     pr: 
-  #       preprocessor: annual_cycle
-  #   scripts:
-  #     timeseries:
-  #       script: iitmesm/diag_annualcycle.py
+    variables:
+      pr:
+        short_name: pr
+        preprocessor: time_mean_map
+        reference_dataset: GPCP-SG
+        <<: *GPCP-SG
+      pr_jjas:
+        short_name: pr
+        preprocessor: jjas_mean_map
+        reference_dataset: GPCP-SG
+        <<: *GPCP-SG
+      tas: 
+        short_name: tas
+        preprocessor: time_mean_map
+        reference_dataset: HadCRUT5
+        <<: *HadCRUT5
+
+
+#   diag_timeseries:
+#     description: Global mean time series
+#     variables:
+#       tas: 
+#         preprocessor: global_mean_annual_mean
+#       pr: 
+#         preprocessor: global_mean_annual_mean
+#     scripts:
+#       timeseries:
+#         script: iitmesm/diag_timeseries.py
+
+#   diag_annual_cycle:
+#     description: Annual Cycle
+#     variables:
+#       tas: 
+#         preprocessor: annual_cycle
+#       pr: 
+#         preprocessor: annual_cycle
+#     scripts:
+#       timeseries:
+#         script: iitmesm/diag_timeseries.py

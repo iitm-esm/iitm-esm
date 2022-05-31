@@ -10,3 +10,5 @@ data
 .exec_path
 .env
 .vscode
+site/
+esmvaltool_output

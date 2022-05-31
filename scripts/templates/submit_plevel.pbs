@@ -16,7 +16,7 @@ ulimit -s unlimited
 
 . $ROOTDIR/bin/env.intel_pratyush
 
-for i in atm_*; do
+for i in atm_*.nc; do
     echo \$i
     time aprun -n 1 $PLEVEL_EXE -i \$i > \$i.plevel.out 2> \$i.plevel.err || exit 1
 done

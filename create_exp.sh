@@ -70,6 +70,7 @@ do
     bscript=$(basename $script)
     . $script > $EXPDIR/$bscript || error "Error while creating $bscript"
 done
+cp -f $ROOTDIR/scripts/restart2input.sh $EXPDIR/
 
 mkdir -p $EXPDIR/INPUT || error "Could not make dir $EXPDIR/INPUT "
 mkdir -p $EXPDIR/RESTART || error "Could not make dir $EXPDIR/RESTART "
