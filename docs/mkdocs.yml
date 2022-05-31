@@ -13,6 +13,7 @@ nav:
     - user_guide/index.md
     - user_guide/exp_setup.md
     - user_guide/create_exp_from_scratch.md
+    - user_guide/post_processing.md
   - Technical documentation: 
     - tech_docs/index.md
     - tech_docs/Atm.md

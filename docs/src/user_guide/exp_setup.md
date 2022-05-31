@@ -1,6 +1,6 @@
 ## Model Experiment set-up
 
-1. git clone  https://github.com/iitm-esm/iitm-esm.git
+1. git clone  --recursive https://github.com/iitm-esm/iitm-esm.git
 2. git checkout -b new-feature
 
 You are in the new branch to set up the experiment
