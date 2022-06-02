@@ -2,7 +2,7 @@
 
 ## Getting the Source Code and scripts
 
-`git clone https://github.com/iitm-esm/iitm-esm.git`
+`git clone --recursive https://github.com/iitm-esm/iitm-esm.git`
 
 ## Model Compilation
 `./compile.sh`
