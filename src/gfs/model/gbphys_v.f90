@@ -1524,6 +1524,7 @@ module gbphys_mod
     id_mrsos=register_var('mrsos', time, 'Moisture in Upper Portion of Soil Column', 'kg m-2', mask=lndmask)
     id_ofrac=register_var('ofrac',time, 'fraction of ocean on a grid','1')
     id_fwater=register_var('fwater',time, 'fraction of sea water on ocean portion of a grid','1')
+  !  id_tso = register_var('tso',time,'Sea Surface Temperature','K',wgt=.true.)
     id_tso = register_var('tso',time,'Sea Surface Temperature','K',wgt=.true.)
     id_tslsi = register_var('tslsi',time,'Surface Temperature Where Land or Sea Ice','K',wgt=.true.)
     
