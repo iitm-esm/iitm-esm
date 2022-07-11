@@ -288,3 +288,20 @@ make -j $npes
 echo "PLEVEL_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
 echo "#--------------------------------------------------------------------------------"
 
+echo "#------------------------- REGRID --------------------------------------"
+cppDefs="-Duse_netCDF -Duse_netCDF3 -Duse_libMPI "
+execname="regrid.exe"
+libsrc="mom4p1"
+SRC="$SRCDIR/$libsrc"
+paths="$SRC/postprocessing/regrid"
+builddir=$EXECDIR/$libsrc/regrid
+export LD=$FC
+mkdir -p $builddir
+cd $builddir
+OPTS="-I$INC_FMS_MOM"
+LIBS="$LIB_FMS_MOM"
+$MKMF -c "$cppDefs" -f -p ${execname} -t $MKMFTEMPLATE -o "$OPTS" -l "$LIBS"  $paths
+make -j $npes
+echo "REGRID_EXE=$builddir/$execname" >> $ROOTDIR/.exec_path
+echo "#--------------------------------------------------------------------------------"
+
