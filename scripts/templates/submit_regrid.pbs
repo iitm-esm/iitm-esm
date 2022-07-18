@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -N Historical_regrid
+#PBS -l walltime=120:00:00
+#PBS -j oe
+#PBS -l select=1:ncpus=36:vntype=cray_compute -l place=scatter 
+#PBS -q cccr
+
+cd $PBS_O_WORKDIR
+export OMP_NUM_THREADS=1
+ulimit -c unlimited
+ulimit -s unlimited
+
+. /home/CMIP/Sandeep/iitm-esm/bin/env.intel_pratyush
+
+for i in ice_*
+
+do
+
+echo $i
+
+cat > input.nml << EOF
+
+&regrid_nml
+           src_data       = "$i"
+           grid_spec_file = "grid_spec.nc"
+           dst_data       = "${i::-3}_reg.nc"
+           num_flds       = 1
+           fld_name       = "HI"
+           fld_pos        = "T"
+           vector_fld     = .false.
+           debug          = .true. /
+
+
+EOF
+
+time aprun -n 1 /home/cccr/sandeep/iitm-esm/exec/mom4p1/regrid/regrid.exe -i $i > $i.regrid.out 2> $i.regrid.err 
+
+done
